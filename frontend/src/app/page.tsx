@@ -122,13 +122,13 @@ function Home() {
         <div className="w-full border-b border-white border-opacity-65"></div>
 
         {/* Date Pickers */}
-        <div className='bg-black w-full flex gap-6 justify-center items-center p-4 pb-6 text-white'>
-          <div className='flex gap-4'>
+        <div className='bg-black w-full flex flex-col sm:flex-row gap-2 sm:gap-6 justify-center items-center p-4 pb-6 text-white'>
+          <div className='flex flex-col sm:flex-row gap-2 sm:gap-4'>
             <div className='flex flex-col items-start'>
               <span>Start Date:</span>
               <input 
                 type="date" 
-                className='bg-green px-4 py-2 rounded-md' 
+                className='bg-green px-4 py-2 rounded-md w-full sm:w-auto' 
                 value={startDate} 
                 onChange={(e) => setStartDate(e.target.value)} 
               />
@@ -137,13 +137,13 @@ function Home() {
               <span>End Date:</span>
               <input 
                 type="date" 
-                className='bg-green px-4 py-2 rounded-md' 
+                className='bg-green px-4 py-2 rounded-md w-full sm:w-auto' 
                 value={endDate} 
                 onChange={(e) => setEndDate(e.target.value)} 
               />
             </div>
           </div>
-          <button className='bg-blue hover:bg-darkerblue px-4 py-2 mt-6 rounded-md' onClick={handleButtonUpdate}>Update</button>
+          <button className='bg-blue hover:bg-darkerblue px-4 py-2 mt-4 sm:mt-6 rounded-md w-full sm:w-auto' onClick={handleButtonUpdate}>Update</button>
         </div>
 
         {/* Divider */}
