@@ -1,8 +1,10 @@
 'use client';
 
 import React from 'react';
-import Plot from 'react-plotly.js';
 import { SimpleDataPoint } from './page';
+import dynamic from 'next/dynamic'
+
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
 
 type DataPlotProps = {
   ticker: string;

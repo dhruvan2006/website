@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import 'katex/dist/katex.min.css';
-import { InlineMath, BlockMath } from 'react-katex';
+import { InlineMath } from 'react-katex';
 import axios from 'axios';
 import DataPlot from './DataPlot';
 
