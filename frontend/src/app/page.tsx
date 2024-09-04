@@ -110,7 +110,7 @@ function Home() {
       </header>
 
       {/* Main Content */}
-      <main className="flex flex-col items-center font-mono mx-auto">
+      <main className="flex flex-col items-center font-mono">
         {/* Main Liquidity Plot */}
         <div className="w-full flex justify-center bg-lightblack pt-2 pb-4">
           <div className='max-w-6xl w-full'>
@@ -157,13 +157,15 @@ function Home() {
         </div>
         
         {/* Components Plot */}
-        <div className='bg-black grid grid-cols-1 md:grid-cols-2 max-w-7xl'>
+        <div className='bg-black grid grid-cols-1 md:grid-cols-2 max-w-7xl w-full'>
           {Object.entries(tickers).slice(1).map(([ticker, color], index, array) => (
             <div 
               key={ticker} 
-              className={`flex justify-center border border-white border-opacity-50 p-4 ${index === array.length - 1 ? 'md:col-span-2' : ''}`}
+              className={`flex justify-center border border-white border-opacity-50 p-4 w-full ${index === array.length - 1 ? 'md:col-span-2' : ''}`}
             >
-              <DataPlot ticker={ticker} color={color} data={seriesData[ticker] || []} />
+              <div className="w-full h-full min-h-[300px]">
+                <DataPlot ticker={ticker} color={color} data={seriesData[ticker] || []} />
+              </div>
             </div>
           ))}
         </div>

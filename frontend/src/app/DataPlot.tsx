@@ -60,6 +60,12 @@ function DataPlot({ ticker, color, data }: DataPlotProps): React.ReactElement {
     responsive: true,
   };
   
+  if (data.length === 0) {
+    return (
+      <div className={`w-full ${ticker === 'LIQUIDITY' ? 'h-[80vh] bg-[#1f273d]' : 'h-[60vh] bg-[#262626]'} rounded animate-pulse mt-2`}></div>
+    );
+  }
+
   return (
     <div className={ticker === 'LIQUIDITY' ? `w-full h-[80vh]` : `w-full h-[60vh]`}>
       <Plot 
