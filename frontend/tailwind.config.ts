@@ -8,6 +8,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['Apercu', 'sans-serif'],
+      },
       colors: {
         'white': '#ededed',
         'blue': '#0057ff',
