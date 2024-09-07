@@ -2,10 +2,16 @@ import nasdaqdatalink
 import yfinance as yf
 import pandas as pd
 import numpy as np
+import os
+from dotenv import load_dotenv
 from datetime import datetime
 from django.core.management.base import BaseCommand
 
 from indicators.models import BitcoinPrice, BitcoinIndicator
+
+load_dotenv()
+
+nasdaqdatalink.ApiConfig.api_key = os.getenv('NASDAQ_DATA_LINK_API_KEY')
 
 class Command(BaseCommand):
     help = 'Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance'
