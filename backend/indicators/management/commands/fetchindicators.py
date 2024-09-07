@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from django.core.management.base import BaseCommand
 
-from indicators.models import BitcoinPrice, BitcoinIndicator
+from indicators.models import BitcoinPrice, Indicator, IndicatorValue
 
 load_dotenv()
 
@@ -80,11 +80,14 @@ def calculate_plrr():
     # Calculate Power Law Residual Ratio with scaling definition 1 (PLRR_Scale1)
     df['PLRR'] = np.sqrt(T_span)*(df['MeanLogReturn'] - k_PL*df['MeanLogTimeDiff'] - (1/365)*np.log(1+risk_free_return/100)) / df['LogSDev']
 
+    # Get the indicator
+    indicator = Indicator.objects.get(url_name='PLRR')
+
     # Save PLRR to database
     for date, row in df.iterrows():
         if pd.notna(row['PLRR']):
-            BitcoinIndicator.objects.update_or_create(
-                name='PLRR',
+            IndicatorValue.objects.update_or_create(
+                indicator=indicator,
                 date=date,
                 defaults={'value': row['PLRR']}
             )

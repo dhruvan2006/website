@@ -5,8 +5,11 @@ from . import views
 
 router = DefaultRouter(trailing_slash=False)
 router.register(r'price', views.BitcoinPriceViewSet)
-router.register(r'indicator', views.BitcoinIndicatorViewSet)
+router.register(r'category', views.CategoryViewSet)
+router.register(r'indicator', views.IndicatorViewSet)
+router.register(r'value', views.IndicatorValueViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('categories_with_indicators', views.categories_with_indicators),
 ]
