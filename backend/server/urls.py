@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('api/', include('liquidity.urls')),
+    path('api/liquidity/', include('liquidity.urls')),
+    path('api/indicators/', include('indicators.urls')),
     path('admin/', admin.site.urls),
 ]

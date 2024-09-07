@@ -36,6 +36,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 INSTALLED_APPS = [
     'liquidity.apps.LiquidityConfig',
+    'indicators.apps.IndicatorsConfig',
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',
