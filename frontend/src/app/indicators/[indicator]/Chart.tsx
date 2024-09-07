@@ -3,7 +3,16 @@
 import React from 'react';
 import dynamic from 'next/dynamic'
 
-const Plot = dynamic(() => import('react-plotly.js'), { ssr: false });
+function ChartSkeleton() {
+  return (
+    <div className='w-full h-[450px] animate-pulse bg-[#f0f0f0] flex items-center justify-center'>
+      <span className='text-[#191919]'>Chart Loading...</span>
+    </div>
+  );
+}
+
+// Display skeleton until it laods
+const Plot = dynamic(() => import('react-plotly.js'), { ssr: false, loading: () => <ChartSkeleton /> });
 
 interface DataPoint {
   date: string;
@@ -16,7 +25,6 @@ interface BitcoinDataPoint {
 }
 
 export default function Chart({ ticker, color, data, bitcoinData }: { ticker: string, color: string, data: DataPoint[], bitcoinData: BitcoinDataPoint[] }) {
-
   const indicatorTrace: Plotly.Data = {
     type: 'scatter',
     mode: 'lines',
@@ -71,5 +79,7 @@ export default function Chart({ ticker, color, data, bitcoinData }: { ticker: st
     displayModeBar: false
   }
 
-  return <Plot className='w-full h-full' data={[bitcoinTrace, indicatorTrace]} layout={layout} config={config} useResizeHandler={true} />
+  return (
+    <Plot className='w-full h-full' data={[bitcoinTrace, indicatorTrace]} layout={layout} config={config} useResizeHandler={true} />
+  )
 }

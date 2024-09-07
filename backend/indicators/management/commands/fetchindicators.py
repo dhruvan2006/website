@@ -17,7 +17,7 @@ class Command(BaseCommand):
     help = 'Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance'
 
     def handle(self, *args, **options):
-        # fetch_prices()
+        fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
         calculate_plrr()
         self.stdout.write(self.style.SUCCESS('Successfully calculated PLRR'))

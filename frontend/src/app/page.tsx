@@ -30,7 +30,7 @@ function Home() {
 
   const fetchLastUpdated = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/api/liquidity/last_updated');
+      const response = await axios.get('/api/liquidity/last_updated/');
       const date = new Date(response.data.last_updated);
       setLastUpdated(date.toLocaleString());
     } catch (error) {
@@ -43,7 +43,7 @@ function Home() {
   const fetchData = async () => {
     try {
       const responses = await Promise.all(Object.keys(tickers).map(ticker => 
-        axios.get(`http://localhost:8000/api/liquidity/series/?ticker=${ticker}&start_date=${startDate}&end_date=${endDate}`)
+        axios.get(`/api/liquidity/series/?ticker=${ticker}&start_date=${startDate}&end_date=${endDate}`)
       ));
       const newSeriesData = responses.reduce<SeriesData>((acc, response, index) => {
         acc[Object.keys(tickers)[index]] = response.data.map((item: any) => ({

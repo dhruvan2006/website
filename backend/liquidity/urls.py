@@ -9,5 +9,5 @@ router.register(r'series', SeriesViewSet, basename='series')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('last_updated/', views.last_updated),
+    path('last_updated', views.last_updated),
 ]

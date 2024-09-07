@@ -21,7 +21,7 @@ interface InteractiveChartProps {
 }
 
 export default function InteractiveChart({ initialIndicatorData, initialBitcoinData, indicator }: InteractiveChartProps) {
-  const [startDate, setStartDate] = useState<string>(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]);
+  const [startDate, setStartDate] = useState<string>(new Date(2014, 1, 1).toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState<string>(new Date().toISOString().split('T')[0]);
 
   const filteredIndicatorData = useMemo(() => {

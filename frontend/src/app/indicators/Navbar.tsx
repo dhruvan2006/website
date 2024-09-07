@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import Dropdown from './Dropdown';
 
 export default function Navbar() {
@@ -8,8 +9,8 @@ export default function Navbar() {
       <nav className='container mx-auto flex justify-between items-center p-4 max-w-5xl'>
         {/* Logo */}
         <div className='flex items-center'>
-          <img src="/usa.png" alt="USA Flag" className="h-8 w-auto" />
-          <span className='text-xl font-bold ml-2'>MyApp</span>
+          <Image src="/logo.svg" alt="Logo" width={32} height={32} />
+          <span className='text-xl font-bold ml-2'>Indicator</span>
         </div>
 
         {/* Nav Links */}
