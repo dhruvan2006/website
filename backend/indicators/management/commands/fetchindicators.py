@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from django.core.management.base import BaseCommand
 
-from indicators.models import BitcoinPrice, Indicator, IndicatorValue
+from indicators.models import BitcoinPrice, Category, Indicator, IndicatorValue
 
 load_dotenv()
 
@@ -80,8 +80,21 @@ def calculate_plrr():
     # Calculate Power Law Residual Ratio with scaling definition 1 (PLRR_Scale1)
     df['PLRR'] = np.sqrt(T_span)*(df['MeanLogReturn'] - k_PL*df['MeanLogTimeDiff'] - (1/365)*np.log(1+risk_free_return/100)) / df['LogSDev']
 
+# Ensure the category exists
+    category, _ = Category.objects.get_or_create(name='Technical')
+
     # Get the indicator
-    indicator = Indicator.objects.get(url_name='PLRR')
+    indicator, _ = Indicator.objects.get_or_create(
+        url_name='PLRR',
+        defaults={
+            'human_name': 'Power Law Residual Ratio', 
+            'description': """The Power Law Residual Ratio (PLRR) is an indicator that measures the normalized deviation of price returns from power law growth with respect to volatility. It is designed to help determine when bitcoin is fairly priced and when its under/overvalued.
+
+[1] https://x.com/math_sci_tech/status/1831083600516911566
+[2] https://github.com/assridha/Bitcoin-Power-Tools""",
+            'category': category
+        }
+    )
 
     # Save PLRR to database
     for date, row in df.iterrows():
