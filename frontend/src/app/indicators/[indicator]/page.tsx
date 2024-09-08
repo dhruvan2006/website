@@ -6,12 +6,12 @@ import ApiHelp from './ApiHelp';
 import IndicatorDescription from './IndicatorDescription';
 
 async function getIndicator(indicator: string) {
-  const res = await axios.get('https://api.liquidity.gnanadhandayuthapani.com/api/indicators/indicator?name=plrr');
+  const res = await axios.get(`https://api.liquidity.gnanadhandayuthapani.com/api/indicators/indicator/?name=${indicator}`);
   return res.data[0];
 }
 
 async function getIndicatorValues(indicator: string) {
-  const res = await axios.get('https://api.liquidity.gnanadhandayuthapani.com/api/indicators/value?name=plrr');
+  const res = await axios.get(`https://api.liquidity.gnanadhandayuthapani.com/api/indicators/indicator/${indicator}/values`);
   return res.data;
 }
 
@@ -22,7 +22,6 @@ async function getBitcoinPriceData() {
   }
   return res.json();
 }
-
 
 export default async function IndicatorPage({ params }: { params: { indicator: string } }) {
   const indicator = await getIndicator(params.indicator);

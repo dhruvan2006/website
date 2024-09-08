@@ -19,8 +19,8 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
-        calculate_plrr()
-        self.stdout.write(self.style.SUCCESS('Successfully calculated PLRR'))
+        fetch_indicators()
+        self.stdout.write(self.style.SUCCESS('Successfully calculated indicators'))
 
 def fetch_prices():
     """Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance"""
@@ -41,6 +41,10 @@ def fetch_prices():
             date=date.date(),
             defaults={'price': row['Close']}
         )
+
+def fetch_indicators():
+    calculate_plrr()
+    calculate_vpli()
 
 def calculate_plrr():
     """
@@ -103,4 +107,59 @@ def calculate_plrr():
                 indicator=indicator,
                 date=date,
                 defaults={'value': row['PLRR']}
+            )
+
+def calculate_vpli():
+    """
+    Calculate the Volatility-Adjusted Power Law Index
+    [1] https://x.com/Sina_21st/status/1800713784807264431
+    """
+    # Set parameters
+    t0 = '2009-01-03'  # Bitcoin genesis date
+    c, m = -40.70389140388637, 6.00728675548973
+
+    # Fetch all prices from db
+    prices = BitcoinPrice.objects.all().order_by('date')
+
+    df = pd.DataFrame(list(prices.values()))
+    df['date'] = pd.to_datetime(df['date'])
+    df.set_index('date', inplace=True)
+    df.sort_index(inplace=True)
+
+    t0_datetime = datetime(2009, 1, 3)
+
+    def power_law(x, c, m):
+        return np.exp(c) * np.power(x, m)
+
+    df['Days'] = (df.index - t0_datetime).days
+    df['Power Law'] = power_law(df['Days'], c, m)
+    df['Resids'] = np.log(df['price']) - np.log(df['Power Law'])
+
+    df['LogReturn'] = np.log(df['price']).diff()
+    df['LogSDev'] = df['LogReturn'].rolling(365).std()
+
+    df['VPLI'] = df['Resids'] / df['LogSDev']
+
+    # Ensure the category exists
+    category, _ = Category.objects.get_or_create(name='Technical')
+
+    # Get the VPLI indicator
+    vpli_indicator, _ = Indicator.objects.get_or_create(
+        url_name='VPLI',
+        defaults={
+            'human_name': 'Volatility-adjusted Power Law Indicator', 
+            'description': """The Volatility-adjusted Power Law Indicator (VPLI) measures the deviation of Bitcoin's price from a fitted power law curve which is adjusted by volatility.
+
+[1] https://x.com/Sina_21st/status/1800713784807264431""",
+            'category': category
+        }
+    )
+
+    # Save VPLI to database
+    for date, row in df.iterrows():
+        if pd.notna(row['VPLI']):
+            IndicatorValue.objects.update_or_create(
+                indicator=vpli_indicator,
+                date=date,
+                defaults={'value': row['VPLI']}
             )

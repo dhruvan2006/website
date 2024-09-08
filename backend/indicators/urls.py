@@ -11,5 +11,6 @@ router.register(r'value', views.IndicatorValueViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('indicator/<str:indicator_name>/values', views.get_indicator_values),
     path('categories_with_indicators', views.categories_with_indicators),
 ]

@@ -32,3 +32,10 @@ def categories_with_indicators(request):
             'indicators': IndicatorSerializer(indicators, many=True).data
         })
     return Response(data)
+
+@api_view(['GET'])
+def get_indicator_values(request, indicator_name):
+    indicator = Indicator.objects.get(url_name=indicator_name)
+    values = IndicatorValue.objects.filter(indicator=indicator).order_by('date')
+    serializer = IndicatorValueSerializer(values, many=True)
+    return Response(serializer.data)
