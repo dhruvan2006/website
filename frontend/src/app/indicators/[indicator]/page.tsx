@@ -3,22 +3,30 @@ import axios from 'axios';
 import Navbar from '../Navbar';
 import InteractiveChart from './InteractiveChart';
 import ApiHelp from './ApiHelp';
+import IndicatorDescription from './IndicatorDescription';
 
-async function getIndicatorData(indicator: string) {
+async function getIndicator(indicator: string) {
   const res = await axios.get('https://api.liquidity.gnanadhandayuthapani.com/api/indicators/indicator?name=plrr');
+  return res.data[0];
+}
+
+async function getIndicatorValues(indicator: string) {
+  const res = await axios.get('https://api.liquidity.gnanadhandayuthapani.com/api/indicators/value?name=plrr');
   return res.data;
 }
 
 async function getBitcoinPriceData() {
-  const res = await fetch('https://api.liquidity.gnanadhandayuthapani.com/api/indicators/price', { cache: 'no-store' });
+  const res = await fetch('https://api.liquidity.gnanadhandayuthapani.com/api/indicators/price');
   if (!res.ok) {
     throw new Error('Failed to fetch Bitcoin price data');
   }
   return res.json();
 }
 
+
 export default async function IndicatorPage({ params }: { params: { indicator: string } }) {
-  const indicatorData = await getIndicatorData(params.indicator);
+  const indicator = await getIndicator(params.indicator);
+  const indicatorValues = await getIndicatorValues(params.indicator);
   const bitcoinPriceData = await getBitcoinPriceData();
 
   return (
@@ -27,14 +35,16 @@ export default async function IndicatorPage({ params }: { params: { indicator: s
 
       <main className='container mx-auto px-4 sm:px-8 lg:px-16 py-2'>
         <div className='mb-6'>
-          <InteractiveChart indicator={params.indicator} initialIndicatorData={indicatorData} initialBitcoinData={bitcoinPriceData} />
+          <InteractiveChart indicator={indicator} initialIndicatorData={indicatorValues} initialBitcoinData={bitcoinPriceData} />
         </div>
+
+        <IndicatorDescription indicator={indicator} />
 
         <ApiHelp indicator={params.indicator} />
 
-        <pre className='bg-gray-100 p-4 rounded-md overflow-auto mb-6'>
+        {/* <pre className='bg-gray-100 p-4 rounded-md overflow-auto mb-6'>
           {JSON.stringify(indicatorData, null, 2)}
-        </pre>
+        </pre> */}
       </main>
     </div>
   );

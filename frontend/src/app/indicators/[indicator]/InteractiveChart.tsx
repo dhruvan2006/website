@@ -3,6 +3,9 @@
 import React, { useState, useMemo } from 'react';
 import Chart from './Chart';
 import DatePicker from './DatePicker';
+import { Indicator } from '../page';
+import Histogram from './Histogram';
+import NormalProbabilityPlot from './NormalProbabilityPlot';
 
 interface DataPoint {
   date: string;
@@ -17,7 +20,7 @@ interface BitcoinDataPoint {
 interface InteractiveChartProps {
   initialIndicatorData: DataPoint[];
   initialBitcoinData: BitcoinDataPoint[];
-  indicator: string;
+  indicator: Indicator;
 }
 
 export default function InteractiveChart({ initialIndicatorData, initialBitcoinData, indicator }: InteractiveChartProps) {
@@ -39,7 +42,7 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
   return (
     <div>
       <div className='flex flex-col sm:flex-row items-center justify-around mb-4'>
-        <h1 className='flex-4 text-3xl font-bold mb-4 sm:mb-0 text-center tracking-wide'>{indicator.toUpperCase()} Indicator</h1>
+        <h1 className='flex-4 text-3xl font-bold mb-4 sm:mb-0 text-center tracking-wide'>{indicator.human_name.toUpperCase()} Indicator</h1>
         <div className='flex-5 flex flex-col sm:flex-row gap-4'>
           <DatePicker 
             label="Start Date" 
@@ -53,7 +56,15 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
           />
         </div>
       </div>
-      <Chart ticker={indicator} color="#000" data={filteredIndicatorData} bitcoinData={filteredBitcoinData} />
+
+      <div className='mb-4'>
+        <Chart ticker={indicator.human_name} color="#000" data={filteredIndicatorData} bitcoinData={filteredBitcoinData} />
+      </div>
+
+      <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+        <Histogram ticker={indicator.human_name} color="#000" data={filteredIndicatorData} />
+        <NormalProbabilityPlot ticker={indicator.human_name} color="#000" data={filteredIndicatorData} />
+      </div>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 
 function ChartSkeleton() {
   return (
-    <div className='w-full h-[450px] animate-pulse bg-[#f0f0f0] flex items-center justify-center'>
+    <div className='w-full h-[450px] animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
       <span className='text-[#191919]'>Chart Loading...</span>
     </div>
   );
@@ -46,6 +46,7 @@ export default function Chart({ ticker, color, data, bitcoinData }: { ticker: st
 
   const layout: Partial<Plotly.Layout> = {
     autosize: true,
+    height: 450,
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
     font: { color: '#191919', family: 'Apercu, sans-serif', size: 14 },

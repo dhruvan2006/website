@@ -3,10 +3,47 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 
+interface Indicator {
+  name: string;
+  url_name: string;
+  human_name: string;
+}
+
+interface Category {
+  name: string;
+  id: number;
+}
+
+interface Item {
+  category: Category;
+  indicators: Indicator[];
+}
+
 export default function Dropdown() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [items, setItems] = useState<Item[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const dropdownRef = useRef<HTMLLIElement>(null);
   const navRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/indicators/categories_with_indicators');
+        if (!response.ok) {
+          throw new Error('Failed to fetch indicators');
+        }
+        const data = await response.json();
+        setItems(data);
+      } catch (error) {
+        console.error('Error fetching indicators:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+
+    fetchCategories();
+  }, []);
 
   const handleMouseEnter = () => {
     setIsDropdownOpen(true);
@@ -45,6 +82,10 @@ export default function Dropdown() {
     };
   }, []);
 
+  items.map((category) => {
+    console.log(category);
+  });
+
   return (
     <li className='relative' ref={dropdownRef} onMouseEnter={handleMouseEnter}>
       <div className='focus:outline-none hover:text-[#7f7f7f] transition duration-100 flex items-center cursor-pointer'>
@@ -60,7 +101,7 @@ export default function Dropdown() {
         </svg>
       </div>
 
-      {isDropdownOpen && (
+      {/* {isDropdownOpen && (
         <div
           className='bg-[#fff]/75 backdrop-blur-md fixed left-0 top-16 w-screen shadow-md z-50 pb-5'
         >
@@ -89,6 +130,31 @@ export default function Dropdown() {
                 <li><Link href="#" className='hover:text-[#7f7f7f] transition duration-100'>Bollinger Bands</Link></li>
               </ul>
             </div>
+          </div>
+        </div>
+      )} */}
+      
+      {isDropdownOpen && (
+        <div className='bg-[#fff]/75 backdrop-blur-md fixed left-0 top-16 w-screen shadow-md z-50 pb-5'>
+          <div className='container flex mx-auto p-4 max-w-4xl divide-x divide-[#e5e5e5]'>
+            {isLoading ? (
+              <div className="text-center w-full">Loading...</div>
+            ) : (
+              items.map((item) => (
+                <div key={item.category.id} className='flex-1 px-4 first:pl-0 last:pr-0'>
+                  <h2 className='text-sm text-[#7f7f7f] mb-3'>{item.category.name}</h2>
+                  <ul className='mt-2 space-y-2'>
+                    {item.indicators.map((indicator, idx) => (
+                      <li key={idx}>
+                        <Link href={`/indicators/${indicator.url_name}`} className='hover:text-[#7f7f7f] transition duration-100'>
+                          {indicator.human_name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))
+            )}
           </div>
         </div>
       )}
