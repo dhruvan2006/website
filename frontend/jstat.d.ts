@@ -1,1 +1,1 @@
-declare module 'jStat';
+declare module 'jstat';

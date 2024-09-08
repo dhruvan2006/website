@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
 import axios from 'axios';
@@ -72,7 +73,7 @@ function Home() {
   useEffect(() => {
     fetchData();
     fetchLastUpdated();
-  }, []);
+  }, [fetchData, fetchLastUpdated]);
 
   const getColorClass = (value: number | null) => {
     if (value === null) return 'text-white';
@@ -104,7 +105,7 @@ function Home() {
               </p>
             </div>
 
-            <img src="/usa.png" alt="USA Flag" className="h-8 w-auto" />
+            <Image src="/usa.png" alt="USA Flag" width={32} height={32} />
           </div>
         </nav>
       </header>

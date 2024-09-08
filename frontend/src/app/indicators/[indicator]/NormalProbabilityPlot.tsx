@@ -2,7 +2,7 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
-import jstat from 'jStat';
+import jstat from 'jstat';
 
 function ChartSkeleton() {
   return (

@@ -39,8 +39,8 @@ export default function Chart({ ticker, color, data, bitcoinData }: { ticker: st
     type: 'scatter',
     mode: 'lines',
     name: 'Bitcoin',
-    x: bitcoinData.map((d: BitcoinDataPoint) => d.date),
-    y: bitcoinData.map((d: BitcoinDataPoint) => d.price),
+    x: bitcoinData.map(d => d.date),
+    y: bitcoinData.map(d => d.price),
     line: {color: '#ff0000'},
   }
 
