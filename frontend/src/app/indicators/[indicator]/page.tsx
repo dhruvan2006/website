@@ -6,8 +6,8 @@ import ApiHelp from './ApiHelp';
 import IndicatorDescription from './IndicatorDescription';
 
 async function getIndicator(indicator: string) {
-  const res = await axios.get(`https://api.liquidity.gnanadhandayuthapani.com/api/indicators/indicator?name=${indicator}`);
-  return res.data[0];
+  const res = await axios.get(`https://api.liquidity.gnanadhandayuthapani.com/api/indicators/indicator/${indicator}`);
+  return res.data;
 }
 
 async function getIndicatorValues(indicator: string) {
