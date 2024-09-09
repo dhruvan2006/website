@@ -1,5 +1,6 @@
 from django.db import models
 
+# Bitcoin
 class BitcoinPrice(models.Model):
     date = models.DateField()
     price = models.FloatField()
@@ -7,6 +8,7 @@ class BitcoinPrice(models.Model):
     def __str__(self):
         return f"{self.date}: {self.price}"
 
+# Indicators
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
@@ -29,3 +31,23 @@ class IndicatorValue(models.Model):
 
     def __str__(self):
         return f"{self.indicator.human_name}: {self.value} on {self.date}"
+
+# Data Sources
+class DataSource(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    last_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+class DataSourceValue(models.Model):
+    data_source = models.ForeignKey(DataSource, on_delete=models.CASCADE)
+    date = models.DateField()
+    value = models.FloatField()
+
+    class Meta:
+        unique_together = ('data_source', 'date')
+
+    def __str__(self):
+        return f"{self.data_source.name}: {self.value} on {self.date}"

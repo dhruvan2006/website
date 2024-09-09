@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 from datetime import datetime
 from django.core.management.base import BaseCommand
 
-from indicators.models import BitcoinPrice, Category, Indicator, IndicatorValue
+from indicators.models import BitcoinPrice, Category, DataSource, DataSourceValue, Indicator, IndicatorValue
 
 load_dotenv()
 
@@ -43,6 +43,7 @@ def fetch_prices():
         )
 
 def fetch_indicators():
+    calculate_thermocap()
     calculate_plrr()
     calculate_vpli()
 
@@ -163,3 +164,79 @@ def calculate_vpli():
                 date=date,
                 defaults={'value': row['VPLI']}
             )
+
+def calculate_thermocap():
+    """
+    Calculate the Thermocap Multiple
+    [1] https://charts.bitbo.io/thermocap-multiple/
+    [2] https://www.tradingview.com/script/WdnPvtn7-Bitcoin-Thermocap-InvestorUnknown/
+    """
+    # Set parameters
+    ma_len = 365
+
+    # Fetch all prices from db
+    prices = BitcoinPrice.objects.all().order_by('date')
+
+    df = pd.DataFrame(list(prices.values()))
+    df['date'] = pd.to_datetime(df['date'])
+    df.set_index('date', inplace=True)
+    df.sort_index(inplace=True)
+
+    # Fetch block count data
+    block_count_source = DataSource.objects.get(name='BLOCK_COUNT')
+    block_count_data = DataSourceValue.objects.filter(data_source=block_count_source).order_by('date')
+
+    block_count_df = pd.DataFrame(list(block_count_data.values()))
+    block_count_df['date'] = pd.to_datetime(block_count_df['date'])
+    block_count_df.set_index('date', inplace=True)
+    block_count_df.sort_index(inplace=True)
+
+    # Merge price and block count data
+    df = df.join(block_count_df['value'], how='outer')
+    df.rename(columns={'value': 'Blocks_Mined'}, inplace=True)
+
+    # Calculate Thermocap
+    df['Historical_Blocks'] = (df['Blocks_Mined'] * df['price']).cumsum()
+    df['Thermocap'] = (df['price'] / df['Historical_Blocks']) * 1000000  # multiple by 1000000 just to make it look nicer
+    df['Thermocap_Log'] = np.log(df['Thermocap'])
+
+    # Calculate EMA
+    df['MA'] = df['Thermocap_Log'].ewm(span=ma_len, adjust=False).mean()
+
+    # Calculate Oscillator
+    df['MA_Oscillator'] = df['Thermocap_Log'] / df['MA']
+
+    # Ensure the category exists
+    category, _ = Category.objects.get_or_create(name='Technical')
+
+    # Get the Thermocap indicator
+    thermocap_indicator, _ = Indicator.objects.get_or_create(
+        url_name='THERMOCAP',
+        defaults={
+            'human_name': 'Thermocap Multiple', 
+            'description': """The Thermocap multiple chart displays the ratio between the cumulative mined BTC (the block subsidy) and denominates them in USD, starting from day one and up to the given day.
+
+[1] https://charts.bitbo.io/thermocap-multiple/
+[2] https://www.tradingview.com/script/WdnPvtn7-Bitcoin-Thermocap-InvestorUnknown/""",
+            'category': category
+        }
+    )
+
+    # Save Thermocap to database
+    for date, row in df.iterrows():
+        if pd.notna(row['MA_Oscillator']):
+            value = row['MA_Oscillator']
+            if np.isinf(value):
+                # Log the infinite value
+                print(f"Warning: Infinite value encountered for date {date}. Deleting entry.")
+                # Delete the entry if it exists
+                IndicatorValue.objects.filter(
+                    indicator=thermocap_indicator,
+                    date=date
+                ).delete()
+            else:
+                IndicatorValue.objects.update_or_create(
+                    indicator=thermocap_indicator,
+                    date=date,
+                    defaults={'value': value}
+                )
