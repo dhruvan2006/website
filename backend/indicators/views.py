@@ -39,3 +39,12 @@ def get_indicator_values(request, indicator_name):
     values = IndicatorValue.objects.filter(indicator=indicator).order_by('date')
     serializer = IndicatorValueSerializer(values, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def get_indicator_by_name(request, indicator_name):
+    try:
+        indicator = Indicator.objects.get(url_name=indicator_name)
+        serializer = IndicatorSerializer(indicator)
+        return Response(serializer.data)
+    except Indicator.DoesNotExist:
+        return Response({"detail": "Not found."}, status=404)
