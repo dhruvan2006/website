@@ -2,8 +2,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from .models import BitcoinPrice, IndicatorValue, Indicator, Category
-from .serializers import BitcoinPriceSerializer, IndicatorValueSerializer, IndicatorSerializer, CategorySerializer
+from .models import BitcoinPrice, IndicatorValue, Indicator, Category, DataSource, DataSourceValue
+from .serializers import BitcoinPriceSerializer, IndicatorValueSerializer, IndicatorSerializer, CategorySerializer, DataSourceSerializer, DataSourceValueSerializer
 
 class BitcoinPriceViewSet(viewsets.ModelViewSet):
     queryset = BitcoinPrice.objects.all()
@@ -20,6 +20,10 @@ class IndicatorViewSet(viewsets.ModelViewSet):
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
+class DataSourceViewSet(viewsets.ModelViewSet):
+    queryset = DataSource.objects.all()
+    serializer_class = DataSourceSerializer
 
 @api_view(['GET'])
 def categories_with_indicators(request):
@@ -47,4 +51,14 @@ def get_indicator_by_name(request, indicator_name):
         serializer = IndicatorSerializer(indicator)
         return Response(serializer.data)
     except Indicator.DoesNotExist:
-        return Response({"detail": "Not found."}, status=404)
+        return Response({"error": "Not found."}, status=404)
+
+@api_view(['GET'])
+def get_datasource_values(request, datasource_name):
+    try:
+        datasource = DataSource.objects.get(name=datasource_name)
+        values = DataSourceValue.objects.filter(data_source=datasource).order_by('date')
+        serializer = DataSourceValueSerializer(values, many=True)
+        return Response(serializer.data)
+    except DataSource.DoesNotExist:
+        return Response({"error": "Not found."}, status=404)
