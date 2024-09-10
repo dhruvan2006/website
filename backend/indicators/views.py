@@ -54,6 +54,15 @@ def get_indicator_by_name(request, indicator_name):
         return Response({"error": "Not found."}, status=404)
 
 @api_view(['GET'])
+def get_datasource_by_name(request, datasource_name):
+    try:
+        datasource = DataSource.objects.get(name=datasource_name)
+        serializer = DataSourceSerializer(datasource)
+        return Response(serializer.data)
+    except DataSource.DoesNotExist:
+        return Response({"error": "Not found."}, status=404)
+
+@api_view(['GET'])
 def get_datasource_values(request, datasource_name):
     try:
         datasource = DataSource.objects.get(name=datasource_name)
