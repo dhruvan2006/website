@@ -207,7 +207,7 @@ def calculate_thermocap():
     df['MA_Oscillator'] = df['Thermocap_Log'] / df['MA']
 
     # Ensure the category exists
-    category, _ = Category.objects.get_or_create(name='Technical')
+    category, _ = Category.objects.get_or_create(name='On-Chain')
 
     # Get the Thermocap indicator
     thermocap_indicator, _ = Indicator.objects.get_or_create(
