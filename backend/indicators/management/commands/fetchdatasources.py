@@ -38,8 +38,8 @@ def fetch_block_count():
 
         # Get or create DataSource
         block_count_source, _ = DataSource.objects.get_or_create(
-            name="BLOCK_COUNT",
-            defaults={'description': 'Number of blocks mined daily on the Bitcoin blockchain'}
+            url='BLOCK_COUNT',
+            defaults={'name': 'Daily Block Count', 'description': 'Number of blocks mined daily on the Bitcoin blockchain'}
         )
 
         # Update or create DataSourceValues
