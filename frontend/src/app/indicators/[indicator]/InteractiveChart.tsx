@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo } from 'react';
 import Chart from './Chart';
-import DatePicker from './DatePicker';
+import DatePicker from '../../DatePicker';
 import { Indicator } from '../page';
 import Histogram from './Histogram';
 import NormalProbabilityPlot from './NormalProbabilityPlot';

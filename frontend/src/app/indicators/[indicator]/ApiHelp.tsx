@@ -15,12 +15,12 @@ const ApiHelp: React.FC<ApiHelpProps> = ({ indicator }) => {
         <li>
           <strong>Get all {indicator.toUpperCase()} data:</strong>
           <br />
-          <code>{`${baseUrl}/indicator/?name=${indicator}`}</code>
+          <code className='break-all bg-gray-200'>{`${baseUrl}/indicator/?name=${indicator}`}</code>
         </li>
         <li>
           <strong>Get Bitcoin price data:</strong>
           <br />
-          <code>{`${baseUrl}/price/`}</code>
+          <code className='break-all bg-gray-200'>{`${baseUrl}/price/`}</code>
         </li>
       </ul>
     </div>

@@ -6,6 +6,7 @@ import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
 import axios from 'axios';
 import DataPlot from './DataPlot';
+import Navbar from './Navbar';
 
 export type SimpleDataPoint = {
   date: string;
@@ -85,7 +86,8 @@ function Home() {
   };
 
   return (
-    <div className='min-h-screen flex flex-col font-mono relative'>
+    <div className='min-h-screen flex flex-col font-mono relative bg-white'>
+      <Navbar />
       {/* Navbar */}
       <header className='bg-black border-b border-white border-opacity-65'>
         <nav className='flex justify-between items-center max-w-5xl mx-auto'>
@@ -114,7 +116,7 @@ function Home() {
       <main className="flex flex-col items-center font-mono">
         {/* Main Liquidity Plot */}
         <div className="w-full flex justify-center bg-lightblack pt-2 pb-4">
-          <div className='max-w-6xl w-full'>
+          <div className=' w-full'>
             <DataPlot ticker="LIQUIDITY" color="#ededed" data={seriesData['LIQUIDITY'] || []} />
           </div>
         </div>
@@ -158,7 +160,7 @@ function Home() {
         </div>
         
         {/* Components Plot */}
-        <div className='bg-black grid grid-cols-1 md:grid-cols-2 max-w-7xl w-full'>
+        <div className='bg-black grid grid-cols-1 md:grid-cols-2 w-full'>
           {Object.entries(tickers).slice(1).map(([ticker, color], index, array) => (
             <div 
               key={ticker} 

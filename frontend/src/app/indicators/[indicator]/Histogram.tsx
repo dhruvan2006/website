@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic'
 
 function ChartSkeleton() {
   return (
-    <div className='w-full h-[300px] animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
+    <div className='w-full h-[50vh] animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
       <span className='text-[#191919]'>Chart Loading...</span>
     </div>
   );
@@ -58,12 +58,14 @@ interface DataPoint {
   }
 
   return (
-    <Plot 
-      className='w-full h-full' 
-      data={[histogramTrace]} 
-      layout={layout} 
-      config={config} 
-      useResizeHandler={true} 
-    />
+    <div className='w-full h-[50vh]'>
+      <Plot 
+        className='w-full h-full' 
+        data={[histogramTrace]} 
+        layout={layout} 
+        config={config} 
+        useResizeHandler={true} 
+      />
+    </div>
   )
 }

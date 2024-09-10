@@ -1,7 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Dropdown from './Dropdown';
+import IndicatorDropdown from './IndicatorDropdown';
+import DataSourceDropdown from './DataSourceDropdown';
 
 export default function Navbar() {
   return (
@@ -21,8 +22,11 @@ export default function Navbar() {
             </Link>
           </li>
 
-          {/* Dropdown */}
-          <Dropdown />
+          {/* Indicaors Dropdown */}
+          <IndicatorDropdown />
+
+          {/* Data Source Dropdown */}
+          <DataSourceDropdown />
         </ul>
 
         {/* Login Button */}
