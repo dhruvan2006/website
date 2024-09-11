@@ -256,24 +256,30 @@ def calculate_decayosc():
 
     t0_datetime = datetime(2009, 1, 3)
     df['Days'] = (df.index - t0_datetime).days
+    
+    # Clean data
+    df = df.replace([np.inf, -np.inf], np.nan).dropna() # Remove inf values
+    df = df[(df['price'] > 0) & (df['Days'] > 0)] # Remove days and prices less than 0
 
-    X = np.log(df['Days'].values).reshape(-1, 1)
-    y = np.log(df['price'].values)
+    X = np.log(df['Days']).values.reshape(-1, 1)
+    y = np.log(df['price']).values
 
     # Power law fit
     X_with_const = add_constant(X)
-    results_power_law = OLS(y, X_with_const).fit()
+    model_power_law = OLS(y, X_with_const)
+    results_power_law = model_power_law.fit()
 
     # Quadratic fit
     X_log_squared = np.vander(X.ravel(), 3)
     X_log_squared_with_const = add_constant(X_log_squared)
-    results_quadratic = QuantReg(y, X_log_squared_with_const).fit(q=0.999)
+    model_quadratic = QuantReg(y, X_log_squared_with_const)
+    results_quadratic = model_quadratic.fit(q=0.999)
 
     # Calculate predictions
-    y_pred_power_law = results_power_law.predict(X_with_const)
+    y_pred_power_law = results_power_law.predict(X_with_const) - 0.95
     y_pred_quadratic = results_quadratic.predict(X_log_squared_with_const)
 
-    df['Oscillator'] = (y - y_pred_quadratic) / (y_pred_quadratic - y_pred_power_law)
+    df['Oscillator'] = (y - y_pred_power_law) / (y_pred_quadratic - y_pred_power_law)
 
     # Save to database
     category, _ = Category.objects.get_or_create(name='Technical')
@@ -288,6 +294,8 @@ def calculate_decayosc():
             'category': category
         }
     )
+
+    print(df)
 
     for date, row in df.iterrows():
         if pd.notna(row['Oscillator']):
