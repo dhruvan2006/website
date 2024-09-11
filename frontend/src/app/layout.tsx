@@ -6,8 +6,8 @@ import "./fonts.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Fed Liquidity",
-  description: "Tracking Fed Liquidity daily",
+  title: "Dhruvan",
+  description: "Useful tools for crypto",
 };
 
 export default function RootLayout({

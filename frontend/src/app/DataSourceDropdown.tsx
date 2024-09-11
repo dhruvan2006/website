@@ -88,7 +88,7 @@ export default function Dropdown() {
       </div>
       
       {isDropdownOpen && (
-        <div className='bg-[#fff]/75 backdrop-blur-md fixed left-0 top-16 w-screen shadow-md z-50 pb-5'>
+        <div className='bg-[#fff]/75 backdrop-blur-md fixed left-0 top-16 w-screen shadow-sm z-50 pb-5 border-b border-zinc-300'>
           <div className='container flex mx-auto p-4 max-w-4xl'>
             {isLoading ? (
               <div className="text-center w-full">Loading...</div>

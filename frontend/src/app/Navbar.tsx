@@ -6,8 +6,8 @@ import DataSourceDropdown from './DataSourceDropdown';
 
 export default function Navbar() {
   return (
-    <header className='bg-[#fff]/75 backdrop-blur-md text-[#191919] flex flex-col font-sans sticky top-0 z-50'>
-      <nav className='container mx-auto flex justify-between items-center p-4 max-w-5xl'>
+    <header className='bg-[#fff]/75 backdrop-blur-md text-[#191919] flex flex-col font-sans sticky top-0 z-50 border-b border-zinc-300'>
+      <nav className='container mx-auto flex justify-between items-center p-4 sm:px-8 lg:px-16'>
         {/* Logo */}
         <div className='flex items-center'>
           <Image src="/logo.svg" alt="Logo" width={32} height={32} />

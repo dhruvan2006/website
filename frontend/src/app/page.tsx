@@ -7,6 +7,7 @@ import { InlineMath } from 'react-katex';
 import axios from 'axios';
 import DataPlot from './DataPlot';
 import Navbar from './Navbar';
+import DatePicker from './DatePicker';
 
 export type SimpleDataPoint = {
   date: string;
@@ -17,17 +18,24 @@ export type SeriesData = {
   [key: string]: SimpleDataPoint[];
 }
 
-const tickers = {'LIQUIDITY': '#ededed', 'WALCL': '#0057ff', 'TGA': '#d64933', 'RRPONTSYD': '#0c7c59', 'H41RESPPALDKNWW': '#58a4b0', 'WLCFLPCL': '#bac1b8'};
+const tickers = {
+  'LIQUIDITY': '#ededed',
+  'WALCL': '#ff5733', // Vibrant red
+  'TGA': '#33c1ff',   // Bright cyan
+  'RRPONTSYD': '#6f42c1', // Bright purple
+  'H41RESPPALDKNWW': '#ff5733', // Vibrant red
+  'WLCFLPCL': '#33c1ff' // Bright cyan
+};
 
-function Home() {
-  const threeMonthsAgo = new Date();
-  threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+export default function Home() {
+  const nineMonthsAgo = new Date();
+  nineMonthsAgo.setMonth(nineMonthsAgo.getMonth() - 9);
 
   const [seriesData, setSeriesData] = useState<SeriesData>({});
   const [roc1D, setRoc1D] = useState<number | null>(null);
   const [roc3D, setRoc3D] = useState<number | null>(null);
   const [lastUpdated, setLastUpdated] = useState<string | null>(null);
-  const [startDate, setStartDate] = useState<string>(threeMonthsAgo.toISOString().split('T')[0]);
+  const [startDate, setStartDate] = useState<string>(nineMonthsAgo.toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState<string>(new Date().toISOString().split('T')[0]);
 
   const fetchLastUpdated = async () => {
@@ -86,100 +94,77 @@ function Home() {
   };
 
   return (
-    <div className='min-h-screen flex flex-col font-mono relative bg-white'>
+    <div className='min-h-screen flex flex-col font-sans bg-white text-[#191919]'>
       <Navbar />
-      {/* Navbar */}
-      <header className='bg-black border-b border-white border-opacity-65'>
-        <nav className='flex justify-between items-center max-w-5xl mx-auto'>
-          <div className='flex items-center px-4 py-5 md:py-4 justify-between w-full'>
-            <h1 className='text-2xl text-white font-bold'>FED Liquidity</h1>
 
-            <div className='flex flex-col items-end ml-auto mr-4'>
-              <p className='text-white text-sm'>ROC 1D: 
-                <span className={`ml-1 ${getColorClass(roc1D)}`}>
-                  {roc1D !== null ? `${roc1D.toFixed(2)}%` : 'N/A'}
-                </span>
-              </p>
-              <p className='text-white text-sm'>ROC 3D: 
-                <span className={`ml-1 ${getColorClass(roc3D)}`}>
-                  {roc3D !== null ? `${roc3D.toFixed(2)}%` : 'N/A'}
-                </span>
-              </p>
-            </div>
-
-            <Image src="/usa.png" alt="USA Flag" width={32} height={32} />
-          </div>
-        </nav>
-      </header>
-
-      {/* Main Content */}
-      <main className="flex flex-col items-center font-mono">
-        {/* Main Liquidity Plot */}
-        <div className="w-full flex justify-center bg-lightblack pt-2 pb-4">
-          <div className=' w-full'>
-            <DataPlot ticker="LIQUIDITY" color="#ededed" data={seriesData['LIQUIDITY'] || []} />
-          </div>
-        </div>
-
-        {/* Divider */}
-        <div className="w-full border-b border-white border-opacity-65"></div>
-
-        {/* Date Pickers */}
-        <div className='bg-black w-full flex flex-col sm:flex-row gap-2 sm:gap-6 justify-center items-center p-4 pb-6 text-white'>
-          <div className='flex flex-col sm:flex-row gap-2 sm:gap-4'>
-            <div className='flex flex-col items-start'>
-              <span>Start Date:</span>
-              <input 
-                type="date" 
-                className='bg-green px-4 py-2 rounded-md w-full sm:w-auto' 
-                value={startDate} 
-                onChange={(e) => setStartDate(e.target.value)} 
-              />
-            </div>
-            <div className='flex flex-col items-start'>
-              <span>End Date:</span>
-              <input 
-                type="date" 
-                className='bg-green px-4 py-2 rounded-md w-full sm:w-auto' 
-                value={endDate} 
-                onChange={(e) => setEndDate(e.target.value)} 
-              />
+      {/* Liquidity Overview */}
+      <main>
+        <div className='container mx-auto px-4 sm:px-8 lg:px-16 py-4'>
+          <div className='flex flex-col lg:flex-row justify-between items-center'>
+            <h1 className='text-3xl font-bold mb-8'>FED Liquidity</h1>
+            
+            <div className='mb-6 flex flex-col sm:flex-row items-center w-full lg:w-auto justify-between'>
+              <div className='flex flex-col sm:flex-row gap-4 mb-4 sm:mb-0'>
+                <DatePicker 
+                  label="Start Date" 
+                  value={startDate} 
+                  onChange={setStartDate} 
+                />
+                <DatePicker 
+                  label="End Date" 
+                  value={endDate} 
+                  onChange={setEndDate} 
+                />
+              </div>
+              <button 
+                className='m-0 sm:mt-7 lg:ml-8 bg-[#191919] hover:bg-[#474747] text-white transition duration-300 py-2 px-6 rounded-md'
+                onClick={handleButtonUpdate}
+              >
+                Update
+              </button>
             </div>
           </div>
-          <button className='bg-blue hover:bg-darkerblue px-4 py-2 mt-4 sm:mt-6 rounded-md w-full sm:w-auto' onClick={handleButtonUpdate}>Update</button>
-        </div>
 
-        {/* Divider */}
-        <div className="w-full border-b border-white border-opacity-65"></div>
-
-        <div className='w-full text-white bg-lightblack p-4 text-center'>
-          <h1 className='text-xl mb-2 font-semibold'>How it works</h1>
-          <p className='text-xs'>
-            <InlineMath math="WALCL - TGA - RRPONTSYD + H41RESPPALDKNWW + WLCFLPCL" />
-          </p>
-        </div>
-        
-        {/* Components Plot */}
-        <div className='bg-black grid grid-cols-1 md:grid-cols-2 w-full'>
-          {Object.entries(tickers).slice(1).map(([ticker, color], index, array) => (
-            <div 
-              key={ticker} 
-              className={`flex justify-center border border-white border-opacity-50 p-4 w-full ${index === array.length - 1 ? 'md:col-span-2' : ''}`}
-            >
-              <div className="w-full h-full min-h-[300px]">
-                <DataPlot ticker={ticker} color={color} data={seriesData[ticker] || []} />
+          <div className='mb-6'>
+            <div className='flex justify-between items-center mb-2'>
+              <h2 className='text-xl font-semibold'>Liquidity Overview</h2>
+              <div className='flex gap-4'>
+                <p>ROC 1D: <span className={getColorClass(roc1D)}>{roc1D !== null ? `${roc1D.toFixed(2)}%` : 'N/A'}</span></p>
+                <p>ROC 3D: <span className={getColorClass(roc3D)}>{roc3D !== null ? `${roc3D.toFixed(2)}%` : 'N/A'}</span></p>
               </div>
             </div>
-          ))}
+            <DataPlot ticker="LIQUIDITY" color="#191919" data={seriesData['LIQUIDITY'] || []} />
+          </div>
+        </div>
+
+        {/* How it works */}
+        <div className='w-full bg-[#fff] py-4 mb-6 border-y border-zinc-300'>
+          <div className='container mx-auto px-4 sm:px-8 lg:px-16 text-center'>
+            <h2 className='text-xl font-semibold mb-2'>How it works</h2>
+            <p className='text-sm mb-2'>
+              <InlineMath math="WALCL - TGA - RRPONTSYD + H41RESPPALDKNWW + WLCFLPCL" />
+            </p>
+          </div>
+        </div>
+
+        {/* Constituent Plots */}
+        <div className='mb-6 grid grid-cols-1 md:grid-cols-2 gap-6 container mx-auto px-4 sm:px-8 lg:px-16'>
+          {Object.entries(tickers).slice(1).map(([ticker, color], index) => {
+            // const isLast = index === Object.entries(tickers).slice(1).length - 1;
+            return (
+              <div key={ticker} className={`border border-zinc-300 bg-[#fff] hover:shadow-sm`}>
+                <DataPlot ticker={ticker} color={color} data={seriesData[ticker] || []} />
+              </div>
+            );
+          })}
         </div>
       </main>
 
-      {/* Last Updated Box */}
-      <div className="fixed bottom-0 right-0 bg-blue p-2 rounded-tl-md">
-        <p className="text-sm">Last Updated: {lastUpdated || 'N/A'}</p>
-      </div>
+      {lastUpdated && (
+        <div className="fixed bottom-0 right-0 bg-[#191919] text-[#fff] p-2 rounded-tl-md text-sm">
+          Last Updated: {lastUpdated}
+        </div>
+      )}
     </div>
   );
 }
-
-export default Home;
