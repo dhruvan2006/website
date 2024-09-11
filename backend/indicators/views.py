@@ -56,7 +56,7 @@ def get_indicator_by_name(request, indicator_name):
 @api_view(['GET'])
 def get_datasource_by_name(request, datasource_name):
     try:
-        datasource = DataSource.objects.get(name=datasource_name)
+        datasource = DataSource.objects.get(url=datasource_name)
         serializer = DataSourceSerializer(datasource)
         return Response(serializer.data)
     except DataSource.DoesNotExist:
