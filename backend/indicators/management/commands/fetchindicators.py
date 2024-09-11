@@ -279,10 +279,7 @@ def calculate_decayosc():
     y_pred_power_law = results_power_law.predict(X_with_const) - 0.95
     y_pred_quadratic = results_quadratic.predict(X_log_squared_with_const)
 
-    oscillator = (y - y_pred_power_law) / (y_pred_quadratic - y_pred_power_law)
-
-    # Log transform the oscillator
-    df['Oscillator'] = np.log(oscillator)
+    df['Oscillator'] = (y - y_pred_power_law) / (y_pred_quadratic - y_pred_power_law)
 
     # Save to database
     category, _ = Category.objects.get_or_create(name='Technical')
