@@ -65,7 +65,7 @@ def get_datasource_by_name(request, datasource_name):
 @api_view(['GET'])
 def get_datasource_values(request, datasource_name):
     try:
-        datasource = DataSource.objects.get(name=datasource_name)
+        datasource = DataSource.objects.get(url=datasource_name)
         values = DataSourceValue.objects.filter(data_source=datasource).order_by('date')
         serializer = DataSourceValueSerializer(values, many=True)
         return Response(serializer.data)
