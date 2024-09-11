@@ -295,8 +295,6 @@ def calculate_decayosc():
         }
     )
 
-    print(df)
-
     for date, row in df.iterrows():
         if pd.notna(row['Oscillator']):
             IndicatorValue.objects.update_or_create(
