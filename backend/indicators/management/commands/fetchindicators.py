@@ -5,6 +5,7 @@ import numpy as np
 import os
 from dotenv import load_dotenv
 from datetime import datetime
+from statsmodels.api import OLS, QuantReg, add_constant
 from django.core.management.base import BaseCommand
 
 from indicators.models import BitcoinPrice, Category, DataSource, DataSourceValue, Indicator, IndicatorValue
@@ -43,9 +44,10 @@ def fetch_prices():
         )
 
 def fetch_indicators():
-    calculate_thermocap()
     calculate_plrr()
     calculate_vpli()
+    calculate_thermocap()
+    calculate_decayosc()
 
 def calculate_plrr():
     """
@@ -240,3 +242,57 @@ def calculate_thermocap():
                     date=date,
                     defaults={'value': value}
                 )
+
+def calculate_decayosc():
+    """
+    Calculate the Bitcoin Decay Oscillator
+    [1] https://x.com/sminston_with/status/1813619486106558647
+    """
+    prices = BitcoinPrice.objects.all().order_by('date')
+    df = pd.DataFrame(list(prices.values()))
+    df['date'] = pd.to_datetime(df['date'])
+    df.set_index('date', inplace=True)
+    df.sort_index(inplace=True)
+
+    t0_datetime = datetime(2009, 1, 3)
+    df['Days'] = (df.index - t0_datetime).days
+
+    X = np.log(df['Days'].values).reshape(-1, 1)
+    y = np.log(df['price'].values)
+
+    # Power law fit
+    X_with_const = add_constant(X)
+    results_power_law = OLS(y, X_with_const).fit()
+
+    # Quadratic fit
+    X_log_squared = np.vander(X.ravel(), 3)
+    X_log_squared_with_const = add_constant(X_log_squared)
+    results_quadratic = QuantReg(y, X_log_squared_with_const).fit(q=0.999)
+
+    # Calculate predictions
+    y_pred_power_law = results_power_law.predict(X_with_const)
+    y_pred_quadratic = results_quadratic.predict(X_log_squared_with_const)
+
+    df['Oscillator'] = (y - y_pred_quadratic) / (y_pred_quadratic - y_pred_power_law)
+
+    # Save to database
+    category, _ = Category.objects.get_or_create(name='Technical')
+
+    indicator, _ = Indicator.objects.get_or_create(
+        url_name='DECAYOSC',
+        defaults={
+            'human_name': 'Bitcoin Decay Oscillator',
+            'description': """The Bitcoin Decay Oscillator measures the deviation of Bitcoin's price from a power law support fit and a quadratic fit for the tops.
+[1] https://x.com/sminston_with/status/1813619486106558647
+""",
+            'category': category
+        }
+    )
+
+    for date, row in df.iterrows():
+        if pd.notna(row['Oscillator']):
+            IndicatorValue.objects.update_or_create(
+                indicator=indicator,
+                date=date,
+                defaults={'value': row['Oscillator']}
+            )
