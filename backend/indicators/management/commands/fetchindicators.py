@@ -183,7 +183,7 @@ def calculate_thermocap():
     df.sort_index(inplace=True)
 
     # Fetch block count data
-    block_count_source = DataSource.objects.get(name='BLOCK_COUNT')
+    block_count_source = DataSource.objects.get(url='BLOCK_COUNT')
     block_count_data = DataSourceValue.objects.filter(data_source=block_count_source).order_by('date')
 
     block_count_df = pd.DataFrame(list(block_count_data.values()))
