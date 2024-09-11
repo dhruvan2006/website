@@ -32,12 +32,12 @@ export default async function IndicatorPage() {
   const data = await getCategoriesWithIndicators();
 
   return (
-    <div className='bg-[#fff] text-[#191919] font-sans min-h-screen'>
+    <div className='bg-[#fff] text-[#191919] font-sans'>
       <Navbar />
       <main className='container mx-auto px-4 sm:px-8 lg:px-16 py-8'>
         <h1 className='text-3xl font-bold mb-8'>Bitcoin Indicators</h1>
         {data.map(({ category, indicators }) => (
-          <div key={category.id}>
+          <div key={category.id} className='mb-8'>
             <h2 className='text-2xl font-bold mb-4'>{category.name}</h2>
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
               {indicators.map((indicator) => (
