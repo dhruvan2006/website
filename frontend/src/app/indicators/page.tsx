@@ -21,7 +21,7 @@ interface CategoryWithIndicators {
 }
 
 async function getCategoriesWithIndicators(): Promise<CategoryWithIndicators[]> {
-  const res = await fetch('https://api.liquidity.gnanadhandayuthapani.com/api/indicators/categories_with_indicators', { cache: 'no-store' });
+  const res = await fetch('https://api.gnanadhandayuthapani.com/api/indicators/categories_with_indicators', { cache: 'no-store' });
   if (!res.ok) {
     throw new Error('Failed to fetch categories and indicators');
   }
