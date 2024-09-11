@@ -173,7 +173,7 @@ export default function Navbar() {
             >
               <div className='focus:outline-none hover:text-[#7f7f7f] transition duration-100 flex items-center cursor-pointer'>
                 {/* TODO: Add this page.tsx */}
-                <Link href="#">Research Notebooks</Link>
+                <Link href="#">Research</Link>
 
                 <svg
                   className={`ml-1 mt-0.5 h-4 w-4 transition-transform duration-200 ${isNotebookDropdownOpen ? 'rotate-180' : ''}`}
