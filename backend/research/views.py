@@ -51,7 +51,10 @@ def github_webhook(request):
 
     # Run the render_notebooks command
     try:
-        call_command('render_notebooks')
+        venv_python = os.path.join(settings.BASE_DIR, '.venv', 'bin', 'python')
+        manage_py = os.path.join(settings.BASE_DIR, 'manage.py')
+        command = [venv_python, manage_py, 'render_notebooks']
+        result = subprocess.run(command, capture_output=True, text=True, check=True)
         return JsonResponse({'message': 'Notebooks rendered successfully'}, status=200)
     except Exception as e:
         return JsonResponse({'error': f'Error rendering notebooks: {str(e)}'}, status=500)
