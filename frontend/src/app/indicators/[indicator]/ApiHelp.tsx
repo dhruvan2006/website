@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 interface ApiHelpProps {
@@ -15,12 +16,16 @@ const ApiHelp: React.FC<ApiHelpProps> = ({ indicator }) => {
         <li>
           <strong>Get all {indicator.toUpperCase()} data:</strong>
           <br />
-          <code className='break-all bg-gray-200'>{`${baseUrl}/indicator/?name=${indicator}`}</code>
+          <Link href={`${baseUrl}/indicator/${indicator}/values`} target='_blank'>
+            <code className='text-blue hover:text-indigo-500 hover:underline break-all bg-gray-200'>{`${baseUrl}/indicator/${indicator}/values`}</code>
+          </Link>
         </li>
         <li>
           <strong>Get Bitcoin price data:</strong>
           <br />
-          <code className='break-all bg-gray-200'>{`${baseUrl}/price/`}</code>
+          <Link href={`${baseUrl}/price`} target='_blank'>
+            <code className='text-blue hover:text-indigo-500 hover:underline break-all bg-gray-200'>{`${baseUrl}/price`}</code>
+          </Link>
         </li>
       </ul>
     </div>
