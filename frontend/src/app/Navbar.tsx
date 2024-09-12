@@ -27,8 +27,8 @@ interface DataSource {
 }
 
 interface Notebook {
+  path: string;
   name: string;
-  url_name: string;
 }
 
 export default function Navbar() {
@@ -108,7 +108,26 @@ export default function Navbar() {
   }, []);
 
   // Notebooks data
-  const notebooks: Notebook[] = [{name: 'Thermocap Multiple', url_name: 'thermocap-multiple'}, {name: 'Bitcoin Decay Channel', url_name: 'bitcoin-decay-channel'}]
+  const [notebooks, setNotebooks] = useState<{ notebooks: Notebook[] }>({ notebooks: [] });
+  const [notebooksIsLoading, setNotebooksIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchNotebooks = async () => {
+      try {
+        const response = await fetch('/api/research/notebooks');
+        const data = await response.json();
+        setNotebooks(data);
+      } catch (error) {
+        console.error('Error fetching notebooks:', error);
+      } finally {
+        setNotebooksIsLoading(false);
+      }
+    }
+
+    fetchNotebooks();
+  }, []);
+
+  console.log(notebooks);
 
   return (
     <header className='bg-[#fff]/75 backdrop-blur-md text-[#191919] flex flex-col font-sans fixed top-0 left-0 right-0 z-50 border-b border-zinc-300'>
@@ -261,15 +280,15 @@ export default function Navbar() {
             onMouseLeave={handleNotebookMouseLeave}
           >
             <div className='container flex mx-auto p-4'>
-              {dataSourcesIsLoading ? (
+              {notebooksIsLoading ? (
                 <div className="text-center w-full">Loading...</div>
               ) : (
                 <div className='flex-1 px-4'>
                   <h2 className='text-sm text-[#7f7f7f] mb-3'>Research Notebooks</h2>
                   <ul className='mt-2 space-y-2'>
-                  {notebooks.map((notebook, idx) => (
+                  {notebooks.notebooks.map((notebook, idx) => (
                       <li key={idx}>
-                      <Link href={`/notebooks/${notebook.url_name}`} className='hover:text-[#7f7f7f] transition duration-100'>
+                      <Link href={`/notebooks/${notebook.path}`} className='hover:text-[#7f7f7f] transition duration-100'>
                           {notebook.name}
                       </Link>
                       </li>
