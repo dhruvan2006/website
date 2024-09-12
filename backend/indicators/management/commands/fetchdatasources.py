@@ -1,10 +1,15 @@
 from django.core.management.base import BaseCommand
-from indicators.models import DataSource, DataSourceValue
+
+import json
+import requests
+import pandas as pd
+from datetime import datetime, timedelta
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-import json
-import pandas as pd
+
+from indicators.models import DataSource, DataSourceValue
 
 
 class Command(BaseCommand):
@@ -12,6 +17,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         fetch_block_count()
+        fetch_mvrv()
         self.stdout.write(self.style.SUCCESS('Successfully fetched data for data sources'))
 
 def fetch_block_count():
@@ -55,3 +61,45 @@ def fetch_block_count():
             )
     finally:
         driver.quit()
+
+def fetch_mvrv():
+    """Fech data from Blockchain API https://api.blockchain.info/charts/mvrv"""
+    # Get data for the last 4 years
+    response_4y = requests.get("https://api.blockchain.info/charts/mvrv?timespan=4y&sampled=true&metadata=false&daysAverageString=1d&cors=true&format=json")
+    json_4y = response_4y.json()
+    data_4y = json_4y['values']
+
+    # Get data for all time
+    response_all = requests.get("https://api.blockchain.info/charts/mvrv?timespan=all&sampled=true&metadata=false&daysAverageString=1d&cors=true&format=json")
+    json_all = response_all.json()
+    data_all = json_all['values']
+
+    # Combine 
+    four_years_ago = datetime.now() - timedelta(days=4*365)
+    df_4y = pd.DataFrame(data_4y)
+    df_all = pd.DataFrame(data_all)
+
+    df_4y.columns = ['Date', 'MVRV']
+    df_all.columns = ['Date', 'MVRV']
+
+    df_4y['Date'] = pd.to_datetime(pd.to_datetime(df_4y['Date'], unit='s').dt.date)
+    df_all['Date'] = pd.to_datetime(pd.to_datetime(df_all['Date'], unit='s').dt.date)
+
+    df_recent = df_4y[df_4y['Date'] >= four_years_ago]
+
+    df_earlier = df_all[df_all['Date'] < four_years_ago]
+
+    # Combine dfs
+    df = pd.concat([df_earlier, df_recent])
+
+    mvrv_source, _ = DataSource.objects.get_or_create(
+        url='MVRV',
+        defaults={'name': 'MVRV', 'description': 'Ratio of Market Value to Realized Value'}
+    )
+
+    for _, row in df.iterrows():
+        DataSourceValue.objects.update_or_create(
+            data_source=mvrv_source,
+            date=row['Date'],
+            defaults={'value': row['MVRV']}
+        )

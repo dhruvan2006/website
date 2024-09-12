@@ -48,6 +48,7 @@ def fetch_indicators():
     calculate_vpli()
     calculate_thermocap()
     calculate_decayosc()
+    calculate_adjusted_mvrv()
 
 def calculate_plrr():
     """
@@ -301,4 +302,64 @@ def calculate_decayosc():
                 indicator=indicator,
                 date=date,
                 defaults={'value': row['Oscillator']}
+            )
+
+def calculate_adjusted_mvrv():
+    """
+    Calculate my Adjusted MVRV, which is an oscillator of raw MVRV between two linear regressions
+    """
+    prices = BitcoinPrice.objects.all().order_by('date')
+    df = pd.DataFrame(list(prices.values()))
+    df['date'] = pd.to_datetime(df['date'])
+    df.set_index('date', inplace=True)
+    df.sort_index(inplace=True)
+
+    mvrv_source = DataSource.objects.get(url='MVRV')
+    mvrv_data = DataSourceValue.objects.filter(data_source=mvrv_source).order_by('date')
+
+    mvrv_df = pd.DataFrame(list(mvrv_data.values()))
+    mvrv_df['date'] = pd.to_datetime(mvrv_df['date'])
+    mvrv_df.set_index('date', inplace=True)
+    mvrv_df.sort_index(inplace=True)
+
+    df = df.join(mvrv_df['value'], how='inner')
+    df.rename(columns={'value': 'MVRV'}, inplace=True)
+
+    # Calculate linear regressions
+    t0 = df.index.min()
+    X = (df.index - t0).days.values.reshape(-1, 1)
+    y = df['MVRV'].values
+
+    X_with_const = add_constant(X)
+
+    top = QuantReg(y, X_with_const)
+    res_top = top.fit(q=0.999)
+
+    bottom = QuantReg(y, X_with_const)
+    res_bottom = bottom.fit(q=0.005)
+
+    df['MVRV_Top'] = res_top.predict(X_with_const)
+    df['MVRV_Bottom'] = res_bottom.predict(X_with_const)
+
+    df['Adjusted_MVRV'] = (df['MVRV'] - df['MVRV_Bottom']) / (df['MVRV_Top'] - df['MVRV_Bottom'])
+    df['Adjusted_MVRV'] = np.log(df['Adjusted_MVRV'] + 0.15)
+
+    # Save to database
+    category, _ = Category.objects.get_or_create(name='On-Chain')
+
+    indicator, _ = Indicator.objects.get_or_create(
+        url_name='ADJUSTED_MVRV',
+        defaults={
+            'human_name': 'Adjusted MVRV',
+            'description': """The Adjusted MVRV is an oscillator of raw MVRV between two quantile linear regressions, one for the top and one for the bottom.""",
+            'category': category
+        }
+    )
+
+    for date, row in df.iterrows():
+        if pd.notna(row['Adjusted_MVRV']):
+            IndicatorValue.objects.update_or_create(
+                indicator=indicator,
+                date=date,
+                defaults={'value': row['Adjusted_MVRV']}
             )
