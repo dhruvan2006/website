@@ -1,7 +1,7 @@
 import os
 import hmac
 import hashlib
-import json
+import subprocess
 from django.http import HttpResponse, Http404, JsonResponse
 from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
@@ -51,14 +51,7 @@ def github_webhook(request):
 
     # Run the render_notebooks command
     try:
-        venv_python = os.path.join(BASE_DIR, '.venv', 'bin', 'python')
-        command = f"{venv_python} {os.path.join(BASE_DIR, 'manage.py')} render_notebooks"
-        
-        result = os.system(command)
-
-        if result == 0:
-            return JsonResponse({'message': 'Notebooks rendered successfully'}, status=200)
-        else:
-            return JsonResponse({'error': 'Error rendering notebooks'}, status=500)
+        call_command('render_notebooks')
+        return JsonResponse({'message': 'Notebooks rendered successfully'}, status=200)
     except Exception as e:
         return JsonResponse({'error': f'Error rendering notebooks: {str(e)}'}, status=500)
