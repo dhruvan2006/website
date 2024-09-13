@@ -5,7 +5,6 @@ import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
 import axios from 'axios';
 import DataPlot from './DataPlot';
-import Navbar from '../Navbar';
 import DatePicker from '../DatePicker';
 
 export type SimpleDataPoint = {
@@ -52,7 +51,7 @@ export default function Liquidity() {
   const fetchData = async () => {
     try {
       const responses = await Promise.all(Object.keys(tickers).map(ticker => 
-        axios.get(`/api/liquidity/series/?ticker=${ticker}&start_date=${startDate}&end_date=${endDate}`)
+        axios.get(`/api/liquidity/series?ticker=${ticker}&start_date=${startDate}&end_date=${endDate}`)
       ));
       const newSeriesData = responses.reduce<SeriesData>((acc, response, index) => {
         acc[Object.keys(tickers)[index]] = response.data.map((item: any) => ({
@@ -94,7 +93,6 @@ export default function Liquidity() {
 
   return (
     <div className='min-h-screen flex flex-col font-sans bg-[#fff] text-[#191919]'>
-      <Navbar />
 
       {/* Liquidity Overview */}
       <main>
@@ -106,7 +104,7 @@ export default function Liquidity() {
               <div className='flex flex-col sm:flex-row gap-4 mb-4 sm:mb-0'>
                 <DatePicker 
                   label="Start Date" 
-                  value={startDate} 
+                  value={startDate}
                   onChange={setStartDate} 
                 />
                 <DatePicker 
