@@ -80,6 +80,7 @@ export default function Liquidity() {
 
   useEffect(() => {
     fetchData();
+    fetchLastUpdated();
   }, []);
 
   const getColorClass = (value: number | null) => {
