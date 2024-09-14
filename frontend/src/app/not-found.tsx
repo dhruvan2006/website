@@ -2,6 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 
+export const metadata = {
+  title: "404 Not found | Dhruvan",
+  description: "The page you are looking for does not exist."
+}
+
 export default async function NotFound() {
   return (
     <div className="h-[88vh] bg-[#fff] text-[#191919] font-sans">
