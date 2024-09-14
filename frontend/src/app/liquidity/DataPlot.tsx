@@ -1,8 +1,8 @@
 'use client';
 
 import React from 'react';
-import { SimpleDataPoint } from './page';
 import dynamic from 'next/dynamic'
+import { SeriesData } from './page';
 
 function DataPlotSkeleton() {
   return (
@@ -17,7 +17,7 @@ const Plot = dynamic(() => import('react-plotly.js'), { ssr: false, loading: () 
 type DataPlotProps = {
   ticker: string;
   color: string;
-  data: SimpleDataPoint[];
+  data: SeriesData[];
 }
 
 function DataPlot({ ticker, color, data }: DataPlotProps): React.ReactElement {
@@ -39,7 +39,7 @@ function DataPlot({ ticker, color, data }: DataPlotProps): React.ReactElement {
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
     font: { color: '#191919', family: 'monospace', size: 14 },
-    margin: { t: 50, b: 50, l: 75, r: 50 },
+    margin: { t: 50, b: 70, l: 65, r: 50 },
     xaxis: {
       showgrid: false,
       linecolor: '#191919',
@@ -72,7 +72,7 @@ function DataPlot({ ticker, color, data }: DataPlotProps): React.ReactElement {
     <div className={ticker === 'LIQUIDITY' ? `w-full h-[80vh]` : `w-full h-[60vh]`}>
       <div className='h-full'>
         <Plot 
-          className='w-full h-full pb-3 pt-1' 
+          className='w-full h-full' 
           data={[trace]} 
           layout={layout} 
           config={config} 
