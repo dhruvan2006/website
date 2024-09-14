@@ -113,23 +113,85 @@ export default function LiquidityClient({
           </div>
         </div>
 
-        {/* How it works */}
-        <div className='w-full bg-gray-100 py-4 mb-4 border-y border-zinc-300'>
-          <div className='container mx-auto px-4 sm:px-8 lg:px-16 text-center'>
-            <h2 className='text-xl font-semibold mb-2'>How it works</h2>
-            <p className='text-sm mb-2'>
-              <InlineMath math="WALCL - TGA - RRPONTSYD + H41RESPPALDKNWW + WLCFLPCL" />
-            </p>
+        {/* Understanding FED Liquidity */}
+        <div className='w-full bg-gray-100 py-8 mb-4 border-y border-zinc-300'>
+          <div className='container mx-auto px-4 sm:px-8 lg:px-16'>
+            <h2 className='text-3xl font-bold mb-6 text-center'>Understanding FED Liquidity</h2>
+            
+            <p className='text-center mb-8'>FED Liquidity is a measure of the money supply in the U.S. financial system. It's influenced by several key components, each affecting the overall liquidity in different ways.</p>
+            
+            <div className='mb-8'>
+              <h3 className='text-xl font-semibold mb-4'>Components of FED Liquidity</h3>
+              <div className='flex flex-wrap gap-3 mb-4'>
+                {['Balance Sheet', 'Treasury General Account', 'Reverse Repo Program', 'Bank Term Funding Program', 'Credit Facility'].map((component) => (
+                  <span key={component} className='bg-[#fff] px-4 py-2 rounded-full text-sm font-semibold shadow-sm hover:shadow-md transition duration-300'>{component}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8'>
+              {[
+                { 
+                  title: 'Balance Sheet (WALCL)', 
+                  effect: 'Increase', 
+                  impact: 'Liquidity Injection',
+                  description: 'Represents what the Fed owns. Growth injects money into the economy.'
+                },
+                { 
+                  title: 'Treasury General Account (TGA)', 
+                  effect: 'Increase', 
+                  impact: 'Liquidity Drain',
+                  description: 'The government\'s checking account. Spending from here releases money into markets.'
+                },
+                { 
+                  title: 'Reverse Repo Program (RRPONTSYD)', 
+                  effect: 'Increase', 
+                  impact: 'Liquidity Drain',
+                  description: 'Tool to control short-term interest rates. Higher usage means more money sucked out of the system.'
+                },
+                { 
+                  title: 'Bank Term Funding Program (H41RESPPALDKNWW)', 
+                  effect: 'Increase', 
+                  impact: 'Liquidity Injection',
+                  description: 'Loan program for banks. More loans mean more liquidity in the banking system.'
+                },
+                { 
+                  title: 'Credit Facility (WLCFLPCL)', 
+                  effect: 'Increase', 
+                  impact: 'Liquidity Injection',
+                  description: 'Lending program supporting banking stability. More lending increases liquidity.'
+                },
+              ].map((item) => (
+                <div key={item.title} className='bg-[#fff] p-4 rounded-lg shadow-sm hover:shadow-md transition duration-300'>
+                  <h4 className='font-semibold mb-2'>{item.title}</h4>
+                  <p className='text-sm mb-2'>
+                    Effect: <span className={`font-semibold ${item.effect === 'Increase' ? 'text-green-600' : 'text-red-600'}`}>{item.effect}</span>
+                  </p>
+                  <p className='text-sm mb-2'>
+                    Impact: <span className='font-semibold text-blue-600'>{item.impact}</span>
+                  </p>
+                  <p className='text-xs text-gray-600'>{item.description}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className='bg-[#fff] p-6 rounded-lg shadow-sm hover:shadow-md transition duration-300'>
+              <h3 className='text-xl font-semibold mb-4 text-center'>FED Liquidity Formula</h3>
+              <p className='text-lg mb-4 text-center'>
+                <InlineMath math="WALCL - TGA - RRPONTSYD + H41RESPPALDKNWW + WLCFLPCL" />
+              </p>
+              <p className='text-sm text-center text-gray-600'>This formula combines the effects of all components to calculate overall FED Liquidity.</p>
+            </div>
           </div>
         </div>
 
         {/* Constituent Plots */}
         <div className='mb-6 container mx-auto px-4 sm:px-8 lg:px-16'>
-          <h2 className='text-2xl font-semibold text-center mb-4'>Component Plots</h2>
+          <h2 className='text-2xl font-semibold text-center mb-4'>Components of Liquidity</h2>
           <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
             {Object.entries(tickers).slice(1).map(([ticker, color]) => {
               return (
-                <div key={ticker} className={`border border-zinc-300 bg-gray-100 hover:shadow-sm transition duration-200`}>
+                <div key={ticker} className={`border border-zinc-300 bg-gray-100 shadow-sm hover:shadow-md transition duration-300`}>
                   <DataPlot ticker={ticker} color={color} data={combinedSeriesData[ticker] || []} />
                 </div>
               );
