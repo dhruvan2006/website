@@ -53,7 +53,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks }: Nav
           <Link href="/">
             <div className='flex items-center'>
               <Image src="/logo.svg" alt="Logo" width={32} height={32} />
-              <span className='text-xl font-bold ml-2'>Dhruvan</span>
+              <span className='text-xl font-bold ml-2'>Dhruvan.</span>
             </div>
           </Link>
 
