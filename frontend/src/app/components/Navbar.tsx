@@ -1,3 +1,4 @@
+import { auth } from '@/auth';
 import NavbarClient from './NavbarClient';
 
 interface Indicator {
@@ -60,5 +61,7 @@ export default async function Navbar() {
     getNotebooks()
   ]);
 
-  return <NavbarClient indicators={indicators} dataSources={dataSources} notebooks={notebooks} />
+  const session = await auth();
+
+  return <NavbarClient indicators={indicators} dataSources={dataSources} notebooks={notebooks} session={session} />
 }

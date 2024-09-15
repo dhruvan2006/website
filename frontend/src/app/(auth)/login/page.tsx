@@ -1,6 +1,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { auth, signIn } from '@/auth';
+import { redirect } from 'next/navigation';
 
 export const metadata = {
   title: "Login | Dhruvan",
@@ -27,6 +29,12 @@ export default async function LogInPage({
 }: {
   searchParams: { registered?: string }
 }) {
+  const session = await auth();
+
+  if (session?.user) {
+    return redirect('/success');
+  }
+  
   const registered = searchParams.registered === 'true';
 
   return (
@@ -38,19 +46,22 @@ export default async function LogInPage({
       </div>
 
       <div className="hidden lg:block w-1/3 min-h-screen bg-[#191919] items-center py-6 px-8">
-        <div className="flex items-center">
+        <Link href="/" className="flex items-center">
           <Image className='invert' src="logo.svg" alt="Logo" width={35} height={35} />
           <h1 className='text-[#fff] text-3xl font-bold ml-2'>Dhruvan</h1>
-        </div>
+        </Link>
       </div>
 
       <div className="w-full lg:w-2/3 flex flex-col items-center justify-center bg-[#fff] text-[#191919] font-sans">
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md space-y-4">
           <h1 className="text-3xl font-bold mb-6 text-center">Log in</h1>
 
           {registered && <Success />}
           
-          <form className="space-y-6">
+          {/* <form className="space-y-6" action={async () => {
+            "use server"
+            await signIn('credentials', { callbackUrl: '/indicators' })
+          }}>
             <div className='space-y-4'>              
               <div>
                 <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
@@ -80,6 +91,45 @@ export default async function LogInPage({
               className="w-full bg-[#222222] hover:bg-[#000] text-white py-2 px-4 rounded-md transition duration-300"
             >
               Log In
+            </button>
+          </form> */}
+
+          <form action={async () => {
+            "use server"
+            await signIn('google', { callbackUrl: '/success' })
+          }}>
+            <button
+              type="submit"
+              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#fff] hover:bg-white text-[#191919] border border-[#191919] py-3 px-4 rounded-md transition duration-300"
+            >
+              <Image src="google-logo.svg" alt="Google Logo" width={24} height={0} />
+              <span>Continue with Google</span>
+            </button>
+          </form>
+
+          <form action={async () => {
+            "use server"
+            await signIn('github', { redirectTo: '/success' })
+          }}>
+            <button
+              type="submit"
+              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#222222] hover:bg-[#000] text-white py-3 px-4 rounded-md transition duration-300"
+            >
+              <Image src="github-mark-white.svg" alt="GitHub Logo" width={24} height={0} />
+              <span>Continue with GitHub</span>
+            </button>
+          </form>
+
+          <form action={async () => {
+            "use server"
+            await signIn('spotify', { redirectTo: '/success' })
+          }}>
+            <button
+              type="submit"
+              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#1cd661] hover:bg-[#1ab956] text-white py-3 px-4 rounded-md transition duration-300"
+            >
+              <Image src="/spotify-logo-white.png" alt="Spotify Logo" width={24} height={0} />
+              <span>Continue with Spotify</span>
             </button>
           </form>
           

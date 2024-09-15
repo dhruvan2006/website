@@ -1,34 +1,35 @@
 import NextAuth from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
+import Google from "next-auth/providers/google";
+import GitHub from "next-auth/providers/github";
+import Spotify from "next-auth/providers/spotify";
 
-export const {
-    handlers: { GET, POST },
-    auth,
-    signIn,
-    signOut,
-} = NextAuth({
-    providers: [
-        CredentialsProvider({
-            name: 'Credentials',
-            credentials: {
-                name: { label: "Name", type: "text", placeholder: "John Smith" },
-                email: { label: "Email", type: "email", placeholder: "johnsmith@gmail.com" },
-                password: { label: "Password", type: "password" },
-            },
-            async authorize(credentials, req) {
-                const res = await fetch(`${process.env.API_BASE_URL}/api/token`, {
-                    method: 'POST',
-                    body: JSON.stringify(credentials),
-                    headers: { "Content-Type": "application/json" },
-                });
-                const user = await res.json();
+export const { auth, handlers, signIn, signOut } = NextAuth({
+  providers: [
+    Google, 
+    GitHub,
+    Spotify,
+  ],
+  callbacks: {
+    authorized({ request, auth }) {
+      const { pathname } = request.nextUrl
+      if (pathname === "/middleware-example") return !!auth
+      return true
+    },
 
-                if (res.ok && user) {
-                    return user;
-                }
+    jwt({ token, trigger, session, account }) {
+      if (trigger === "update") token.name = session.user.name
+      if (account?.provider === "keycloak") {
+        return { ...token, accessToken: account.access_token }
+      }
+      return token
+    },
 
-                return null;
-            }
-        })
-    ]
-});
+    async session({ session, token }) {
+      if (token?.accessToken) {
+        session.accessToken = token.accessToken as string;
+      }
+      return session
+    },
+  },
+  debug: process.env.NODE_ENV !== "production" ? true : false,
+})
