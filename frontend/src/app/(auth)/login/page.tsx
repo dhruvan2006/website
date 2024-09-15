@@ -7,7 +7,28 @@ export const metadata = {
   description: "Log in to your account to access your API key."
 };
 
-export default async function LogInPage() {
+function Success() {
+  return (
+    <div className="mb-6 px-4 py-2 flex items-center justify-between bg-[#e6f4ea] text-[#1e8e3e] border border-[#34a853] rounded-md">
+      <span>Registration successful! You can now log in.</span>
+      <Link
+        href="/login"
+        className="text-[#1e8e3e] hover:bg-[#d4edda] hover:text-[#155724] px-1 rounded-md transition-colors duration-300"
+        aria-label="Close"
+      >
+        &#x2715;
+      </Link>
+    </div> 
+  );
+}
+
+export default async function LogInPage({
+  searchParams,
+}: {
+  searchParams: { registered?: string }
+}) {
+  const registered = searchParams.registered === 'true';
+
   return (
     <div className='flex w-full min-h-screen px-4 lg:px-0 relative'>
       <div className="absolute top-6 right-8 hover:bg-gray-100 rounded-md py-2 px-4 transition-all duration-300">
@@ -26,6 +47,8 @@ export default async function LogInPage() {
       <div className="w-full lg:w-2/3 flex flex-col items-center justify-center bg-[#fff] text-[#191919] font-sans">
         <div className="w-full max-w-md">
           <h1 className="text-3xl font-bold mb-6 text-center">Log in</h1>
+
+          {registered && <Success />}
           
           <form className="space-y-6">
             <div className='space-y-4'>              

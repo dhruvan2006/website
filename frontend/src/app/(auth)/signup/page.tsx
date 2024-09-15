@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { redirect } from 'next/navigation';
 
 export const metadata = {
   title: "Sign Up | Dhruvan",
@@ -15,6 +16,18 @@ async function registerUser(formData: FormData) {
   const password = formData.get('password');
 
   const response = await fetch(`${process.env.API_BASE_URL}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password }),
+  });
+
+  if (response.ok) {
+    redirect('/login?registered=true');
+  } else {
+    const data = await response.json();
+    throw new Error(data.detail || 'An error occurred during registration.');
+  }
+}
 
 export default async function SignUpPage() {
   return (
@@ -36,7 +49,7 @@ export default async function SignUpPage() {
         <div className="w-full max-w-md">
           <h1 className="text-3xl font-bold mb-6 text-center">Create an account</h1>
           
-          <form className="space-y-6">
+          <form action={registerUser} className="space-y-6">
             <div className='space-y-4'>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium mb-1">Name</label>
