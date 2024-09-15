@@ -7,6 +7,15 @@ export const metadata = {
   description: "Create an account to access your API key."
 };
 
+async function registerUser(formData: FormData) {
+  'use server'
+
+  const name = formData.get('name');
+  const email = formData.get('email');
+  const password = formData.get('password');
+
+  const response = await fetch(`${process.env.API_BASE_URL}/auth/register`, {
+
 export default async function SignUpPage() {
   return (
     <div className='flex w-full min-h-screen px-4 lg:px-0 relative'>
