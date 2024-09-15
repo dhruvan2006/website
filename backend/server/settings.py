@@ -43,28 +43,19 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
+    'authentication.apps.AuthenticationConfig',
+    'liquidity.apps.LiquidityConfig',
+    'indicators.apps.IndicatorsConfig',
+    'research.apps.ResearchConfig',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # third party
-    'corsheaders',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'django.contrib.sites',
-
-    # authentication
-    dj_rest_auth
-    'rest_framework_simplejwt',
-
-    # local
-    'authentication.apps.AuthenticationConfig',
-    'liquidity.apps.LiquidityConfig',
-    'indicators.apps.IndicatorsConfig',
-    'research.apps.ResearchConfig',
 ]
 
 REST_FRAMEWORK = {
