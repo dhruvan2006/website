@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import Navbar from '../../Navbar';
 import InteractiveChart from './InteractiveChart';
 import ApiHelp from './ApiHelp';
 import IndicatorDescription from './IndicatorDescription';
@@ -30,8 +29,6 @@ export default async function IndicatorPage({ params }: { params: { indicator: s
 
   return (
     <div className='bg-[#fff] text-[#191919] font-sans min-h-screen'>
-      <Navbar />
-
       <main className='container mx-auto px-4 sm:px-8 lg:px-16 py-2'>
         <div className='mb-6'>
           <InteractiveChart indicator={indicator} initialIndicatorData={indicatorValues} initialBitcoinData={bitcoinPriceData} />

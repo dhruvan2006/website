@@ -2,7 +2,7 @@
 
 import React, { useMemo, useState } from 'react';
 import dynamic from 'next/dynamic'
-import DatePicker from '../../DatePicker';
+import DatePicker from '../../../components/DatePicker';
 
 function ChartSkeleton() {
   return (

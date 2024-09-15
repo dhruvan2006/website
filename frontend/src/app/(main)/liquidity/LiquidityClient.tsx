@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import 'katex/dist/katex.min.css';
 import { InlineMath } from 'react-katex';
 import DataPlot from './DataPlot';
-import DatePicker from '../DatePicker';
+import DatePicker from '../../components/DatePicker';
 import { CombinedSeriesData, SeriesData } from './page';
 import { useRouter } from 'next/navigation';
 

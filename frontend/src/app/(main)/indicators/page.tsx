@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Navbar from '../Navbar';
 
 interface Category {
   id: number;
@@ -33,7 +32,6 @@ export default async function IndicatorPage() {
 
   return (
     <div className='bg-[#fff] text-[#191919] font-sans'>
-      <Navbar />
       <main className='container mx-auto px-4 sm:px-8 lg:px-16 py-8'>
         <h1 className='text-3xl font-bold mb-8'>Bitcoin Indicators</h1>
         {data.map(({ category, indicators }) => (

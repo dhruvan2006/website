@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Providers } from './Providers';
-import Navbar from './Navbar';
 import "./globals.css";
 import "./fonts.css";
 
@@ -19,9 +18,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className + " mt-[4.5rem]"}>
+      <body className={inter.className}>
         <Providers>
-          <Navbar />
           {children}
         </Providers>
       </body>

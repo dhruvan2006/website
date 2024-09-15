@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-import Navbar from '../../Navbar';
 import Chart from './Chart';
 
 async function getDataSource(datasource: string) {
@@ -19,8 +18,6 @@ export default async function DataSourcePage({ params }: { params: { datasource:
 
   return (
     <div className='bg-[#fff] text-[#191919] font-sans min-h-screen'>
-      <Navbar />
-
       <main className='container mx-auto px-4 sm:px-8 lg:px-16 py-2'>
         <div className='mb-6'>
           <Chart datasource={datasource} datasourceValues={datasourceValues} />
