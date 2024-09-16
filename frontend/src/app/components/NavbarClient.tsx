@@ -67,7 +67,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
   };
 
   const regenerateApiKey = async () => {
-    const response = await fetch(`http://localhost:8000/api/indicators/regenerate_api_key`, {
+    const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/regenerate_api_key`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${session.accessToken}` },
     });
