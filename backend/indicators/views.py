@@ -2,6 +2,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+
 from .models import BitcoinPrice, IndicatorValue, Indicator, Category, DataSource, DataSourceValue
 from .serializers import BitcoinPriceSerializer, IndicatorValueSerializer, IndicatorSerializer, CategorySerializer, DataSourceSerializer, DataSourceValueSerializer
 
@@ -71,3 +74,9 @@ def get_datasource_values(request, datasource_name):
         return Response(serializer.data)
     except DataSource.DoesNotExist:
         return Response({"error": "Not found."}, status=404)
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def secret(request):
+    user = request.user
+    return Response({"message": f"Hello, {user.username}! This is a secret endpoint."})

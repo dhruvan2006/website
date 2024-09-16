@@ -147,16 +147,16 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             {/* Login Button */}
             {session?.user ? (
               <div className='relative group py-5'>
-                {session.user.image ? (
-                  <Image src={session.user.image} alt="Profile" width={32} height={32} className='rounded-full cursor-pointer' />
+                {session.picture ? (
+                  <Image src={session.picture} alt="Profile" width={32} height={32} className='rounded-full cursor-pointer' />
                 ) : (
                   <div className="flex items-center justify-center text-[#fff] w-8 h-8 bg-black rounded-full cursor-pointer">
-                    <span>{session.user.name ? session.user.name.charAt(0).toUpperCase() : "?"}</span>
+                    <span>{session.name ? session.name.charAt(0).toUpperCase() : "?"}</span>
                   </div>
                 )}
                 <div className='absolute hidden group-hover:block right-0 mt-2 w-60 bg-white rounded-md shadow-lg py-1 z-10'>
-                  <p className='px-4 pt-2 pb-1 text-sm'>Hi, {session.user.name}</p>
-                  <p className='px-4 pt-1 pb-2 text-sm'>{session.user.email}</p>
+                  <p className='px-4 pt-2 pb-1 text-sm'>Hi, {session.name}</p>
+                  <p className='px-4 pt-1 pb-2 text-sm'>{session.email}</p>
                   <hr className='my-1 border-gray-100' />
                   <button onClick={() => signOut({ callbackUrl: '/' })} className='block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
                     Sign out

@@ -39,11 +39,11 @@ export default async function LogInPage({
 
   return (
     <div className='flex w-full min-h-screen px-4 lg:px-0 relative'>
-      <div className="absolute top-6 right-8 hover:bg-gray-100 rounded-md py-2 px-4 transition-all duration-300">
+      {/* <div className="absolute top-6 right-8 hover:bg-gray-100 rounded-md py-2 px-4 transition-all duration-300">
         <Link href="/signup">
           Sign up
         </Link>
-      </div>
+      </div> */}
 
       <div className="hidden lg:block w-1/3 min-h-screen bg-[#191919] items-center py-6 px-8">
         <Link href="/" className="flex items-center">
@@ -94,7 +94,7 @@ export default async function LogInPage({
             </button>
           </form> */}
 
-          <form action={async () => {
+          {/* <form action={async () => {
             "use server"
             await signIn('google', { callbackUrl: '/success' })
           }}>
@@ -105,7 +105,7 @@ export default async function LogInPage({
               <Image src="google-logo.svg" alt="Google Logo" width={24} height={0} />
               <span>Continue with Google</span>
             </button>
-          </form>
+          </form> */}
 
           <form action={async () => {
             "use server"
@@ -120,7 +120,7 @@ export default async function LogInPage({
             </button>
           </form>
 
-          <form action={async () => {
+          {/* <form action={async () => {
             "use server"
             await signIn('spotify', { redirectTo: '/success' })
           }}>
@@ -131,14 +131,33 @@ export default async function LogInPage({
               <Image src="/spotify-logo-white.png" alt="Spotify Logo" width={24} height={0} />
               <span>Continue with Spotify</span>
             </button>
+          </form> */}
+
+          <div className="flex items-center my-4">
+            <hr className="flex-grow border-t border-gray-300" />
+            <span className="px-3 text-gray-500 text-sm">or</span>
+            <hr className="flex-grow border-t border-gray-300" />
+          </div>
+
+          <form action={async () => {
+            "use server"
+            await signIn('gitlab', { redirectTo: '/success' })
+          }}>
+            <button
+              type="submit"
+              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#fc6d26] hover:bg-[#db5f21] text-[#fff] py-3 px-4 rounded-md transition duration-300"
+            >
+              <Image src="/gitlab-logo.png" alt="GitLab Logo" width={24} height={0} />
+              <span>Continue with GitLab</span>
+            </button>
           </form>
           
-          <p className="mt-4 text-center text-sm">
+          {/* <p className="mt-4 text-center text-sm">
             Don't have an account?{' '}
             <Link href="/signup" className="text-blue hover:underline">
               Sign up
             </Link>
-          </p>
+          </p> */}
         </div>
       </div>
     </div>

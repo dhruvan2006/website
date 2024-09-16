@@ -1,24 +1,38 @@
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.response import Response
-from rest_framework import generics
-from rest_framework.permissions import AllowAny
+from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
+from allauth.socialaccount.providers.gitlab.views import GitLabOAuth2Adapter
+from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 
-from .serializers import MyTokenObtainPairSerializer, RegisterSerializer, UserSerializer
-from .models import User
+from dj_rest_auth.registration.views import SocialLoginView
+from dj_rest_auth.views import UserDetailsView as DefaultUserDetailsView
+from rest_framework import serializers
+from django.contrib.auth.models import User
 
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
+class UserDetailsSerializer(serializers.ModelSerializer):
+    profile_photo = serializers.SerializerMethodField()
 
-class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    permission_classes = (AllowAny,)
-    serializer_class = RegisterSerializer
+    class Meta:
+        model = User
+        fields = ('pk', 'username', 'email', 'first_name', 'last_name', 'profile_photo')
+        read_only_fields = ('email',)
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def get_user_data(request):
-    user = request.user
-    serializer = UserSerializer(user, many=False)
-    return Response(serializer.data)
+    def get_profile_photo(self, obj):
+        return obj.profile.profile_photo if hasattr(obj, 'profile') else None
+
+class UserDetailsView(DefaultUserDetailsView):
+    serializer_class = UserDetailsSerializer
+
+class GoogleLogin(SocialLoginView):
+    adapter_class = GoogleOAuth2Adapter
+    callback_url = "http://127.0.0.1:8000/accounts/google/login/callback/"
+    client_class = OAuth2Client
+
+class GitHubLogin(SocialLoginView):
+    adapter_class = GitHubOAuth2Adapter
+    callback_url = "http://127.0.0.1:8000/accounts/github/login/callback/"
+    client_class = OAuth2Client
+
+class GitLabLogin(SocialLoginView):
+    adapter_class = GitLabOAuth2Adapter
+    callback_url = "http://127.0.0.1:8000/accounts/gitlab/login/callback/"
+    client_class = OAuth2Client

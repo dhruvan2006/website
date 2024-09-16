@@ -11,6 +11,7 @@ router.register(r'value', views.IndicatorValueViewSet)
 router.register(r'datasource', views.DataSourceViewSet)
 
 urlpatterns = [
+    path('secret', views.secret),
     path('indicator/<str:indicator_name>', views.get_indicator_by_name),
     path('indicator/<str:indicator_name>/values', views.get_indicator_values),
     path('datasource/<str:datasource_name>', views.get_datasource_by_name),
