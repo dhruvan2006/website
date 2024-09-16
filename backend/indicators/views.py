@@ -4,8 +4,11 @@ from rest_framework.response import Response
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
+from rest_framework_api_key.models import APIKey
 
-from .models import BitcoinPrice, IndicatorValue, Indicator, Category, DataSource, DataSourceValue
+from .permissions import HasUserAPIKey
+
+from .models import BitcoinPrice, IndicatorValue, Indicator, Category, DataSource, DataSourceValue, UserAPIKey
 from .serializers import BitcoinPriceSerializer, IndicatorValueSerializer, IndicatorSerializer, CategorySerializer, DataSourceSerializer, DataSourceValueSerializer
 
 class BitcoinPriceViewSet(viewsets.ModelViewSet):
@@ -80,3 +83,38 @@ def get_datasource_values(request, datasource_name):
 def secret(request):
     user = request.user
     return Response({"message": f"Hello, {user.username}! This is a secret endpoint."})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def check_api_key(request):
+    user = request.user
+    has_api_key = UserAPIKey.objects.filter(user=user).exists()
+    return Response({"has_api_key": has_api_key})
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def generate_api_key(request):
+    user = request.user
+    existing_key = UserAPIKey.objects.filter(user=user).first()
+    if existing_key:
+        return Response({"error": "User already has an API key."}, status=400)
+    api_key, key = UserAPIKey.objects.create_key(user=user, name=user.username)
+    return Response({ "key": key})
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def regenerate_api_key(request):
+    user = request.user
+    try:
+        UserAPIKey.objects.filter(user=user).delete()
+        new_api_key, new_key = UserAPIKey.objects.create_key(user=user, name=user.username)
+        return Response({ "key": new_key })
+    except Exception as e:
+        return Response({"error": str(e)}, status=400)
+
+@api_view(['GET'])
+@permission_classes([HasUserAPIKey])
+def api_protected(request):
+    key = request.META["HTTP_X_API_KEY"]
+    api_key = UserAPIKey.objects.get_from_key(key)
+    return Response({ "message": f"Congrats on getting API keys to work, key: {key}, username: {api_key} "})

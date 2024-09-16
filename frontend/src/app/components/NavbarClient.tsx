@@ -2,13 +2,16 @@
 
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { CategoryWithIndicators, DataSource, Notebook } from './Navbar';
 import { signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
+import DisplayAPI from './DisplayAPI';
+import Toast from './Toast';
 
 interface NavbarClientProps {
   indicators: CategoryWithIndicators[];
@@ -18,6 +21,62 @@ interface NavbarClientProps {
 }
 
 export default function NavbarClient({ indicators, dataSources, notebooks, session }: NavbarClientProps) {
+  // API Key Logic
+  const [apiKey, setApiKey] = useState<string>("");
+  const [hasApiKey, setHasApiKey] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkApiKey = async () => {
+      const response = await fetch(`http://localhost:8000/api/indicators/check_api_key`, {
+        headers: { Authorization: `Bearer ${session.accessToken}` },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setHasApiKey(data.has_api_key);
+      }
+    };
+    if (session?.accessToken) {
+      checkApiKey();
+    }
+  }, [session]);
+
+  const fetchKey = async () => {
+    const response = await fetch(`http://localhost:8000/api/indicators/generate_api_key`, {
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    })
+    if (!response.ok) throw new Error("Fetch api key failed");
+    
+    const data = await response.json()
+    setApiKey(data.key);
+  }
+
+  const [showRegenToast, setShowRegenToast] = useState<boolean>(false);
+  const generateApiKey = async () => {
+    const response = await fetch(`http://localhost:8000/api/indicators/generate_api_key`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setApiKey(data.key);
+      setHasApiKey(true);
+
+      setShowRegenToast(true);
+      setTimeout(() => setShowRegenToast(false), 2000);
+    }
+  };
+
+  const regenerateApiKey = async () => {
+    const response = await fetch(`http://localhost:8000/api/indicators/regenerate_api_key`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${session.accessToken}` },
+    });
+    if (response.ok) {
+      const data = await response.json();
+      setApiKey(data.key);
+    }
+  };
+
   // Handle dropdowns logic
   const [isIndicatorDropdownOpen, setIsIndicatorDropdownOpen] = useState(false);
   const [isDataSourceDropdownOpen, setIsDataSourceDropdownOpen] = useState(false);
@@ -50,9 +109,13 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
   // Active nav links
   const pathname = usePathname();
 
+  console.log(apiKey);
+
+  console.log(indicators);
+
   return (
     <header className='bg-[#fff]/75 backdrop-blur-md text-[#191919] flex flex-col font-sans fixed top-0 left-0 right-0 z-50 border-b border-zinc-300'>
-      <nav className='container mx-auto px-4 sm:px-8 lg:px-16'>
+      <nav className='relative container mx-auto px-4 sm:px-8 lg:px-16'>
         <div className='flex justify-between items-center'>
           {/* Logo */}
           <Link href="/">
@@ -160,7 +223,31 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                   <p className='px-4 pt-2 pb-1 text-sm'>Hi, {session.name}</p>
                   <p className='px-4 pt-1 pb-2 text-sm'>{session.email}</p>
                   <hr className='my-1 border-gray-100' />
-                  <button onClick={() => signOut({ callbackUrl: '/' })} className='block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'>
+                  {!hasApiKey ? (
+                  <button onClick={() => generateApiKey()} className='block w-full text-left px-4 py-2 text-sm hover:bg-gray-100'>
+                    Generate API Key
+                  </button>
+                  ) : apiKey ? (
+                    <div className='px-4 py-2 text-sm'>
+                      <p>Your API Key:</p>
+                      <DisplayAPI apiKey={apiKey} />
+                    </div>
+                  ) : (
+                    <div className='p-1 space-y-2'>
+                      <input
+                        type='password'
+                        value={"dhruvandhruvandhruvandhruvandhruvan"}
+                        readOnly
+                        className='w-full text-left px-4 py-2 text-sm font-mono break-all bg-gray-100 p-1'
+                      />
+                      {/* <p className='px-4 py-2 text-sm'>API Key already generated</p> */}
+                      <button onClick={() => regenerateApiKey()} className='block w-full text-left px-4 py-2 text-sm hover:bg-gray-100'>
+                        Regenerate API Key
+                      </button>
+                    </div>
+                  )}
+                  <hr className='my-1 border-gray-100' />
+                  <button onClick={() => signOut({ callbackUrl: '/' })} className='block w-full text-left px-4 py-2 text-sm hover:bg-gray-100'>
                     Sign out
                   </button>
                 </div>
@@ -194,7 +281,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             onMouseLeave={handleIndicatorMouseLeave}
           >
             <div className='container flex mx-auto p-4 divide-x divide-[#e5e5e5]'>
-              {indicators.map((item) => (
+              {indicators !== "" && indicators?.map((item) => (
                   <div key={item.category.id} className='flex-1 px-4 first:pl-0 last:pr-0'>
                     <h2 className='text-sm text-[#7f7f7f] mb-3'>{item.category.name}</h2>
                     <ul className='mt-2 space-y-2'>
@@ -255,6 +342,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             </div>
           </div>
         </div>
+        <Toast showToast={showRegenToast} message="API Key regenerated" />
       </nav>
     </header>
   );

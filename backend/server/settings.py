@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'indicators.apps.IndicatorsConfig',
     'research.apps.ResearchConfig',
     'rest_framework',
+    'rest_framework_api_key',
     'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'corsheaders',
@@ -91,6 +92,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+
 ]
 
 SOCIALACCOUNT_PROVIDERS = {}
@@ -131,8 +133,16 @@ SIMPLE_JWT = {
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ]
+    ],
+    # use custom user api key
+    "DEFAULT_PERMISSION_CLASSES": [
+        "indicators.permissions.HasUserAPIKey",
+    ],
 }
+
+# For rest_framework_api_key to not conflic with jwt
+# Pass api keys as HTTP Header `X-Api-Key: <API_KEY>`
+API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

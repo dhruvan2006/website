@@ -12,6 +12,11 @@ router.register(r'datasource', views.DataSourceViewSet)
 
 urlpatterns = [
     path('secret', views.secret),
+    path('check_api_key', views.check_api_key),
+    path('generate_api_key', views.generate_api_key),
+    path('regenerate_api_key', views.regenerate_api_key),
+    path('api_secret', views.api_protected),
+    
     path('indicator/<str:indicator_name>', views.get_indicator_by_name),
     path('indicator/<str:indicator_name>/values', views.get_indicator_values),
     path('datasource/<str:datasource_name>', views.get_datasource_by_name),

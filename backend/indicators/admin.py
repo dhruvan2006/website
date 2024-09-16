@@ -1,6 +1,12 @@
 from django.contrib import admin
+from rest_framework_api_key.admin import APIKeyModelAdmin
+from .models import IndicatorValue, Category, Indicator, BitcoinPrice, DataSource, DataSourceValue, UserAPIKey
 
-from .models import IndicatorValue, Category, Indicator, BitcoinPrice, DataSource, DataSourceValue
+@admin.register(UserAPIKey)
+class UserAPIKeyModelAdmin(APIKeyModelAdmin):
+    list_display = [*APIKeyModelAdmin.list_display, "user__username"]
+    search_fields = [*APIKeyModelAdmin.search_fields, "user__username"]
+
 
 # Register your models here.
 admin.site.register(BitcoinPrice)

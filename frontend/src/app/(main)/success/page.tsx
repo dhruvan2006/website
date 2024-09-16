@@ -9,8 +9,6 @@ export default async function Success() {
 
   const secret = await response.json();
 
-  console.log(secret);
-
   if (!session) {
     return (
       <div className="min-h-[88.7vh] font-mono max-w-screen bg-red text-[#000] text-4xl flex flex-col">
@@ -23,7 +21,6 @@ export default async function Success() {
     <div className="min-h-[88.7vh] font-mono max-w-screen bg-green text-[#000] text-4xl flex flex-col">
       <p>{secret.message}</p>
       <pre className="text-wrap">{JSON.stringify(session, null, 2)}</pre>
-      <p>{session ? JSON.stringify(session) : 'No session'}</p>
     </div>
   )
 }

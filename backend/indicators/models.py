@@ -1,4 +1,13 @@
 from django.db import models
+from django.contrib.auth import get_user_model
+from rest_framework_api_key.models import AbstractAPIKey
+
+class UserAPIKey(AbstractAPIKey):
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='api_keys',
+    )
 
 # Bitcoin
 class BitcoinPrice(models.Model):
