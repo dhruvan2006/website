@@ -114,10 +114,6 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
   // Active nav links
   const pathname = usePathname();
 
-  console.log(apiKey);
-
-  console.log(indicators);
-
   return (
     <header className='bg-[#fff]/75 backdrop-blur-md text-[#191919] flex flex-col font-sans fixed top-0 left-0 right-0 z-50 border-b border-zinc-300'>
       <nav className='relative container mx-auto px-4 sm:px-8 lg:px-16'>
