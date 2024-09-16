@@ -9,7 +9,7 @@ interface DataSource {
 }
 
 async function getDataSources(): Promise<DataSource[]> {
-  const res = await fetch('https://api.gnanadhandayuthapani.com/api/indicators/datasource', { cache: 'no-store' });
+  const res = await fetch(`${process.env.API_BASE_URL}/api/indicators/datasource`, { cache: 'no-store' });
   if (!res.ok) {
     throw new Error('Failed to fetch categories and indicators');
   }

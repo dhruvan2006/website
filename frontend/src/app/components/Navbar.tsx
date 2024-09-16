@@ -29,7 +29,7 @@ export interface Notebook {
 }
 
 async function getIndicators() {
-  const res = await fetch('https://api.gnanadhandayuthapani.com/api/indicators/categories_with_indicators');
+  const res = await fetch(`${process.env.API_BASE_URL}/api/indicators/categories_with_indicators`);
   const data = res.json();
   if (!res.ok) {
     return 'There was an error.';
@@ -38,7 +38,7 @@ async function getIndicators() {
 }
 
 async function getDataSources() {
-  const res = await fetch('https://api.gnanadhandayuthapani.com/api/indicators/datasource');
+  const res = await fetch(`${process.env.API_BASE_URL}/api/indicators/datasource`);
   const data = res.json();
   if (!res.ok) {
     return 'There was an error.';
@@ -46,7 +46,7 @@ async function getDataSources() {
   return data;
 }
 async function getNotebooks() {
-  const res = await fetch('https://api.gnanadhandayuthapani.com/api/research/notebooks');
+  const res = await fetch(`${process.env.API_BASE_URL}/api/research/notebooks`);
   const data = res.json();
   if (!res.ok) {
     return 'There was an error.';

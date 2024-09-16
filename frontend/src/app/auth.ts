@@ -162,26 +162,26 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       // If `user` and `account` are set that means it is a login event
       if (user && account) {
         let backendResponse = account.provider === "credentials" ? user : account.meta;
-        token["user"] = {
+        token.user = {
           ...backendResponse?.user,
           image: backendResponse?.user?.profile_photo || null,
         };
-        token["access_token"] = backendResponse?.access;
-        token["refresh_token"] = backendResponse?.refresh;
-        token["ref"] = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
+        token.accessToken = backendResponse?.access;
+        token.refreshToken = backendResponse?.refresh;
+        token.expiresAt = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
         return token;
       }
       // Refresh the backend token if necessary
-      if (getCurrentEpochTime() > token["ref"]) {
+      if (getCurrentEpochTime() > token.expiresAt) {
         const response = await fetch(`${process.env.API_BASE_URL}/auth/token/refresh/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ refresh: token["refresh_token"] }),
+          body: JSON.stringify({ refresh: token.refreshToken }),
         });
         const data = await response.json();
-        token["access_token"] = data.access;
-        token["refresh_token"] = data.refresh;
-        token["ref"] = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
+        token.accessToken = data.access;
+        token.refreshToken = data.refresh;
+        token.expiresAt = getCurrentEpochTime() + BACKEND_ACCESS_TOKEN_LIFETIME;
       }
       return token;
     },

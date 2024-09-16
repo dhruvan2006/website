@@ -4,7 +4,7 @@ export default async function Success() {
   const session = await auth();
 
   const response = await fetch(`http://localhost:8000/api/indicators/secret`, {
-    headers: { Authorization: `Bearer ${session?.access_token}` },
+    headers: { Authorization: `Bearer ${session?.accessToken}` },
   });
 
   const secret = await response.json();

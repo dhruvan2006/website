@@ -3,12 +3,12 @@ import axios from 'axios';
 import Chart from './Chart';
 
 async function getDataSource(datasource: string) {
-  const res = await axios.get(`https://api.gnanadhandayuthapani.com/api/indicators/datasource/${datasource}`);
+  const res = await axios.get(`${process.env.API_BASE_URL}/api/indicators/datasource/${datasource}`);
   return res.data;
 }
 
 async function getDataSourceValues(datasource: string) {
-  const res = await axios.get(`https://api.gnanadhandayuthapani.com/api/indicators/datasource/${datasource}/values`);
+  const res = await axios.get(`${process.env.API_BASE_URL}/api/indicators/datasource/${datasource}/values`);
   return res.data;
 }
 
