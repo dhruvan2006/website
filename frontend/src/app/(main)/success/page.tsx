@@ -3,7 +3,7 @@ import { auth } from "@/auth"
 export default async function Success() {
   const session = await auth();
 
-  const response = await fetch(`http://localhost:8000/api/indicators/secret`, {
+  const response = await fetch(`${process.env.API_BASE_URL}/api/indicators/secret`, {
     headers: { Authorization: `Bearer ${session?.accessToken}` },
   });
 
