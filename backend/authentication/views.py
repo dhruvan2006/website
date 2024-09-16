@@ -1,6 +1,7 @@
 import os
 from dotenv import load_dotenv
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
 from allauth.socialaccount.providers.gitlab.views import GitLabOAuth2Adapter
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
@@ -29,6 +30,11 @@ class UserDetailsView(DefaultUserDetailsView):
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
     callback_url = f"{os.getenv('API_BASE_URL')}/accounts/google/login/callback/"
+    client_class = OAuth2Client
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+    callback_url = f"{os.getenv('API_BASE_URL')}/accounts/facebook/login/callback/"
     client_class = OAuth2Client
 
 class GitHubLogin(SocialLoginView):

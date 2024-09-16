@@ -4,7 +4,7 @@ from dj_rest_auth.views import LoginView, LogoutView, UserDetailsView
 from django.urls import path, include
 from rest_framework_simplejwt.views import TokenVerifyView
 
-from .views import GoogleLogin, GitHubLogin, GitLabLogin
+from .views import GoogleLogin, GitHubLogin, GitLabLogin, FacebookLogin
 
 urlpatterns = [
     # path("register/", RegisterView.as_view(), name="rest_register"),
@@ -17,6 +17,7 @@ urlpatterns = [
     path('register/', include('dj_rest_auth.registration.urls')),
 
     path("google/", GoogleLogin.as_view(), name="google_login"),
+    path("facebook/", FacebookLogin.as_view(), name="facebook_login"),
     path("github/", GitHubLogin.as_view(), name="github_login"),
     path("gitlab/", GitLabLogin.as_view(), name="gitlab_login"),
 ]

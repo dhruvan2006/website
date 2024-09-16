@@ -102,8 +102,21 @@ export default async function LogInPage({
               type="submit"
               className="w-full flex flex-row items-center justify-center space-x-2 bg-[#fff] hover:bg-white text-[#191919] border border-[#191919] py-3 px-4 rounded-md transition duration-300"
             >
-              <Image src="google-logo.svg" alt="Google Logo" width={24} height={0} />
+              <Image src="/google-logo.svg" alt="Google Logo" width={24} height={0} />
               <span>Continue with Google</span>
+            </button>
+          </form>
+
+          <form action={async () => {
+            "use server"
+            await signIn('facebook', { callbackUrl: '/success' })
+          }}>
+            <button
+              type="submit"
+              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#fff] hover:bg-[#e6f0ff] text-[#191919] border border-[#0866ff] py-3 px-4 rounded-md transition duration-300"
+            >
+              <Image src="/facebook-logo.png" alt="Facebook Logo" width={24} height={0} />
+              <span>Continue with Facebook</span>
             </button>
           </form>
 

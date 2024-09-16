@@ -2,8 +2,8 @@
 
 import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
+import Facebook from "next-auth/providers/facebook";
 import GitHub from "next-auth/providers/github";
-import Spotify from "next-auth/providers/spotify";
 import GitLab from "next-auth/providers/gitlab";
 import Credentials from "next-auth/providers/credentials"
 
@@ -17,35 +17,6 @@ const getCurrentEpochTime = () => {
 const SIGN_IN_HANDLERS = {
   // "credentials": async (user: any, account: any, profile: any, email: any, credentials: any) => {
   //   return true;
-  // },
-  // "google": async (user: any, account: any, profile: any, email: any, credentials: any) => {
-  //   try {
-
-  //     // ///////////////////////////////////////////////
-  //     // ///////////////////////////////////////////////
-  //     // REMOVE THIS HARDCODED URL
-  //     // ///////////////////////////////////////////////
-  //     // ///////////////////////////////////////////////
-  //     // ///////////////////////////////////////////////
-
-  //     const response = await fetch(`${process.env.API_BASE_URL}/auth/google/`, {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify({ access_token: account.id_token }),
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error(`HTTP error! status: ${response.status}`);
-  //     }
-
-  //     account.meta = await response.json();
-  //     return true;
-  //   } catch (error) {
-  //     console.error('Google sign-in error:', error);
-  //     return false;
-  //   }
   // },
   "google": async (user: any, account: any, profile: any, email: any, credentials: any) => {
     try {
@@ -65,6 +36,27 @@ const SIGN_IN_HANDLERS = {
       return true;
     } catch (error) {
       console.error('Google sign-in error:', error);
+      return false;
+    }
+  },
+  "facebook": async (user: any, account: any, profile: any, email: any, credentials: any) => {
+    try {
+      const response = await fetch(`${process.env.API_BASE_URL}/auth/facebook/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ access_token: account.access_token }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      account.meta = await response.json();
+      return true;
+    } catch (error) {
+      console.error('Facebook sign-in error:', error);
       return false;
     }
   },
@@ -123,8 +115,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
     Google, 
     GitHub,
-    // Spotify,
     GitLab,
+    Facebook,
     // Credentials({
     //   // You can specify which fields should be submitted, by adding keys to the `credentials` object.
     //   // e.g. domain, username, password, 2FA token, etc.
