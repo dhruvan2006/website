@@ -107,7 +107,7 @@ export default async function LogInPage({
             </button>
           </form>
 
-          <form action={async () => {
+          {/* <form action={async () => {
             "use server"
             await signIn('facebook', { callbackUrl: '/success' })
           }}>
@@ -118,7 +118,7 @@ export default async function LogInPage({
               <Image src="/facebook-logo.png" alt="Facebook Logo" width={24} height={0} />
               <span>Continue with Facebook</span>
             </button>
-          </form>
+          </form> */}
 
           <div className="flex items-center my-4">
             <hr className="flex-grow border-t border-gray-300" />
