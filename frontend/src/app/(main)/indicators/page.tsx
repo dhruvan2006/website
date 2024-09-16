@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { customFetch } from '@/api';
 
 interface Category {
   id: number;
@@ -20,7 +21,7 @@ interface CategoryWithIndicators {
 }
 
 async function getCategoriesWithIndicators(): Promise<CategoryWithIndicators[]> {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/indicators/categories_with_indicators`, { cache: 'no-store' });
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/categories_with_indicators`, { cache: 'no-store' });
   if (!res.ok) {
     throw new Error('Failed to fetch categories and indicators');
   }

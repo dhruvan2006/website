@@ -6,6 +6,7 @@ import Facebook from "next-auth/providers/facebook";
 import GitHub from "next-auth/providers/github";
 import GitLab from "next-auth/providers/gitlab";
 import Credentials from "next-auth/providers/credentials"
+import { customFetch } from "./api";
 
 const BACKEND_ACCESS_TOKEN_LIFETIME = 45 * 60;            // 45 minutes
 const BACKEND_REFRESH_TOKEN_LIFETIME = 6 * 24 * 60 * 60;  // 6 days
@@ -20,7 +21,7 @@ const SIGN_IN_HANDLERS = {
   // },
   "google": async (user: any, account: any, profile: any, email: any, credentials: any) => {
     try {
-      const response = await fetch(`${process.env.API_BASE_URL}/auth/google/`, {
+      const response = await customFetch(`${process.env.API_BASE_URL}/auth/google/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,7 +42,7 @@ const SIGN_IN_HANDLERS = {
   },
   "facebook": async (user: any, account: any, profile: any, email: any, credentials: any) => {
     try {
-      const response = await fetch(`${process.env.API_BASE_URL}/auth/facebook/`, {
+      const response = await customFetch(`${process.env.API_BASE_URL}/auth/facebook/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +63,7 @@ const SIGN_IN_HANDLERS = {
   },
   "github": async (user: any, account: any, profile: any, email: any, credentials: any) => {
     try {
-      const response = await fetch(`${process.env.API_BASE_URL}/auth/github/`, {
+      const response = await customFetch(`${process.env.API_BASE_URL}/auth/github/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ const SIGN_IN_HANDLERS = {
   },
   "gitlab": async (user: any, account: any, profile: any, email: any, credentials: any) => {
     try {
-      const response = await fetch(`${process.env.API_BASE_URL}/auth/gitlab/`, {
+      const response = await customFetch(`${process.env.API_BASE_URL}/auth/gitlab/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +127,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     //   },
     //   authorize: async (credentials) => {
     //     try {
-    //       const response = await fetch(`${process.env.API_BASE_URL}/auth/login/`, {
+    //       const response = await customFetch(`${process.env.API_BASE_URL}/auth/login/`, {
     //         method: "POST",
     //         body: JSON.stringify(credentials),
     //         headers: { "Content-Type": "application/json" },
@@ -171,7 +172,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       }
       // Refresh the backend token if necessary
       if (getCurrentEpochTime() > token.expiresAt) {
-        const response = await fetch(`${process.env.API_BASE_URL}/auth/token/refresh/`, {
+        const response = await customFetch(`${process.env.API_BASE_URL}/auth/token/refresh/`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ refresh: token.refreshToken }),

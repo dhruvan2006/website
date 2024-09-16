@@ -11,6 +11,8 @@ router.register(r'value', views.IndicatorValueViewSet)
 router.register(r'datasource', views.DataSourceViewSet)
 
 urlpatterns = [
+    path('hello', views.hello),
+
     path('secret', views.secret),
     path('check_api_key', views.check_api_key),
     path('generate_api_key', views.generate_api_key),

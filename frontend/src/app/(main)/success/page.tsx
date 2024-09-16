@@ -1,9 +1,10 @@
+import { customFetch } from "@/api";
 import { auth } from "@/auth"
 
 export default async function Success() {
   const session = await auth();
 
-  const response = await fetch(`${process.env.API_BASE_URL}/api/indicators/secret`, {
+  const response = await customFetch(`${process.env.API_BASE_URL}/api/indicators/secret`, {
     headers: { Authorization: `Bearer ${session?.accessToken}` },
   });
 

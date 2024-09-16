@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import LiquidityClient from './LiquidityClient';
+import { customFetch } from '@/api';
 
 // Metadata
 export const metadata: Metadata = {
@@ -34,7 +35,7 @@ async function fetchSeriesData(ticker: string, startDate: string, endDate: strin
   const url = `${process.env.API_BASE_URL}/api/liquidity/series?ticker=${ticker}&start_date=${startDate}&end_date=${endDate}`;
 
   try {
-    const response = await fetch(url);
+    const response = await customFetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -50,7 +51,7 @@ async function fetchLastUpdated(): Promise<string | null> {
   const url = `${process.env.API_BASE_URL}/api/liquidity/last_updated`;
 
   try {
-    const response = await fetch(url);
+    const response = await customFetch(url);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

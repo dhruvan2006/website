@@ -32,7 +32,7 @@ export default async function LogInPage({
   const session = await auth();
 
   if (session?.user) {
-    return redirect('/success');
+    return redirect('/docs');
   }
   
   const registered = searchParams.registered === 'true';
@@ -96,7 +96,7 @@ export default async function LogInPage({
 
           <form action={async () => {
             "use server"
-            await signIn('google', { callbackUrl: '/success' })
+            await signIn('google', { callbackUrl: '/docs' })
           }}>
             <button
               type="submit"
@@ -109,7 +109,7 @@ export default async function LogInPage({
 
           {/* <form action={async () => {
             "use server"
-            await signIn('facebook', { callbackUrl: '/success' })
+            await signIn('facebook', { callbackUrl: '/docs' })
           }}>
             <button
               type="submit"
@@ -128,7 +128,7 @@ export default async function LogInPage({
 
           <form action={async () => {
             "use server"
-            await signIn('github', { redirectTo: '/success' })
+            await signIn('github', { redirectTo: '/docs' })
           }}>
             <button
               type="submit"
@@ -141,7 +141,7 @@ export default async function LogInPage({
 
           {/* <form action={async () => {
             "use server"
-            await signIn('spotify', { redirectTo: '/success' })
+            await signIn('spotify', { redirectTo: '/docs' })
           }}>
             <button
               type="submit"
@@ -154,7 +154,7 @@ export default async function LogInPage({
 
           <form action={async () => {
             "use server"
-            await signIn('gitlab', { redirectTo: '/success' })
+            await signIn('gitlab', { redirectTo: '/docs' })
           }}>
             <button
               type="submit"

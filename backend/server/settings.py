@@ -64,6 +64,9 @@ ALLOWED_HOSTS = ['*']
 # Allow all origins for CORS
 CORS_ALLOW_ALL_ORIGINS = True
 
+# To protect API from unauthorized access
+FRONTEND_KEY = os.getenv('FRONTEND_KEY') 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -136,7 +139,8 @@ REST_FRAMEWORK = {
     ],
     # use custom user api key
     "DEFAULT_PERMISSION_CLASSES": [
-        "indicators.permissions.HasUserAPIKey",
+        # "indicators.permissions.HasUserAPIKey",
+        "indicators.permissions.IsFromFrontendOrHasAPIKey",
     ],
 }
 

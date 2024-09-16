@@ -12,6 +12,7 @@ import { signOut } from 'next-auth/react';
 import { Session } from 'next-auth';
 import DisplayAPI from './DisplayAPI';
 import Toast from './Toast';
+import { customFetch } from '@/api';
 
 interface NavbarClientProps {
   indicators: CategoryWithIndicators[];
@@ -27,7 +28,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
   useEffect(() => {
     const checkApiKey = async () => {
-      const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/check_api_key`, {
+      const response = await fetch(`http://localhost:8000/api/indicators/check_api_key`, {
         headers: { Authorization: `Bearer ${session.accessToken}` },
       });
       if (response.ok) {
@@ -41,7 +42,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
   }, [session]);
 
   const fetchKey = async () => {
-    const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/generate_api_key`, {
+    const response = await fetch(`http://localhost:8000/api/indicators/generate_api_key`, {
       headers: { Authorization: `Bearer ${session.accessToken}` },
     })
     if (!response.ok) throw new Error("Fetch api key failed");
@@ -52,7 +53,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
   const [showRegenToast, setShowRegenToast] = useState<boolean>(false);
   const generateApiKey = async () => {
-    const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/generate_api_key`, {
+    const response = await fetch(`http://localhost:8000/api/indicators/generate_api_key`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${session.accessToken}` },
     });
@@ -67,7 +68,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
   };
 
   const regenerateApiKey = async () => {
-    const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/regenerate_api_key`, {
+    const response = await fetch(`http://localhost:8000/api/indicators/regenerate_api_key`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${session.accessToken}` },
     });
@@ -190,6 +191,12 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                 </svg>
               </div>
             </li>
+
+            <li>
+              <Link href="/docs" className={`transition duration-300 pl-6 ${pathname === '/docs' ? 'text-blue' : 'hover:text-[#7f7f7f] '}`}>
+                API Docs
+              </Link>
+            </li>
           </ul>
 
           {/* Social Media + API */}
@@ -213,7 +220,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             {session?.user ? (
               <div className='relative group py-5'>
                 {session.picture ? (
-                  <Image src={session.picture} alt="Profile" width={32} height={32} className='rounded-full cursor-pointer' />
+                  <Image src={session.picture} alt="Profile" width={32} height={32} className='rounded-full cursor-pointer shadow-md' />
                 ) : (
                   <div className="flex items-center justify-center text-[#fff] w-8 h-8 bg-black rounded-full cursor-pointer">
                     <span>{session.name ? session.name.charAt(0).toUpperCase() : "?"}</span>

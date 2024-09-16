@@ -3,10 +3,15 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import os
+import json
 from dotenv import load_dotenv
 from datetime import datetime
 from statsmodels.api import OLS, QuantReg, add_constant
 from django.core.management.base import BaseCommand
+
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
 
 from indicators.models import BitcoinPrice, Category, DataSource, DataSourceValue, Indicator, IndicatorValue
 
@@ -23,25 +28,58 @@ class Command(BaseCommand):
         fetch_indicators()
         self.stdout.write(self.style.SUCCESS('Successfully calculated indicators'))
 
-def fetch_prices():
-    """Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance"""
-    # Fetch data from NasdaqDataLink (2010-08-16 to 2014-09-16)
-    nasdaq_data = nasdaqdatalink.get('BCHAIN/MKPRU', start_date='2010-08-16', end_date='2014-09-16')
+# def fetch_prices():
+#     """Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance"""
+#     # Fetch data from NasdaqDataLink (2010-08-16 to 2014-09-16)
+#     nasdaq_data = nasdaqdatalink.get('BCHAIN/MKPRU', start_date='2010-08-16', end_date='2014-09-16')
 
-    for date, price in nasdaq_data.iterrows():
-        BitcoinPrice.objects.update_or_create(
-            date=date.date(),
-            defaults={'price': price['Value']}
-        )
+#     for date, price in nasdaq_data.iterrows():
+#         BitcoinPrice.objects.update_or_create(
+#             date=date.date(),
+#             defaults={'price': price['Value']}
+#         )
     
-    # Fetch data from Yahoo Finance (2014-09-17 to present)
-    yf_data = yf.download("BTC-USD", start="2014-09-17")
+#     # Fetch data from Yahoo Finance (2014-09-17 to present)
+#     yf_data = yf.download("BTC-USD", start="2014-09-17")
 
-    for date, row in yf_data.iterrows():
-        BitcoinPrice.objects.update_or_create(
-            date=date.date(),
-            defaults={'price': row['Close']}
-        )
+#     for date, row in yf_data.iterrows():
+#         BitcoinPrice.objects.update_or_create(
+#             date=date.date(),
+#             defaults={'price': row['Close']}
+#         )
+def fetch_prices():
+    """Fetch Bitcoin prices from Glassnode"""
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    chrome_options.add_argument('--disable-gpu')
+    chrome_options.add_argument('--window-size=1920,1080')
+
+    driver = webdriver.Chrome(options=chrome_options)
+
+    try:
+        # Gets necessary permissions to access the Data API
+        driver.get("https://studio.glassnode.com/metrics?a=BTC&m=blockchain.BlockCount")
+
+        # Fetch BTC price data
+        driver.get("https://api.glassnode.com/v1/metrics/market/price_usd_close?a=BTC&i=24h&referrer=charts")
+        btc_element = driver.find_element(By.TAG_NAME, "pre")
+        btc_data = btc_element.text
+
+        btc_json = json.loads(btc_data)
+        btc_df = pd.DataFrame(btc_json)
+        btc_df['t'] = pd.to_datetime(btc_df['t'], unit='s')
+
+        # Update or create BitcoinPrice objects
+        for _, row in btc_df.iterrows():
+            BitcoinPrice.objects.update_or_create(
+                date=row['t'].date(),
+                defaults={'price': row['v']}
+            )
+
+    finally:
+        driver.quit()
 
 def fetch_indicators():
     calculate_plrr()

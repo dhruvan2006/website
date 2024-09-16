@@ -2,14 +2,22 @@ import React from 'react';
 import axios from 'axios';
 import Chart from './Chart';
 
+import { customFetch } from '@/api';
+
 async function getDataSource(datasource: string) {
-  const res = await axios.get(`${process.env.API_BASE_URL}/api/indicators/datasource/${datasource}`);
-  return res.data;
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/datasource/${datasource}`);
+  if (!res.ok) {
+    throw new Error('Failed to fetch datasource');
+  }
+  return res.json();
 }
 
 async function getDataSourceValues(datasource: string) {
-  const res = await axios.get(`${process.env.API_BASE_URL}/api/indicators/datasource/${datasource}/values`);
-  return res.data;
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/datasource/${datasource}/values`);
+  if (!res.ok) {
+    throw new Error('Failed to fetch datasource values');
+  }
+  return res.json();
 }
 
 export default async function DataSourcePage({ params }: { params: { datasource: string } }) {

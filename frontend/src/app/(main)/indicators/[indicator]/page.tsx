@@ -3,19 +3,26 @@ import axios from 'axios';
 import InteractiveChart from './InteractiveChart';
 import ApiHelp from './ApiHelp';
 import IndicatorDescription from './IndicatorDescription';
+import { customFetch } from '@/api';
 
 async function getIndicator(indicator: string) {
-  const res = await axios.get(`${process.env.API_BASE_URL}/api/indicators/indicator/${indicator}`);
-  return res.data;
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/indicator/${indicator}`);
+  if (!res.ok) {
+    throw new Error('Failed to fetch indicator data');
+  }
+  return res.json();
 }
 
 async function getIndicatorValues(indicator: string) {
-  const res = await axios.get(`${process.env.API_BASE_URL}/api/indicators/indicator/${indicator}/values`);
-  return res.data;
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/indicator/${indicator}/values`);
+  if (!res.ok) {
+    throw new Error('Failed to fetch indicator values');
+  }
+  return res.json();
 }
 
 async function getBitcoinPriceData() {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/indicators/price`);
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/price`);
   if (!res.ok) {
     throw new Error('Failed to fetch Bitcoin price data');
   }

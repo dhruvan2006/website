@@ -8,11 +8,16 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.management import call_command
 from dotenv import load_dotenv
 
+from indicators.permissions import IsFromFrontendOrHasAPIKey
+from rest_framework.decorators import api_view, permission_classes
+
 load_dotenv()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) # Point to root directory
 HTML_OUTPUT_DIR = os.path.join(BASE_DIR, 'media', 'notebooks', 'html')
 
+@api_view(['GET'])
+@permission_classes([IsFromFrontendOrHasAPIKey])
 def notebook_list(request):
     html_files = [os.path.splitext(f)[0] for f in os.listdir(HTML_OUTPUT_DIR) if f.endswith('.html')]
     notebooks = [
@@ -24,6 +29,8 @@ def notebook_list(request):
     ]
     return JsonResponse({'notebooks': notebooks})
 
+@api_view(['GET'])
+@permission_classes([IsFromFrontendOrHasAPIKey])
 def notebook_view(request, notebook_name):
     notebook_path = os.path.join(HTML_OUTPUT_DIR, f'{notebook_name}.html')
 

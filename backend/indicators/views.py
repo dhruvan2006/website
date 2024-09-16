@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 from rest_framework_api_key.models import APIKey
 
-from .permissions import HasUserAPIKey
+from .permissions import HasUserAPIKey, IsFromFrontendOrHasAPIKey
 
 from .models import BitcoinPrice, IndicatorValue, Indicator, Category, DataSource, DataSourceValue, UserAPIKey
 from .serializers import BitcoinPriceSerializer, IndicatorValueSerializer, IndicatorSerializer, CategorySerializer, DataSourceSerializer, DataSourceValueSerializer
@@ -30,6 +30,11 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class DataSourceViewSet(viewsets.ModelViewSet):
     queryset = DataSource.objects.all()
     serializer_class = DataSourceSerializer
+
+@api_view(['GET'])
+@permission_classes([IsFromFrontendOrHasAPIKey])
+def hello(request):
+    return Response({"message": "Hello, world!"})
 
 @api_view(['GET'])
 def categories_with_indicators(request):

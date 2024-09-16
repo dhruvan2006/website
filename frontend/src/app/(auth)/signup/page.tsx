@@ -2,6 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
+import { customFetch } from '@/api';
 
 export const metadata = {
   title: "Sign Up | Dhruvan",
@@ -15,7 +16,7 @@ async function registerUser(formData: FormData) {
   const email = formData.get('email');
   const password = formData.get('password');
 
-  const response = await fetch(`${process.env.API_BASE_URL}/auth/register`, {
+  const response = await customFetch(`${process.env.API_BASE_URL}/auth/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ name, email, password }),

@@ -2,16 +2,19 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.db.models import F, Sum, Case, When, Value, IntegerField
 from rest_framework import viewsets, filters
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from django.db.models.functions import Coalesce
 from django.core.cache import cache
 
 from .models import Series, LastUpdated
 from .serializers import SeriesSerializer
 
+from indicators.permissions import IsFromFrontendOrHasAPIKey
+
 class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
+    permission_classes = [IsFromFrontendOrHasAPIKey]
     
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -28,7 +31,8 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
         
         return queryset.order_by('date')
 
-
+@api_view(['GET'])
+@permission_classes([IsFromFrontendOrHasAPIKey])
 def last_updated(request):
     last_updated_obj = LastUpdated.objects.last()
     if last_updated_obj:

@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
 import NavbarClient from './NavbarClient';
+import { customFetch } from '@/api';
 
 interface Indicator {
   name: string;
@@ -29,7 +30,7 @@ export interface Notebook {
 }
 
 async function getIndicators() {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/indicators/categories_with_indicators`);
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/categories_with_indicators`);
   const data = res.json();
   if (!res.ok) {
     return 'There was an error.';
@@ -38,7 +39,7 @@ async function getIndicators() {
 }
 
 async function getDataSources() {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/indicators/datasource`);
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/datasource`);
   const data = res.json();
   if (!res.ok) {
     return 'There was an error.';
@@ -46,7 +47,7 @@ async function getDataSources() {
   return data;
 }
 async function getNotebooks() {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/research/notebooks`);
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/research/notebooks`);
   const data = res.json();
   if (!res.ok) {
     return 'There was an error.';

@@ -1,8 +1,9 @@
 import React from "react";
 import { notFound } from "next/navigation";
+import { customFetch } from "@/api";
 
 async function fetchHtml(name: string) {
-  const res = await fetch(`${process.env.API_BASE_URL}/api/research/notebooks/${name}`);
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/research/notebooks/${name}`);
 
   return res.text();
 }
