@@ -28,7 +28,7 @@ const SIGN_IN_HANDLERS = {
   //     // ///////////////////////////////////////////////
   //     // ///////////////////////////////////////////////
 
-  //     const response = await fetch(`http://127.0.0.1:8000/auth/google/`, {
+  //     const response = await fetch(`${process.env.API_BASE_URL}/auth/google/`, {
   //       method: 'POST',
   //       headers: {
   //         'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ const SIGN_IN_HANDLERS = {
       // ///////////////////////////////////////////////
       // ///////////////////////////////////////////////
 
-      const response = await fetch(`http://127.0.0.1:8000/auth/github/`, {
+      const response = await fetch(`${process.env.API_BASE_URL}/auth/github/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,7 +87,7 @@ const SIGN_IN_HANDLERS = {
       // ///////////////////////////////////////////////
       // ///////////////////////////////////////////////
 
-      const response = await fetch(`http://127.0.0.1:8000/auth/gitlab/`, {
+      const response = await fetch(`${process.env.API_BASE_URL}/auth/gitlab/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
