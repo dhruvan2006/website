@@ -100,25 +100,12 @@ export default async function LogInPage({
           }}>
             <button
               type="submit"
-              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#fff] hover:bg-white text-[#191919] border border-[#191919] py-3 px-4 rounded-md transition duration-300"
+              className="w-full h-12 flex flex-row items-center justify-center space-x-2 bg-[#fff] hover:bg-white text-[#191919] border border-[#191919] py-3 px-4 rounded-md transition duration-300"
             >
               <Image src="/google-logo.svg" alt="Google Logo" width={24} height={0} />
               <span>Continue with Google</span>
             </button>
           </form>
-
-          {/* <form action={async () => {
-            "use server"
-            await signIn('facebook', { callbackUrl: '/docs' })
-          }}>
-            <button
-              type="submit"
-              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#fff] hover:bg-[#e6f0ff] text-[#191919] border border-[#0866ff] py-3 px-4 rounded-md transition duration-300"
-            >
-              <Image src="/facebook-logo.png" alt="Facebook Logo" width={24} height={0} />
-              <span>Continue with Facebook</span>
-            </button>
-          </form> */}
 
           <div className="flex items-center my-4">
             <hr className="flex-grow border-t border-gray-300" />
@@ -132,25 +119,12 @@ export default async function LogInPage({
           }}>
             <button
               type="submit"
-              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#222222] hover:bg-[#000] text-white py-3 px-4 rounded-md transition duration-300"
+              className="w-full h-12 flex flex-row items-center justify-center space-x-2 bg-[#222222] hover:bg-[#000] text-white py-3 px-4 rounded-md transition duration-300"
             >
               <Image src="github-mark-white.svg" alt="GitHub Logo" width={24} height={0} />
               <span>Continue with GitHub</span>
             </button>
           </form>
-
-          {/* <form action={async () => {
-            "use server"
-            await signIn('spotify', { redirectTo: '/docs' })
-          }}>
-            <button
-              type="submit"
-              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#1cd661] hover:bg-[#1ab956] text-white py-3 px-4 rounded-md transition duration-300"
-            >
-              <Image src="/spotify-logo-white.png" alt="Spotify Logo" width={24} height={0} />
-              <span>Continue with Spotify</span>
-            </button>
-          </form> */}
 
           <form action={async () => {
             "use server"
@@ -158,7 +132,7 @@ export default async function LogInPage({
           }}>
             <button
               type="submit"
-              className="w-full flex flex-row items-center justify-center space-x-2 bg-[#fc6d26] hover:bg-[#db5f21] text-[#fff] py-3 px-4 rounded-md transition duration-300"
+              className="w-full h-12 flex flex-row items-center justify-center space-x-2 bg-[#fc6d26] hover:bg-[#db5f21] text-[#fff] py-3 px-4 rounded-md transition duration-300"
             >
               <Image src="/gitlab-logo.png" alt="GitLab Logo" width={24} height={0} />
               <span>Continue with GitLab</span>
