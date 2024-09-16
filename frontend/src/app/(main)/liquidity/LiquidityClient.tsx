@@ -118,7 +118,7 @@ export default function LiquidityClient({
           <div className='container mx-auto px-4 sm:px-8 lg:px-16'>
             <h2 className='text-3xl font-bold mb-6 text-center'>Understanding FED Liquidity</h2>
             
-            <p className='text-center mb-8'>FED Liquidity is a measure of the money supply in the U.S. financial system. It's influenced by several key components, each affecting the overall liquidity in different ways.</p>
+            <p className="text-center mb-8">FED Liquidity is a measure of the money supply in the U.S. financial system. It&apos;s influenced by several key components, each affecting the overall liquidity in different ways.</p>
             
             <div className='mb-8'>
               <h3 className='text-xl font-semibold mb-4'>Components of FED Liquidity</h3>
