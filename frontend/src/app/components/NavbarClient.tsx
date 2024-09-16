@@ -51,7 +51,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
     setApiKey(data.key);
   }
 
-  const [showRegenToast, setShowRegenToast] = useState<boolean>(false);
+  const [showGenToast, setShowGenToast] = useState<boolean>(false);
   const generateApiKey = async () => {
     const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/generate_api_key`, {
       method: 'POST',
@@ -62,11 +62,12 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
       setApiKey(data.key);
       setHasApiKey(true);
 
-      setShowRegenToast(true);
-      setTimeout(() => setShowRegenToast(false), 2000);
+      setShowGenToast(true);
+      setTimeout(() => setShowGenToast(false), 2000);
     }
   };
 
+  const [showRegenToast, setShowRegenToast] = useState<boolean>(false);
   const regenerateApiKey = async () => {
     const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/regenerate_api_key`, {
       method: 'POST',
@@ -75,6 +76,9 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
     if (response.ok) {
       const data = await response.json();
       setApiKey(data.key);
+
+      setShowRegenToast(true);
+      setTimeout(() => setShowRegenToast(false), 2000);
     }
   };
 
@@ -349,7 +353,8 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             </div>
           </div>
         </div>
-        <Toast showToast={showRegenToast} message="API Key regenerated" />
+        <Toast showToast={showGenToast} message="API Key Generated" />
+        <Toast showToast={showRegenToast} message="API Key Regenerated" />
       </nav>
     </header>
   );
