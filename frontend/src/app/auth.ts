@@ -66,8 +66,7 @@ const SIGN_IN_HANDLERS = {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       account.meta = await response.json();
@@ -102,7 +101,7 @@ const SIGN_IN_HANDLERS = {
       account.meta = await response.json();
       return true;
     } catch (error) {
-      console.error('Github sign-in error:', error);
+      console.error('Gitlab sign-in error:', error);
       return false;
     }
   }
