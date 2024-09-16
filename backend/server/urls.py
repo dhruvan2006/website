@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    path(r"^accounts", include("allauth.urls")),
     path('auth/', include('authentication.urls')),
     path('api/liquidity/', include('liquidity.urls')),
     path('api/indicators/', include('indicators.urls')),

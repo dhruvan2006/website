@@ -24,6 +24,10 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'secure.gravatar.com',
+            },
+            {
+                protocol: 'https',
+                hostname: 'lh3.googleusercontent.com',
             }
         ],
     },

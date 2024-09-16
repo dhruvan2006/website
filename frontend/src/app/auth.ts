@@ -47,16 +47,29 @@ const SIGN_IN_HANDLERS = {
   //     return false;
   //   }
   // },
+  "google": async (user: any, account: any, profile: any, email: any, credentials: any) => {
+    try {
+      const response = await fetch(`${process.env.API_BASE_URL}/auth/google/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ access_token: account.access_token }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      account.meta = await response.json();
+      return true;
+    } catch (error) {
+      console.error('Google sign-in error:', error);
+      return false;
+    }
+  },
   "github": async (user: any, account: any, profile: any, email: any, credentials: any) => {
     try {
-
-      // ///////////////////////////////////////////////
-      // ///////////////////////////////////////////////
-      // REMOVE THIS HARDCODED URL
-      // ///////////////////////////////////////////////
-      // ///////////////////////////////////////////////
-      // ///////////////////////////////////////////////
-
       const response = await fetch(`${process.env.API_BASE_URL}/auth/github/`, {
         method: 'POST',
         headers: {
@@ -78,14 +91,6 @@ const SIGN_IN_HANDLERS = {
   },
   "gitlab": async (user: any, account: any, profile: any, email: any, credentials: any) => {
     try {
-
-      // ///////////////////////////////////////////////
-      // ///////////////////////////////////////////////
-      // REMOVE THIS HARDCODED URL
-      // ///////////////////////////////////////////////
-      // ///////////////////////////////////////////////
-      // ///////////////////////////////////////////////
-
       const response = await fetch(`${process.env.API_BASE_URL}/auth/gitlab/`, {
         method: 'POST',
         headers: {
@@ -116,7 +121,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
     maxAge: BACKEND_REFRESH_TOKEN_LIFETIME,
   },  
   providers: [
-    // Google, 
+    Google, 
     GitHub,
     // Spotify,
     GitLab,

@@ -94,7 +94,7 @@ export default async function LogInPage({
             </button>
           </form> */}
 
-          {/* <form action={async () => {
+          <form action={async () => {
             "use server"
             await signIn('google', { callbackUrl: '/success' })
           }}>
@@ -105,7 +105,13 @@ export default async function LogInPage({
               <Image src="google-logo.svg" alt="Google Logo" width={24} height={0} />
               <span>Continue with Google</span>
             </button>
-          </form> */}
+          </form>
+
+          <div className="flex items-center my-4">
+            <hr className="flex-grow border-t border-gray-300" />
+            <span className="px-3 text-gray-500 text-sm">or</span>
+            <hr className="flex-grow border-t border-gray-300" />
+          </div>
 
           <form action={async () => {
             "use server"
@@ -132,12 +138,6 @@ export default async function LogInPage({
               <span>Continue with Spotify</span>
             </button>
           </form> */}
-
-          <div className="flex items-center my-4">
-            <hr className="flex-grow border-t border-gray-300" />
-            <span className="px-3 text-gray-500 text-sm">or</span>
-            <hr className="flex-grow border-t border-gray-300" />
-          </div>
 
           <form action={async () => {
             "use server"
