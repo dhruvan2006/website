@@ -130,12 +130,14 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
       <nav className='container mx-auto px-4 sm:px-8 lg:px-16'>
         <div className='flex lg:justify-between items-center'>
           {/* Logo */}
-          <Link className='flex-1 lg:flex-grow-0' href="/">
-            <div className='flex items-center'>
-              <Image src="/logo.svg" alt="Logo" width={32} height={32} />
-              <span className='text-xl font-bold ml-2'>Dhruvan.</span>
-            </div>
-          </Link>
+          <div className='flex-1 lg:flex-grow-0'>
+            <Link href="/" className='inline-flex items-center'>
+              <div className='flex items-center'>
+                <Image src="/logo.svg" alt="Logo" width={32} height={32} />
+                <span className='text-xl font-bold ml-2'>Dhruvan.</span>
+              </div>
+            </Link>
+          </div>
           
           {/* Get API button for Mobile */}
           {!session?.user ? (

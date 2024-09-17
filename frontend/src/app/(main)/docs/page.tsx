@@ -59,32 +59,32 @@ export default function APIDocs() {
           <div className="space-y-4">
             <div className="bg-gray-100 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-semibold mb-2">Get Liquidity Values</h3>
-              <code className="text-red inline-block">GET /api/liquidity/series?ticker={'<ticker_name>'}</code>
+              <code className="text-red inline-block text-wrap">GET /api/liquidity/series?ticker={'<ticker_name>'}</code>
               <p className="text-gray-600 mt-2">Retrieve liquidity values by using &aposLIQUIDITY&apos. Get the components with the corresponding {'<ticker_name>'}.</p>
             </div>
             <div className="bg-gray-100 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-semibold mb-2">Get Bitcoin Price</h3>
-              <code className="text-red inline-block">GET /api/indicators/price</code>
+              <code className="text-red inline-block text-wrap">GET /api/indicators/price</code>
               <p className="text-gray-600 mt-2">Retrieve live daily historical Bitcoin price.</p>
             </div>
             <div className="bg-gray-100 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-semibold mb-2">Get List of Indicators</h3>
-              <code className="text-red inline-block">GET /api/indicators/indicator</code>
+              <code className="text-red inline-block text-wrap">GET /api/indicators/indicator</code>
               <p className="text-gray-600 mt-2">Retrieve a list of available indicators.</p>
             </div>
             <div className="bg-gray-100 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-semibold mb-2">Get Indicator Values</h3>
-              <code className="text-red inline-block">GET /api/indicators/indicator/{'<indicator_name>'}/values</code>
+              <code className="text-red inline-block text-wrap">GET /api/indicators/indicator/{'<indicator_name>'}/values</code>
               <p className="text-gray-600 mt-2">Retrieve values for a specific indicator.</p>
             </div>
             <div className="bg-gray-100 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-semibold mb-2">Get List of Data Sources</h3>
-              <code className="text-red inline-block">GET /api/indicators/datasource</code>
+              <code className="text-red inline-block text-wrap">GET /api/indicators/datasource</code>
               <p className="text-gray-600 mt-2">Retrieve a list of available data sources.</p>
             </div>
             <div className="bg-gray-100 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-semibold mb-2">Get Data Sources</h3>
-              <code className="text-red inline-block">GET /api/indicators/datasource/{'<datasource_name>'}/values</code>
+              <code className="text-red inline-block text-wrap">GET /api/indicators/datasource/{'<datasource_name>'}/values</code>
               <p className="text-gray-600 mt-2">Retrieve values for a specific data source.</p>
             </div>
           </div>
