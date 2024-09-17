@@ -452,8 +452,8 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                 </button>
               </div>
               {dataSources.map((dataSource, idx) => (
-                <div className={ `mt-2 ml-2 flex-1 px-4 first:pl-0 last:pr-0 ${isDatasourcesOpen ? 'block' : 'hidden'}`}>
-                  <li key={idx} className={`w-full ${pathname.startsWith(`/datasources/${dataSource.url}`) ? '' : 'hover:bg-white text-[#3b3b3b]'} rounded-md py-1`}>
+                <div key={idx} className={ `mt-2 ml-2 flex-1 px-4 first:pl-0 last:pr-0 ${isDatasourcesOpen ? 'block' : 'hidden'}`}>
+                  <li className={`w-full ${pathname.startsWith(`/datasources/${dataSource.url}`) ? '' : 'hover:bg-white text-[#3b3b3b]'} rounded-md py-1`}>
                   <Link href={`/datasources/${dataSource.url}`} className={`p-3 transition duration-300 ${pathname.startsWith(`/datasources/${dataSource.url}`) ? 'text-blue' : 'hover:text-[#000]'}`}>
                       {dataSource.name}
                   </Link>
@@ -481,8 +481,8 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                 </button>
               </div>
               {notebooks.notebooks.map((notebook, idx) => (
-                <div className={ `mt-2 ml-2 flex-1 px-4 first:pl-0 last:pr-0 ${isResearchOpen ? 'block' : 'hidden'}`}>
-                  <li key={idx} className={`w-full ${pathname.startsWith(`/notebooks/${notebook.path}`) ? '' : 'hover:bg-white text-[#3b3b3b]'} rounded-md py-1`}>
+                <div key={idx} className={ `mt-2 ml-2 flex-1 px-4 first:pl-0 last:pr-0 ${isResearchOpen ? 'block' : 'hidden'}`}>
+                  <li className={`w-full ${pathname.startsWith(`/notebooks/${notebook.path}`) ? '' : 'hover:bg-white text-[#3b3b3b]'} rounded-md py-1`}>
                   <Link href={`/notebooks/${notebook.path}`} className={`p-3 transition duration-300 ${pathname.startsWith(`/notebooks/${notebook.path}`) ? 'text-blue' : 'hover:text-[#000]'}`}>
                       {notebook.name}
                   </Link>
