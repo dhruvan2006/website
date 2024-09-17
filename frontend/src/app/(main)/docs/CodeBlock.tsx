@@ -68,7 +68,7 @@ print(response.json())`,
         <pre className="bg-gray-100 rounded-b-md overflow-x-auto">
           <code>
             <SyntaxHighlighter language='json' style={tomorrowNightBright} wrapLines wrapLongLines>
-              {"{&quot;message&quot;:&quot;API key is valid&quot;}"}
+            {`{"message": "API key is valid"}`}
             </SyntaxHighlighter>
           </code>
         </pre>

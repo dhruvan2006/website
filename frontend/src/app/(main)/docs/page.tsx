@@ -31,8 +31,6 @@ export default function APIDocs() {
     { id: 'endpoints', title: 'Endpoints' }
   ];
 
-  const lorem = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. In aliquam sagittis nulla, a accumsan nisl tristique eu. Praesent vitae feugiat purus, non accumsan nulla. Cras at efficitur dolor. Pellentesque ac dui ut eros laoreet sagittis at eu sem. Quisque accumsan semper tortor, id feugiat risus. Nulla volutpat mi odio, in imperdiet nunc commodo nec. Ut ac finibus felis, quis vestibulum sem. Nunc eu orci et odio vulputate ornare. Fusce iaculis sed mauris sit amet tincidunt. Ut mattis euismod velit eget aliquam. Ut a elementum felis, non porttitor dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In aliquam sagittis nulla, a accumsan nisl tristique eu. Praesent vitae feugiat purus, non accumsan nulla. Cras at efficitur dolor. Pellentesque ac dui ut eros laoreet sagittis at eu sem. Quisque accumsan semper tortor, id feugiat risus. Nulla volutpat mi odio, in imperdiet nunc commodo nec. Ut ac finibus felis, quis vestibulum sem. Nunc eu orci et odio vulputate ornare. Fusce iaculis sed mauris sit amet tincidunt. Ut mattis euismod velit eget aliquam. Ut a elementum felis, non porttitor dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In aliquam sagittis nulla, a accumsan nisl tristique eu. Praesent vitae feugiat purus, non accumsan nulla. Cras at efficitur dolor. Pellentesque ac dui ut eros laoreet sagittis at eu sem. Quisque accumsan semper tortor, id feugiat risus. Nulla volutpat mi odio, in imperdiet nunc commodo nec. Ut ac finibus felis, quis vestibulum sem. Nunc eu orci et odio vulputate ornare. Fusce iaculis sed mauris sit amet tincidunt. Ut mattis euismod velit eget aliquam. Ut a elementum felis, non porttitor dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In aliquam sagittis nulla, a accumsan nisl tristique eu. Praesent vitae feugiat purus, non accumsan nulla. Cras at efficitur dolor. Pellentesque ac dui ut eros laoreet sagittis at eu sem. Quisque accumsan semper tortor, id feugiat risus. Nulla volutpat mi odio, in imperdiet nunc commodo nec. Ut ac finibus felis, quis vestibulum sem. Nunc eu orci et odio vulputate ornare. Fusce iaculis sed mauris sit amet tincidunt. Ut mattis euismod velit eget aliquam. Ut a elementum felis, non porttitor dolor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. In aliquam sagittis nulla, a accumsan nisl tristique eu. Praesent vitae feugiat purus, non accumsan nulla. Cras at efficitur dolor. Pellentesque ac dui ut eros laoreet sagittis at eu sem. Quisque accumsan semper tortor, id feugiat risus. Nulla volutpat mi odio, in imperdiet nunc commodo nec. Ut ac finibus felis, quis vestibulum sem. Nunc eu orci et odio vulputate ornare. Fusce iaculis sed mauris sit amet tincidunt. Ut mattis euismod velit eget aliquam. Ut a elementum felis, non porttitor dolor. '
-  
   return (
     <div className="min-h-[88.7vh] flex flex-col font-sans bg-[#fff] text-[#191919] py-2">
       <h1 className="text-4xl font-bold mb-6 text-center">API Documentation</h1>
@@ -49,7 +47,7 @@ export default function APIDocs() {
           <h2 className="text-2xl font-semibold mb-4">Authentication</h2>
           <p>All requests to the endpoints are required to have an API key in the HTTP <code className="bg-gray-100 text-red px-1 rounded">X-Api-Key</code> header.</p>
           <br />
-          <p>To get an API key, you need to create an account. Click on the "Get API Key" button at the top of the page. After creating your account, go to your profile picture, click on it, and in the dropdown menu, select "Generate API Key".</p>
+          <p>To get an API key, you need to create an account. Click on the &quot;Get API Key&quot; button at the top of the page. After creating your account, go to your profile picture, click on it, and in the dropdown menu, select &quot;Generate API Key&quot;.</p>
           <br />
           <p>Then, add the <code className="bg-gray-100 text-red px-1 rounded">X-Api-Key: &lt;API_KEY&gt;</code> HTTP header to all your requests to the server. This is how you are authenticated. In case you lose the API key, you can always regenerate a new one.</p>
           <CodeBlock apiKey='<API_KEY>' />
@@ -62,7 +60,7 @@ export default function APIDocs() {
             <div className="bg-gray-100 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-semibold mb-2">Get Liquidity Values</h3>
               <code className="text-red inline-block">GET /api/liquidity/series?ticker={'<ticker_name>'}</code>
-              <p className="text-gray-600 mt-2">Retrieve liquidity values by using 'LIQUIDITY'. Get the components with the corresponding {'<ticker_name>'}.</p>
+              <p className="text-gray-600 mt-2">Retrieve liquidity values by using &aposLIQUIDITY&apos. Get the components with the corresponding {'<ticker_name>'}.</p>
             </div>
             <div className="bg-gray-100 p-4 rounded-md shadow-md">
               <h3 className="text-lg font-semibold mb-2">Get Bitcoin Price</h3>
