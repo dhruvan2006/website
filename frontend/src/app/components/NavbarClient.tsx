@@ -383,8 +383,8 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
           </div>
         </div>
 
-        {/* Navbar Dropdown */}
-        <div className={`lg:hidden h-0 md:min-h-screen bg-[#fff] md:border-l md:border-zinc-300 w-full md:w-1/3 flex flex-col transition-all duration-300 ease-in-out md:absolute md:top-0 ${isMenuOpen ? 'md:right-0 flex min-h-[89vh]' : 'md:min-h-screen md:-right-96 overflow-hidden min-h-0'}`}>
+        {/* Navbar Dropdown Mobile + Tab*/}
+        <div className={`lg:hidden h-0 md:min-h-screen bg-[#fff] md:border-l md:border-zinc-300 w-full md:w-1/3 flex flex-col transition-all duration-300 ease-in-out md:absolute md:top-0 ${isMenuOpen ? 'md:right-0 flex min-h-[92.3dvh]' : 'md:min-h-screen md:-right-96 overflow-hidden min-h-0'}`}>
           
           {/* Nav close for md */}
           <div className='hidden md:block'>
@@ -396,13 +396,13 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
           {/* Nav Links */}
           <ul className='p-4 overflow-y-scroll'>
             <li className='py-2 border-b border-b-white'>
-              <Link href='/liquidity' className='p-2 block hover:bg-blue-500 text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
+              <Link href='/liquidity' onClick={() => setIsMenuOpen(false)} className='p-2 block hover:bg-blue-500 text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
                 Liquidity
               </Link>
             </li>
             <li className='py-2 border-b border-b-white'>
               <div className='flex flex-row items-center text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
-                <Link href='/indicators' className='flex-1 p-2 block border-r border-[#fff]'>
+                <Link href='/indicators' onClick={() => setIsMenuOpen(false)} className='flex-1 p-2 block border-r border-[#fff]'>
                   Indicators
                 </Link>
                 <button
@@ -425,7 +425,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                   <ul className='ml-2 space-y-2'>
                     {item.indicators.map((indicator, idx) => (
                       <li key={idx} className={`w-full ${pathname.startsWith(`/indicators/${indicator.url_name}`) ? '' : 'hover:bg-white text-[#3b3b3b]'} rounded-md py-1`}>
-                        <Link href={`/indicators/${indicator.url_name}`} className={`p-3 transition duration-300 ${pathname.startsWith(`/indicators/${indicator.url_name}`) ? 'text-blue' : 'hover:text-[#000]'}`}>
+                        <Link href={`/indicators/${indicator.url_name}`} onClick={() => setIsMenuOpen(false)} className={`p-3 transition duration-300 ${pathname.startsWith(`/indicators/${indicator.url_name}`) ? 'text-blue' : 'hover:text-[#000]'}`}>
                           {indicator.human_name}
                         </Link>
                       </li>
@@ -436,7 +436,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             </li>
             <li className='py-2 border-b border-b-white'>
               <div className='flex flex-row items-center text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
-                <Link href='/datasources' className='flex-1 p-2 block border-r border-[#fff]'>
+                <Link href='/datasources' onClick={() => setIsMenuOpen(false)} className='flex-1 p-2 block border-r border-[#fff]'>
                   Data Sources
                 </Link>
                 <button
@@ -456,7 +456,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
               {dataSources.map((dataSource, idx) => (
                 <ul key={idx} className={ `mt-2 ml-2 flex-1 px-4 first:pl-0 last:pr-0 ${isDatasourcesOpen ? 'block' : 'hidden'}`}>
                   <li className={`w-full ${pathname.startsWith(`/datasources/${dataSource.url}`) ? '' : 'hover:bg-white text-[#3b3b3b]'} rounded-md py-1`}>
-                  <Link href={`/datasources/${dataSource.url}`} className={`p-3 transition duration-300 ${pathname.startsWith(`/datasources/${dataSource.url}`) ? 'text-blue' : 'hover:text-[#000]'}`}>
+                  <Link href={`/datasources/${dataSource.url}`} onClick={() => setIsMenuOpen(false)} className={`p-3 transition duration-300 ${pathname.startsWith(`/datasources/${dataSource.url}`) ? 'text-blue' : 'hover:text-[#000]'}`}>
                       {dataSource.name}
                   </Link>
                   </li>
@@ -465,7 +465,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             </li>
             <li className='py-2 border-b border-b-white'>
               <div className='flex flex-row items-center text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
-                <Link href='/research' className='flex-1 p-2 block border-r border-[#fff]'>
+                <Link href='/notebooks' onClick={() => setIsMenuOpen(false)} className='flex-1 p-2 block border-r border-[#fff]'>
                   Research
                 </Link>
                 <button
@@ -485,7 +485,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
               {notebooks.notebooks.map((notebook, idx) => (
                 <ul key={idx} className={ `mt-2 ml-2 flex-1 px-4 first:pl-0 last:pr-0 ${isResearchOpen ? 'block' : 'hidden'}`}>
                   <li className={`w-full ${pathname.startsWith(`/notebooks/${notebook.path}`) ? '' : 'hover:bg-white text-[#3b3b3b]'} rounded-md py-1`}>
-                  <Link href={`/notebooks/${notebook.path}`} className={`p-3 transition duration-300 ${pathname.startsWith(`/notebooks/${notebook.path}`) ? 'text-blue' : 'hover:text-[#000]'}`}>
+                  <Link href={`/notebooks/${notebook.path}`} onClick={() => setIsMenuOpen(false)} className={`p-3 transition duration-300 ${pathname.startsWith(`/notebooks/${notebook.path}`) ? 'text-blue' : 'hover:text-[#000]'}`}>
                       {notebook.name}
                   </Link>
                   </li>
@@ -493,7 +493,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
               ))}
             </li>
             <li className='py-2'>
-              <Link href='/docs' className='p-2 block hover:bg-blue-500 text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
+              <Link href='/docs' onClick={() => setIsMenuOpen(false)} className='p-2 block hover:bg-blue-500 text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
                 API Docs
               </Link>
             </li>
