@@ -6,7 +6,7 @@ import type { Metadata } from 'next'
 export async function generateMetadata({ params }: { params: { datasource: string } }) {
   const datasource = await getDataSource(params.datasource);
   return {
-    title: `${datasource} | Dhruvan`,
+    title: `${datasource.name} | Dhruvan`,
   }
 }
 
