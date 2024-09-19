@@ -1,8 +1,14 @@
 import React from 'react';
-import axios from 'axios';
 import Chart from './Chart';
-
 import { customFetch } from '@/api';
+import type { Metadata } from 'next'
+ 
+export async function generateMetadata({ params }: { params: { datasource: string } }) {
+  const datasource = await getDataSource(params.datasource);
+  return {
+    title: `${datasource} | Dhruvan`,
+  }
+}
 
 async function getDataSource(datasource: string) {
   const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/datasource/${datasource}`);

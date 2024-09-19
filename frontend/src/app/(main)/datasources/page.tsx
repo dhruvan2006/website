@@ -1,6 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { customFetch } from '@/api';
+import type { Metadata } from 'next'
+ 
+export const metadata: Metadata = {
+  title: 'Bitcoin Data Sources | Dhruvan',
+  description: 'Explore a wide range of data sources provided for Bitcoin On-Chain data.',
+}
 
 interface DataSource {
   id: number;
