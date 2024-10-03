@@ -25,12 +25,15 @@ interface BitcoinDataPoint {
 }
 
 export default function Chart({ ticker, color, data, bitcoinData }: { ticker: string, color: string, data: DataPoint[], bitcoinData: BitcoinDataPoint[] }) {
+  const sortedData = data.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  const sortedBitcoinData = bitcoinData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+  
   const indicatorTrace: Plotly.Data = {
     type: 'scatter',
     mode: 'lines',
     name: ticker,
-    x: data.map((d: DataPoint) => d.date),
-    y: data.map((d: DataPoint) => d.value),
+    x: sortedData.map((d: DataPoint) => d.date),
+    y: sortedData.map((d: DataPoint) => d.value),
     line: {color: color},
     yaxis: 'y2',
   };
@@ -39,8 +42,8 @@ export default function Chart({ ticker, color, data, bitcoinData }: { ticker: st
     type: 'scatter',
     mode: 'lines',
     name: 'Bitcoin',
-    x: bitcoinData.map(d => d.date),
-    y: bitcoinData.map(d => d.price),
+    x: sortedBitcoinData.map(d => d.date),
+    y: sortedBitcoinData.map(d => d.price),
     line: {color: '#ff0000'},
   }
 
