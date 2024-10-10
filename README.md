@@ -47,10 +47,10 @@ pip install -r requirements.txt
 You will need to configure environment variables for both the frontend and backend.
 
 ### Frontend (Next.js)
-Copy a `.env.local.example` file in the `frontend` directory and rename it to `.env.local` after filling in all the details.
+Save `.env.local.example` file in the `frontend` directory as `.env.local` after filling in all the details.
 
 ### Backend (Django)
-Copy a `.env.example` file in the `backend` directory and rename it to `.env` after filling in all the details.
+Save `.env.example` file in the `backend` directory as `.env` after filling in all the details.
 
 ## Running the Application
 ### Backend (Django)
