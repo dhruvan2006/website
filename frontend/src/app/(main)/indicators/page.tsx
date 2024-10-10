@@ -1,6 +1,12 @@
 import React from 'react';
 import Link from 'next/link';
 import { customFetch } from '@/api';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Bitcoin Indicators | Dhruvan',
+  description: 'Explore a wide suite of uniquely researched bitcoin indicators.'
+}
 
 interface Category {
   id: number;

@@ -2,6 +2,13 @@ import React from 'react';
 import Chart from './Chart';
 import { customFetch } from '@/api';
 
+export async function generateMetadata({ params }: { params: { datasource: string } }) {
+  const datasourceData = await getDataSource(params.datasource);
+  return {
+    title: `${datasourceData.name} Data | Dhruvan`,
+  };
+}
+
 async function getDataSource(datasource: string) {
   const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/datasource/${datasource}`);
   if (!res.ok) {

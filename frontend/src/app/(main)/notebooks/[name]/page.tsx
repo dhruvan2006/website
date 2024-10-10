@@ -1,6 +1,21 @@
 import React from "react";
-import { notFound } from "next/navigation";
 import { customFetch } from "@/api";
+
+function formatTitle(name: string) {
+  return name
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+export async function generateMetadata({ params }: { params: { name: string } }) {
+  const { name } = params;
+  const title = formatTitle(name);
+
+  return {
+    title: `${title} Notebook | Dhruvan`,
+  };
+}
 
 async function fetchHtml(name: string) {
   const res = await customFetch(`${process.env.API_BASE_URL}/api/research/notebooks/${name}`);

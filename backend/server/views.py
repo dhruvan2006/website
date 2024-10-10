@@ -12,4 +12,4 @@ def index(request):
         except UserAPIKey.DoesNotExist:
             return JsonResponse({"error": "Invalid API key"}, status=401)
     else:
-        return JsonResponse({"message": "Hello, world. You're at the index. Check out the documentation at https://api.gnanadhandayuthapani.com/docs to get started."}, status=200)
+        return JsonResponse({"message": "Hello, world. You're at the index. Check out the documentation at https://gnanadhandayuthapani.com/docs to get started."}, status=200)

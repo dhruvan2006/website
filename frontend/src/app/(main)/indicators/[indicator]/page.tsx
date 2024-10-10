@@ -1,9 +1,16 @@
 import React from 'react';
-import axios from 'axios';
 import InteractiveChart from './InteractiveChart';
 import ApiHelp from './ApiHelp';
 import IndicatorDescription from './IndicatorDescription';
 import { customFetch } from '@/api';
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params }: { params: { indicator: string } }) {
+  const indicatorData = await getIndicator(params.indicator);
+  return {
+    title: `${indicatorData.human_name} Indicator | Dhruvan`,
+  };
+}
 
 async function getIndicator(indicator: string) {
   const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/indicator/${indicator}`);
