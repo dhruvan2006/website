@@ -5,7 +5,26 @@ import OptimalClient from './OptimalClient';
 
 export const metadata: Metadata = {
   title: 'Optimal Leverage Calculator | Dhruvan',
-  description: 'TODO:'
+  description: 'Calculate optimal leverage for leveraged ETFs with our interactive tool.',
+  openGraph: {
+    title: 'Optimal Leverage Calculator | Dhruvan',
+    description: 'Calculate optimal leverage for leveraged ETFs with our interactive tool.',
+    images: [
+      {
+        url: '/og/optimal.png',
+        width: 1200,
+        height: 630,
+        alt: 'Optimal Leverage Calculator',
+      }
+    ],
+    type: 'website'
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Optimal Leverage Calculator | Dhruvan',
+    description: 'Calculate optimal leverage for leveraged ETFs with our interactive tool.',
+    images: ['/og/optimal.png']
+  }
 }
 
 // Fallback component
