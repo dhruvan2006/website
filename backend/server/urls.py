@@ -25,5 +25,6 @@ urlpatterns = [
     path('api/liquidity/', include('liquidity.urls')),
     path('api/indicators/', include('indicators.urls')),
     path('api/research/', include('research.urls')),
+    path('api/optimal/', include('optimal.urls')),
     path('admin/', admin.site.urls),
 ]
