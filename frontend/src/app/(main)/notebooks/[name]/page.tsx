@@ -1,5 +1,6 @@
 import React from "react";
 import { customFetch } from "@/api";
+import NotebookClient from "./NotebookClient";
 
 function formatTitle(name: string) {
   return name
@@ -50,17 +51,6 @@ export default async function NotebookPage({ params }: { params: { name: string 
   const htmlContent = await fetchHtml(name);
 
   return (
-    <div>
-        <iframe
-          srcDoc={htmlContent}
-          style={{
-            width: '100%',
-            height: '100vh',
-            border: 'none',
-            overflow: 'auto',
-          }}
-          sandbox="allow-scripts allow-same-origin"
-        />
-      </div>
+    <NotebookClient htmlContent={htmlContent} />
   );
 }
