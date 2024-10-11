@@ -1,5 +1,5 @@
 import nasdaqdatalink
-import yfinance as yf
+import ocfinance as of
 import pandas as pd
 import numpy as np
 import os
@@ -23,6 +23,8 @@ class Command(BaseCommand):
     help = 'Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance'
 
     def handle(self, *args, **options):
+        fetch_cryptoquant()
+        self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
         fetch_indicators()
@@ -87,6 +89,63 @@ def fetch_indicators():
     calculate_thermocap()
     calculate_decayosc()
     calculate_adjusted_mvrv()
+
+cryptoquant_indicators = [
+    {
+        "url": "https://cryptoquant.com/analytics/query/6463b524885a7d37a1630f8b?v=6463f8c9fb92892124bd5864",
+        "url_name": "Adjusted_MVRV",
+        "human_name": "Adjusted MVRV (Cryptoquant)",
+        "col": "Adjusted_MVRV",
+        "description": """The Adjusted MVRV indicator from Cryptoquant
+[1] https://cryptoquant.com/analytics/query/6463b524885a7d37a1630f8b?v=6494246f2ec8802caadae67f"""
+    },
+    {
+        "url": "https://cryptoquant.com/analytics/query/65fdf974a3be2268b3e0befd?v=65fdfa6203ae7e44ef15d1f8",
+        "url_name": "Sharpe_Ratio",
+        "human_name": "Sharpe Ratio",
+        "col": "sharpe_ratio_365",
+        "description": """The Sharpe Ratio indicator from Cryptoquant
+[1] https://cryptoquant.com/analytics/query/65fdf974a3be2268b3e0befd?v=65fdfa6203ae7e44ef15d1f8"""
+    },
+    {
+        "url": "https://cryptoquant.com/analytics/query/64faf6ae78b98c08bc94a362?v=64faf723d69757218b557162",
+        "url_name": "VDD_Multiple",
+        "human_name": "Value Days Destroyed Multiple",
+        "col": "VDD_Multiple",
+        "description": """The Value Days Destroyed Multiple indicator from Cryptoquant
+[1] https://cryptoquant.com/analytics/query/64faf6ae78b98c08bc94a362?v=64faf6ae78b98c08bc94a363"""
+    }
+]
+
+def fetch_cryptoquant():
+    email = os.getenv('CRYPTOQUANT_EMAIL')
+    password = os.getenv('CRYPTOQUANT_PASSWORD')
+
+    for indicator in cryptoquant_indicators:
+        url = indicator['url']
+        col = indicator['col']
+        
+        df = of.download(url, email=email, password=password)
+
+        category, _ = Category.objects.get_or_create(name='Cryptoquant')
+
+        indicator, _ = Indicator.objects.get_or_create(
+            url_name=indicator['url_name'],
+            defaults={
+                'human_name': indicator['human_name'], 
+                'description': indicator['description'],
+                'category': category
+            }
+        )
+
+        for date, row in df.iterrows():
+            if pd.notna(row[col]):
+                IndicatorValue.objects.update_or_create(
+                    indicator=indicator,
+                    date=date,
+                    defaults={'value': row[col]}
+                )
+
 
 def calculate_plrr():
     """
