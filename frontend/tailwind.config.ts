@@ -19,9 +19,6 @@ const config: Config = {
         'green': '#0c7c59',
         'lightblack': '#0c0f17',
       },
-      backgroundImage: {
-        "usa": "url('/usa.svg')",
-      },
     },
   },
   plugins: [],

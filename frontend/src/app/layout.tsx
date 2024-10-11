@@ -7,8 +7,31 @@ import "./fonts.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Dhruvan: Live bitcoin indicators and liquidity data",
+  title: "Dhruvan | Live Bitcoin Indicators and Liquidity Data",
   description: "Real-time Bitcoin analytics, live market indicators, and liquidity data API for crypto investors. Access powerful tools and insights for cryptocurrency investors, traders, and developers.",
+  keywords: "Bitcoin, cryptocurrency, market indicators, liquidity data, crypto API, analytics, trading tools",
+  authors: [{ name: "Dhruvan Gnanadhandayuthapani" }],
+  openGraph: {
+    title: "Dhruvan | Live Bitcoin Indicators and Liquidity Data",
+    description: "Real-time Bitcoin analytics, live market indicators, and liquidity data API for crypto investors. Access powerful tools and insights for cryptocurrency investors, traders, and developers.",
+    url: "https://www.gnanadhandayuthapani.com",
+    siteName: "Dhruvan",
+    images: [
+      {
+        url: "/og/home.png",
+        width: 1200,
+        height: 630,
+        alt: "Live Bitcoin Indicators and Liquidity Data",
+      },
+    ],
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dhruvan | Live Bitcoin Indicators and Liquidity Data",
+    description: "Real-time Bitcoin analytics, live market indicators, and liquidity data API for crypto investors. Access powerful tools and insights for cryptocurrency investors, traders, and developers.",
+    images: ["/og/home.png"],
+  },
 };
 
 export default function RootLayout({
