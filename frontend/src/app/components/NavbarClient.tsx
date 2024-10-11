@@ -167,6 +167,12 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
               </Link>
             </li>
 
+            <li>
+              <Link href="/optimal" className={`pl-6 transition duration-300 ${pathname === '/optimal' ? 'text-blue' : 'hover:text-[#7f7f7f] '}`}>
+                Optimal
+              </Link>
+            </li>
+
             <li 
               className='py-6 pl-6'
               onMouseEnter={handleIndicatorMouseEnter} 
@@ -384,7 +390,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
         </div>
 
         {/* Navbar Dropdown Mobile + Tab*/}
-        <div className={`lg:hidden h-0 md:min-h-screen bg-[#fff] md:border-l md:border-zinc-300 w-full md:w-1/3 flex flex-col transition-all duration-300 ease-in-out md:absolute md:top-0 ${isMenuOpen ? 'md:right-0 flex min-h-[92.3dvh]' : 'md:min-h-screen md:-right-96 overflow-hidden min-h-0'}`}>
+        <div className={`lg:hidden h-0 md:min-h-screen bg-[#fff] md:border-l md:border-zinc-300 w-full md:w-2/5 flex flex-col transition-all duration-300 ease-in-out md:absolute md:top-0 ${isMenuOpen ? 'md:right-0 flex min-h-[92.3dvh]' : 'md:min-h-screen md:-right-96 overflow-hidden min-h-0'}`}>
           
           {/* Nav close for md */}
           <div className='hidden md:block'>
@@ -398,6 +404,11 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             <li className='py-2 border-b border-b-white'>
               <Link href='/liquidity' onClick={() => setIsMenuOpen(false)} className='p-2 block hover:bg-blue-500 text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
                 Liquidity
+              </Link>
+            </li>
+            <li className='py-2 border-b border-b-white'>
+              <Link href='/optimal' onClick={() => setIsMenuOpen(false)} className='p-2 block hover:bg-blue-500 text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
+                Optimal
               </Link>
             </li>
             <li className='py-2 border-b border-b-white'>

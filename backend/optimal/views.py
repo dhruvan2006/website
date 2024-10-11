@@ -1,8 +1,10 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 import yfinance as yf
 import numpy as np
+import requests
 
 class OptimalLeverageView(APIView):
     def post(self, request):
@@ -55,3 +57,22 @@ class OptimalLeverageView(APIView):
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+class TickerSuggestionView(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        query = request.query_params.get('q', '')
+
+        if not query:
+            return Response({"error": "No query provided"}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            response = requests.get(f'https://query1.finance.yahoo.com/v1/finance/search?q={query}', headers={
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0'
+            })
+            data = response.json()
+            tickers = [quote['symbol'] for quote in data.get('quotes', [])]
+
+            return Response({"suggestions": tickers})
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
