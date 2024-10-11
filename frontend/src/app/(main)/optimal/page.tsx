@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Optimal Leverage Calculator | Dhruvan',
     description: 'Calculate optimal leverage for leveraged ETFs with our interactive tool.',
+    url: 'https://gnanadhandayuthapani.com/optimal',
     images: [
       {
         url: '/og/optimal.png',
