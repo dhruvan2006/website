@@ -3,12 +3,33 @@ import InteractiveChart from './InteractiveChart';
 import ApiHelp from './ApiHelp';
 import IndicatorDescription from './IndicatorDescription';
 import { customFetch } from '@/api';
-import { Metadata } from 'next';
 
 export async function generateMetadata({ params }: { params: { indicator: string } }) {
   const indicatorData = await getIndicator(params.indicator);
   return {
     title: `${indicatorData.human_name} Indicator | Dhruvan`,
+    description: `Explore the ${indicatorData.human_name} indicator on Dhruvan.`,
+    openGraph: {
+      title: `${indicatorData.human_name} Indicator | Dhruvan`,
+      description: `Explore the ${indicatorData.human_name} indicator on Dhruvan.`,
+      url: `https://gnanadhandayuthapani.com/indicators/${params.indicator}`,
+      images: [
+        {
+          url: '/og/indicator.png',
+          width: 1200,
+          height: 630,
+          alt: `${indicatorData.human_name} Indicator | Dhruvan`,
+        }
+      ],
+      siteName: 'Dhruvan',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${indicatorData.human_name} Indicator | Dhruvan`,
+      description: `Explore the ${indicatorData.human_name} indicator on Dhruvan.`,
+      images: ['/og/indicator.png'],
+    }
   };
 }
 

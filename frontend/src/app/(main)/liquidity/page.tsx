@@ -6,7 +6,27 @@ import { customFetch } from '@/api';
 // Metadata
 export const metadata: Metadata = {
   title: "FED Liquidity | Dhruvan",
-  description: "Explore live FED liquidity data. Learn how liquidity works and visualize its effect on Bitcoin price."
+  description: "Explore live FED liquidity data. Learn how liquidity works and visualize its effect on Bitcoin price.",
+  openGraph: {
+    title: "FED Liquidity | Dhruvan",
+    description: "Explore live FED liquidity data. Learn how liquidity works and visualize its effect on Bitcoin price.",
+    url: "https://gnanadhandayuthapani.com/liquidity",
+    images: [
+      {
+        url: "/og/liquidity.png",
+        width: 1200,
+        height: 630,
+        alt: "FED Liquidity Dashboard"
+      }
+    ],
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "FED Liquidity | Dhruvan",
+    description: "Explore live FED liquidity data. Learn how liquidity works and visualize its effect on Bitcoin price.",
+    images: ["/og/liquidity.png"]
+  },
 }
 
 // Types and constants

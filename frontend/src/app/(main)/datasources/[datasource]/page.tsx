@@ -4,8 +4,31 @@ import { customFetch } from '@/api';
 
 export async function generateMetadata({ params }: { params: { datasource: string } }) {
   const datasourceData = await getDataSource(params.datasource);
+  
   return {
     title: `${datasourceData.name} Data | Dhruvan`,
+    description: `Access ${datasourceData.name}.`,
+    openGraph: {
+      title: `${datasourceData.name} Data | Dhruvan`,
+      description: `Access ${datasourceData.name}.`,
+      url: `https://gnanadhandayuthapani.com/datasources/${params.datasource}`,
+      images: [
+        {
+          url: '/og/datasource.png',
+          width: 1200,
+          height: 630,
+          alt: `${datasourceData.name} Data | Dhruvan`,
+        }
+      ],
+      siteName: 'Dhruvan',
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${datasourceData.name} Data | Dhruvan`,
+      description: `Access ${datasourceData.name}.`,
+      images: ['/og/datasource.png'],
+    }
   };
 }
 

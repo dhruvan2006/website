@@ -217,7 +217,6 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
               onMouseLeave={handleNotebookMouseLeave}
             >
               <div className={`focus:outline-none flex items-center cursor-pointer transition duration-300 ${pathname.startsWith('/notebooks') ? 'text-blue' : 'hover:text-[#7f7f7f] '}`}>
-                {/* TODO: Add this page.tsx */}
                 <Link href="/notebooks">Research</Link>
 
                 <svg

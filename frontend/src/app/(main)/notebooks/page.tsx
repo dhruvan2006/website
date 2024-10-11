@@ -5,8 +5,30 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Bitcoin Research | Dhruvan',
-  description: 'Explore the research process for finding indicators.'
+  description: 'Explore the research process for finding indicators.',
+  openGraph: {
+    title: 'Bitcoin Research | Dhruvan',
+    description: 'Explore the research process for finding indicators.',
+    url: 'https://www.gnanadhandayuthapani.com/notebooks',
+    images: [
+      {
+        url: '/og/research.png',
+        width: 1200,
+        height: 630,
+        alt: 'Bitcoin Research | Dhruvan',
+      }
+    ],
+    siteName: 'Dhruvan',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bitcoin Research | Dhruvan',
+    description: 'Explore the research process for finding indicators.',
+    images: ['/og/research.png'],
+  }
 }
+
 
 type Notebook = {
   path: string;

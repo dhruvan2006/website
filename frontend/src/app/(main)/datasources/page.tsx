@@ -5,7 +5,28 @@ import type { Metadata } from 'next'
  
 export const metadata: Metadata = {
   title: 'Bitcoin Data Sources | Dhruvan',
-  description: 'Explore a wide range of data sources provided for Bitcoin On-Chain data.',
+  description: 'Explore a wide suite of data sources provided for Bitcoin On-Chain data.',
+  openGraph: {
+    title: 'Bitcoin Data Sources | Dhruvan',
+    description: 'Explore a wide suite of data sources provided for Bitcoin On-Chain data.',
+    url: 'https://gnanadhandayuthapani.com/datasources',
+    images: [
+      {
+        url: '/og/datasources.png',
+        width: 1200,
+        height: 630,
+        alt: 'Bitcoin Data Sources | Dhruvan',
+      }
+    ],
+    siteName: 'Dhruvan',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Bitcoin Data Sources | Dhruvan',
+    description: 'Explore a wide suite of data sources provided for Bitcoin On-Chain data.',
+    images: ['/og/datasources.png'], 
+  }
 }
 
 interface DataSource {

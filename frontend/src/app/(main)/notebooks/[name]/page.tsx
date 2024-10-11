@@ -14,6 +14,28 @@ export async function generateMetadata({ params }: { params: { name: string } })
 
   return {
     title: `${title} Notebook | Dhruvan`,
+    description: `Explore the ${title} notebook for in-depth Bitcoin research on Dhruvan.`,
+    openGraph: {
+      title: `${title} Notebook | Dhruvan`,
+      description: `Explore the ${title} notebook for in-depth Bitcoin research on Dhruvan.`,
+      url: `https://www.gnanadhandayuthapani.com/notebooks/${name}`,
+      images: [
+        {
+          url: '/og/notebook.png',
+          width: 1200,
+          height: 630,
+          alt: `${title} Notebook | Dhruvan`,
+        }
+      ],
+      siteName: 'Dhruvan',
+      type: 'article',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${title} Notebook | Dhruvan`,
+      description: `Explore the ${title} notebook for in-depth Bitcoin research on Dhruvan.`,
+      images: ['/og/notebook.png'],
+    }
   };
 }
 

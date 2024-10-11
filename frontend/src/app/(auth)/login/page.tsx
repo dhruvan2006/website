@@ -3,11 +3,33 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { auth, signIn } from '@/auth';
 import { redirect } from 'next/navigation';
+import { Metadata } from 'next';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "Login | Dhruvan",
-  description: "Log in to your account to access your API key."
-};
+  description: "Log in to your account to access your API key.",
+  openGraph: {
+    title: "Login | Dhruvan",
+    description: "Log in to your account to access your API key.",
+    url: "https://www.gnanadhandayuthapani.com/login",
+    images: [
+      {
+        url: '/og/login.png',
+        width: 1200,
+        height: 630,
+        alt: "Login | Dhruvan",
+      }
+    ],
+    siteName: 'Dhruvan',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Login | Dhruvan",
+    description: "Log in to your account to access your API key.",
+    images: ['/og/login.png'],
+  }
+}
 
 function Success() {
   return (
