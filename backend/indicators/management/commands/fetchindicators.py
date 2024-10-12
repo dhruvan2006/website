@@ -23,8 +23,10 @@ class Command(BaseCommand):
     help = 'Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance'
 
     def handle(self, *args, **options):
-        fetch_cryptoquant()
-        self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
+        fetch_checkonchain()
+        self.stdout.write(self.style.SUCCESS('Successfully fetched CheckOnChain indicators'))
+        # fetch_cryptoquant()
+        # self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
         fetch_indicators()
@@ -40,7 +42,7 @@ class Command(BaseCommand):
 #             date=date.date(),
 #             defaults={'price': price['Value']}
 #         )
-    
+
 #     # Fetch data from Yahoo Finance (2014-09-17 to present)
 #     yf_data = yf.download("BTC-USD", start="2014-09-17")
 
@@ -83,6 +85,84 @@ def fetch_prices():
     finally:
         driver.quit()
 
+checkonchain_indicators = [
+    {
+        "url": "https://charts.checkonchain.com/btconchain/pricing/pricing_mvrv_bands/pricing_mvrv_bands_light.html",
+        "url_name": "MVRV_Ratio",
+        "human_name": "MVRV Ratio",
+        "col": "MVRV Ratio",
+        "description": """The MVRV Ratio from MVRV Pricing Bands from CheckOnChain
+[1] https://charts.checkonchain.com/btconchain/pricing/pricing_mvrv_bands/pricing_mvrv_bands_light.html"""
+    },
+    {
+        "url": "https://charts.checkonchain.com/btconchain/realised/sopr/sopr_light.html",
+        "url_name": "SOPR_7D_EMA",
+        "human_name": "Spent Output Profit Ratio 7D EMA",
+        "col": "SOPR 7D-EMA",
+        "description": """The Spent Output Ratio (SOPR) 7D EMA from CheckOnChain
+[1] https://charts.checkonchain.com/btconchain/realised/sopr/sopr_light.html"""
+    },
+    {
+        "url": "https://charts.checkonchain.com/btconchain/mining/mining_difficultyperissuance/mining_difficultyperissuance_light.html",
+        "url_name": "PoW_OSC",
+        "human_name": "Proof of Work Oscillator",
+        "col": "PoW Oscillator",
+        "description": """The Proof of Work Oscillator from Difficulty per Issuance Model (Estimated Avg Cost of Production) from CheckOnChain
+[1] https://charts.checkonchain.com/btconchain/mining/mining_difficultyperissuance/mining_difficultyperissuance_light.html"""
+    },
+    {
+        "url": "https://charts.checkonchain.com/btconchain/cointime/cointime_pricing_mvrv_aviv_1/cointime_pricing_mvrv_aviv_1_light.html",
+        "url_name": "AVIV_Ratio",
+        "human_name": "AVIV Ratio",
+        "col": "AVIV Ratio",
+        "description": """The AVIV Ratio from True Market Mean and AVIV Ratio from CheckOnChain
+[1] https://charts.checkonchain.com/btconchain/cointime/cointime_pricing_mvrv_aviv_1/cointime_pricing_mvrv_aviv_1_light.html"""
+    },
+    {
+        "url": "https://charts.checkonchain.com/btconchain/pricing/pricing_mayermultiple/pricing_mayermultiple_light.html",
+        "url_name": "MAYER_MULT",
+        "human_name": "The Mayer Multiple",
+        "col": "Mayer Multiple",
+        "description": """The Mayer Multiple from CheckOnChain
+[1] https://charts.checkonchain.com/btconchain/pricing/pricing_mayermultiple/pricing_mayermultiple_light.html"""
+    },
+    {
+        "url": "https://charts.checkonchain.com/btconchain/pricing/pricing_picycleindicator/pricing_picycleindicator_light.html",
+        "url_name": "PI_CYCLE",
+        "human_name": "Pi Cycle Top Indicator",
+        "col": "Pi Cycle Oscillator",
+        "description": """The Pi Cycle Oscillator from Pi Cycle Top Indicator on CheckOnChain
+[1] https://charts.checkonchain.com/btconchain/pricing/pricing_picycleindicator/pricing_picycleindicator_light.html"""
+    }
+]
+
+def fetch_checkonchain():
+    for indicator in checkonchain_indicators:
+        print(f"Scraping {indicator['human_name']}...")
+
+        col = indicator['col']
+
+        df = of.download(indicator['url'])
+
+        category, _ = Category.objects.get_or_create(name='CheckOnChain')
+
+        indicator, _ = Indicator.objects.get_or_create(
+            url_name=indicator['url_name'],
+            defaults={
+                'human_name': indicator['human_name'],
+                'description': indicator['description'],
+                'category': category
+            }
+        )
+
+        for date, row in df.iterrows():
+            if pd.notna(row[col]):
+                IndicatorValue.objects.update_or_create(
+                    indicator=indicator,
+                    date=date,
+                    defaults={'value': row[col]}
+                )
+
 def fetch_indicators():
     calculate_plrr()
     calculate_vpli()
@@ -124,7 +204,7 @@ def fetch_cryptoquant():
     for indicator in cryptoquant_indicators:
         url = indicator['url']
         col = indicator['col']
-        
+
         df = of.download(url, email=email, password=password)
 
         category, _ = Category.objects.get_or_create(name='Cryptoquant')
@@ -132,7 +212,7 @@ def fetch_cryptoquant():
         indicator, _ = Indicator.objects.get_or_create(
             url_name=indicator['url_name'],
             defaults={
-                'human_name': indicator['human_name'], 
+                'human_name': indicator['human_name'],
                 'description': indicator['description'],
                 'category': category
             }
@@ -192,7 +272,7 @@ def calculate_plrr():
     indicator, _ = Indicator.objects.get_or_create(
         url_name='PLRR',
         defaults={
-            'human_name': 'Power Law Residual Ratio', 
+            'human_name': 'Power Law Residual Ratio',
             'description': """The Power Law Residual Ratio (PLRR) is an indicator that measures the normalized deviation of price returns from power law growth with respect to volatility. It is designed to help determine when bitcoin is fairly priced and when its under/overvalued.
 
 [1] https://x.com/math_sci_tech/status/1831083600516911566
@@ -248,7 +328,7 @@ def calculate_vpli():
     vpli_indicator, _ = Indicator.objects.get_or_create(
         url_name='VPLI',
         defaults={
-            'human_name': 'Volatility-adjusted Power Law Indicator', 
+            'human_name': 'Volatility-adjusted Power Law Indicator',
             'description': """The Volatility-adjusted Power Law Indicator (VPLI) measures the deviation of Bitcoin's price from a fitted power law curve which is adjusted by volatility.
 
 [1] https://x.com/Sina_21st/status/1800713784807264431""",
@@ -313,7 +393,7 @@ def calculate_thermocap():
     thermocap_indicator, _ = Indicator.objects.get_or_create(
         url_name='THERMOCAP',
         defaults={
-            'human_name': 'Thermocap Multiple', 
+            'human_name': 'Thermocap Multiple',
             'description': """The Thermocap multiple chart displays the ratio between the cumulative mined BTC (the block subsidy) and denominates them in USD, starting from day one and up to the given day.
 
 [1] https://charts.bitbo.io/thermocap-multiple/
@@ -354,7 +434,7 @@ def calculate_decayosc():
 
     t0_datetime = datetime(2009, 1, 3)
     df['Days'] = (df.index - t0_datetime).days
-    
+
     # Clean data
     df = df.replace([np.inf, -np.inf], np.nan).dropna() # Remove inf values
     df = df[(df['price'] > 0) & (df['Days'] > 0)] # Remove days and prices less than 0
