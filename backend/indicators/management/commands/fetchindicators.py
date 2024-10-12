@@ -23,8 +23,10 @@ class Command(BaseCommand):
     help = 'Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance'
 
     def handle(self, *args, **options):
-        fetch_checkonchain()
+        fetch_of('CheckOnChain', checkonchain_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched CheckOnChain indicators'))
+        fetch_of('Woocharts', woocharts_indicators)
+        self.stdout.write(self.style.SUCCESS('Successfully fetched Woocharts indicators'))
         # fetch_cryptoquant()
         # self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         fetch_prices()
@@ -136,15 +138,34 @@ checkonchain_indicators = [
     }
 ]
 
-def fetch_checkonchain():
-    for indicator in checkonchain_indicators:
+woocharts_indicators = [
+    {
+        "url": "https://woocharts.com/bitcoin-macro-oscillator/",
+        "url_name": "BTC_Macro_Osc",
+        "human_name": "Bitcoin Macro Oscillator",
+        "col": "index",
+        "description": """The Bitcoin Macro Oscillator indicator from Woocharts
+[1] https://woocharts.com/bitcoin-macro-oscillator/"""
+    },
+    {
+        "url": "https://woocharts.com/bitcoin-mvrv-z/",
+        "url_name": "MVRV_Z",
+        "human_name": "Bitcoin MVRV Z-score",
+        "col": "mvrv_z",
+        "description": """The Bitcoin MVRV Z-score indicator from Woocharts
+[1] https://woocharts.com/bitcoin-mvrv-z/"""
+    }
+]
+
+def fetch_of(name, indicators):
+    for indicator in indicators:
         print(f"Scraping {indicator['human_name']}...")
 
         col = indicator['col']
 
         df = of.download(indicator['url'])
 
-        category, _ = Category.objects.get_or_create(name='CheckOnChain')
+        category, _ = Category.objects.get_or_create(name=name)
 
         indicator, _ = Indicator.objects.get_or_create(
             url_name=indicator['url_name'],
