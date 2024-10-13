@@ -27,6 +27,8 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully fetched CheckOnChain indicators'))
         fetch_of('Woocharts', woocharts_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched Woocharts indicators'))
+        fetch_of('ChainExposed', chainexposed_indicators)
+        self.stdout.write(self.style.SUCCESS('Successfully fetched ChainExposed indicators'))
         # fetch_cryptoquant()
         # self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         fetch_prices()
@@ -157,6 +159,33 @@ woocharts_indicators = [
     }
 ]
 
+chainexposed_indicators = [
+    {
+        "url": "https://chainexposed.com/MayerMultiple.html",
+        "url_name": "Mayer_Multiple",
+        "human_name": "Mayer Multiple",
+        "col": "Mayer Multiple",
+        "description": """The Mayer Multiple indicator from ChainExposed
+[1] https://chainexposed.com/MayerMultiple.html"""
+    },
+    {
+        "url": "https://chainexposed.com/NUPL.html",
+        "url_name": "NUPL",
+        "human_name": "Net Unrealized Profit/Loss (NUPL)",
+        "col": "Full NUPL",
+        "description": """The Full NUPL from the NUPL indicator from ChainExposed
+[1] https://chainexposed.com/NUPL.html"""
+    },
+    {
+        "url": "https://chainexposed.com/RelativeUnrealizedProfit.html",
+        "url_name": "RUP",
+        "human_name": "Relative Unrealized Profit",
+        "col": "RUP",
+        "description": """The Relative Unrealized Profit indicator from ChainExposed
+[1] https://chainexposed.com/RelativeUnrealizedProfit.html"""
+    }
+]
+
 def fetch_of(name, indicators):
     for indicator in indicators:
         print(f"Scraping {indicator['human_name']}...")
@@ -190,6 +219,7 @@ def fetch_indicators():
     calculate_thermocap()
     calculate_decayosc()
     calculate_adjusted_mvrv()
+    calculate_adjusted_mayer_multiple()
 
 cryptoquant_indicators = [
     {
@@ -560,4 +590,57 @@ def calculate_adjusted_mvrv():
                 indicator=indicator,
                 date=date,
                 defaults={'value': row['Adjusted_MVRV']}
+            )
+
+def calculate_adjusted_mayer_multiple():
+    """
+    Calculate the Adjusted Mayer Multiple, which is an oscillator of Mayer Multiple between two quantile regressions.
+    """
+    mayer_indicator = Indicator.objects.get(url_name='Mayer_Multiple')
+    mayer_values = IndicatorValue.objects.filter(indicator=mayer_indicator).order_by('date')
+
+    # Convert data to df
+    mayer_df = pd.DataFrame(list(mayer_values.values()))
+    mayer_df['date'] = pd.to_datetime(mayer_df['date'])
+    mayer_df.set_index('date', inplace=True)
+    mayer_df.sort_index(inplace=True)
+
+    # Calculate quantile regressions
+    start_date = mayer_df.index.min()
+    X = (mayer_df.index - start_date).days.values.reshape(-1, 1)
+    y = np.log(mayer_df['value'].values)
+
+    X_with_const = add_constant(X)
+
+    model_bottom = QuantReg(y, X_with_const)
+    res_bottom = model_bottom.fit(q=0.01)
+
+    model_top = QuantReg(y, X_with_const)
+    res_top = model_top.fit(q=0.99)
+
+    mayer_df['Mayer Multiple Bottom'] = res_bottom.predict(X_with_const)
+    mayer_df['Mayer Multiple Top'] = res_top.predict(X_with_const)
+
+    mayer_df['Adjusted Mayer Multiple'] = (y - mayer_df['Mayer Multiple Bottom']) / (mayer_df['Mayer Multiple Top'] - mayer_df['Mayer Multiple Bottom'])
+
+    category, _ = Category.objects.get_or_create(name='Technical')
+
+    indicator, _ = Indicator.objects.get_or_create(
+        url_name='ADJUSTED_MAYER_MULTIPLE',
+        defaults={
+            'human_name': 'Adjusted Mayer Multiple',
+            'description': """The Adjusted Mayer Multiple is an oscillator of the raw Mayer Multiple between two quantile linear regressions.
+[1] https://chainexposed.com/MayerMultiple.html
+[2] https://www.gnanadhandayuthapani.com/notebooks/adjusted-mayer-multiple
+[3] https://www.gnanadhandayuthapani.com/indicators/Mayer_Multiple""",
+            'category': category
+        }
+    )
+
+    for date, row in mayer_df.iterrows():
+        if pd.notna(row['Adjusted Mayer Multiple']):
+            IndicatorValue.objects.update_or_create(
+                indicator=indicator,
+                date=date,
+                defaults={'value': row['Adjusted Mayer Multiple']}
             )
