@@ -26,25 +26,25 @@ DEBUG = os.getenv('DEBUG', False)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # LOGGING
-if ENVIRONMENT == 'production':
-    LOGGING = {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'handlers': {
-            'file': {
-                'level': 'DEBUG',
-                'class': 'logging.FileHandler',
-                'filename': os.path.join(BASE_DIR, 'django.log'),
-            },
-        },
-        'loggers': {
-            'django': {
-                'handlers': ['file'],
-                'level': 'DEBUG',
-                'propagate': True,
-            },
-        },
-    }
+# if ENVIRONMENT == 'production':
+#     LOGGING = {
+#         'version': 1,
+#         'disable_existing_loggers': False,
+#         'handlers': {
+#             'file': {
+#                 'level': 'DEBUG',
+#                 'class': 'logging.FileHandler',
+#                 'filename': os.path.join(BASE_DIR, 'django.log'),
+#             },
+#         },
+#         'loggers': {
+#             'django': {
+#                 'handlers': ['file'],
+#                 'level': 'DEBUG',
+#                 'propagate': True,
+#             },
+#         },
+#     }
 
 # Increase the number of fields that Django can handle in a single request
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 10000
