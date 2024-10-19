@@ -29,10 +29,12 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully fetched Woocharts indicators'))
         fetch_of('ChainExposed', chainexposed_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched ChainExposed indicators'))
-        # fetch_cryptoquant()
-        # self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
+        fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
+        self.stdout.write(self.style.SUCCESS('Successfully fetched BiTBO indicators'))
+
         fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
+
         fetch_indicators()
         self.stdout.write(self.style.SUCCESS('Successfully calculated indicators'))
 
@@ -186,13 +188,48 @@ chainexposed_indicators = [
     }
 ]
 
-def fetch_of(name, indicators):
+bitbo_indicators = [
+    {
+        "url": "https://charts.bitbo.io/vdd-multiple/",
+        "url_name": "VDD_Bitbo",
+        "human_name": "Value Days Destroyed",
+        "col": "VDD Multiple",
+        "description": """The Value Days Destroyed Multiple indicator from BiTBO
+[1] https://charts.bitbo.io/vdd-multiple/"""
+    },
+    {
+        "url": "https://charts.bitbo.io/puell-multiple/",
+        "url_name": "PUELL_Bitbo",
+        "human_name": "The Puell Multiple",
+        "col": "The Puell multiple",
+        "description": """The Puell Multiple indicator from BiTBO
+[1] https://charts.bitbo.io/puell-multiple/"""
+    },
+    {
+        "url": "https://charts.bitbo.io/power-law-oscillator/",
+        "url_name": "Power_Law_Osc_Bitbo",
+        "human_name": "Power Law Oscillator BiTBO",
+        "col": "Oscillator",
+        "description": """The Power Law Oscillator indicator from BiTBO
+[1] https://charts.bitbo.io/power-law-oscillator/"""
+    },
+    {
+        "url": "https://charts.bitbo.io/sharpe-ratio/",
+        "url_name": "Sharpe_Ratio_Bitbo",
+        "human_name": "Sharpe Ratio BiTBO",
+        "col": "Sharpe ratio",
+        "description": """The Sharpe Ratio indicator from BiTBO
+[1] https://charts.bitbo.io/sharpe-ratio/"""
+    }
+]
+
+def fetch_of(name, indicators, **kwargs):
     for indicator in indicators:
         print(f"Scraping {indicator['human_name']}...")
 
         col = indicator['col']
 
-        df = of.download(indicator['url'])
+        df = of.download(indicator['url'], **kwargs)
 
         category, _ = Category.objects.get_or_create(name=name)
 
