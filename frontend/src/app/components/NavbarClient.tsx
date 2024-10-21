@@ -318,34 +318,34 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
         </div>
 
         {/* Dropdowns */}
-        <div>
+        <div className='overflow-y-auto max-h-[60vh]'>
           {/* Indicator Dropdown */}
           <div 
-            className={`indicator-dropdown-area ${isIndicatorDropdownOpen ? 'transition-all duration-300 ease-in-out pb-5 opacity-100 max-h-[500px]' : 'opacity-0 max-h-0 overflow-hidden'}`}
+            className={`indicator-dropdown-area ${isIndicatorDropdownOpen ? 'transition-all duration-300 ease-in-out pb-5 opacity-100' : 'opacity-0 max-h-0 overflow-hidden'}`}
             onMouseEnter={handleIndicatorMouseEnter}
             onMouseLeave={handleIndicatorMouseLeave}
           >
-            <div className='container flex mx-auto p-4 divide-x divide-[#e5e5e5]'>
-              {indicators !== "" && indicators?.map((item) => (
-                  <div key={item.category.id} className='flex-1 px-4 first:pl-0 last:pr-0'>
-                    <h2 className='text-sm text-[#7f7f7f] mb-3'>{item.category.name}</h2>
-                    <ul className='mt-2 space-y-2'>
-                      {item.indicators.map((indicator, idx) => (
-                        <li key={idx}>
-                          <Link href={`/indicators/${indicator.url_name}`} className={`transition duration-300 ${pathname.startsWith(`/indicators/${indicator.url_name}`) ? 'text-blue' : 'hover:text-[#7f7f7f]'}`}>
-                            {indicator.human_name}
-                          </Link>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+            <div className='container grid grid-cols-1 md:grid-cols-3 gap-0 p-4'>
+              {indicators !== "" && indicators?.map((item, itemIndex) => (
+                <div key={item.category.id} className={`p-4 ${(itemIndex % 3 == 0 || itemIndex % 3 == 1) && itemIndex !== indicators.length - 1 ? 'border-r' : ''}`}>
+                  <h2 className='text-sm text-[#7f7f7f] mb-3'>{item.category.name}</h2>
+                  <ul className='mt-2 space-y-2'>
+                    {item.indicators.map((indicator, idx) => (
+                      <li key={idx}>
+                        <Link href={`/indicators/${indicator.url_name}`} className={`transition duration-300 ${pathname.startsWith(`/indicators/${indicator.url_name}`) ? 'text-blue' : 'hover:text-[#7f7f7f]'}`}>
+                          {indicator.human_name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
             </div>
           </div>
 
           {/* Data Source Dropdown */}
           <div 
-            className={`datasource-dropdown-area ${isDataSourceDropdownOpen ? 'transition-all duration-300 ease-in-out pb-5 opacity-100 max-h-[500px]' : 'opacity-0 max-h-0 overflow-hidden'}`}
+            className={`datasource-dropdown-area ${isDataSourceDropdownOpen ? 'transition-all duration-300 ease-in-out pb-5 opacity-100' : 'opacity-0 max-h-0 overflow-hidden'}`}
             onMouseEnter={handleDataSourceMouseEnter}
             onMouseLeave={handleDataSourceMouseLeave}
           >
@@ -367,7 +367,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
           {/* Notebook Dropdown */}
           <div 
-            className={`notebook-dropdown-area ${isNotebookDropdownOpen ? 'transition-all duration-300 ease-in-out pb-5 opacity-100 max-h-[500px]' : 'opacity-0 max-h-0 overflow-hidden'}`}
+            className={`notebook-dropdown-area ${isNotebookDropdownOpen ? 'transition-all duration-300 ease-in-out pb-5 opacity-100' : 'opacity-0 max-h-0 overflow-hidden'}`}
             onMouseEnter={handleNotebookMouseEnter}
             onMouseLeave={handleNotebookMouseLeave}
           >
