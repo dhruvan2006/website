@@ -21,7 +21,8 @@
     "react-dom": "^18",
     "react-katex": "^3.0.1",
     "react-plotly.js": "^2.6.0",
-    "react-syntax-highlighter": "^15.5.0"
+    "react-syntax-highlighter": "^15.5.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/node": "^20",

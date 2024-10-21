@@ -7,6 +7,8 @@ import { Indicator } from '../page';
 import Histogram from './Histogram';
 import NormalProbabilityPlot from './NormalProbabilityPlot';
 import TransformationDropdown from './TransformationDropdown';
+import * as XLSX from 'xlsx';
+import DownloadDropdown from './DownloadDropdown';
 
 // Download to csv
 function downloadCSV(indicatorData: DataPoint[], bitcoinData: BitcoinDataPoint[], fileName: string) {
@@ -29,6 +31,24 @@ function downloadCSV(indicatorData: DataPoint[], bitcoinData: BitcoinDataPoint[]
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+// Download to Excel
+function downloadExcel(indicatorData: DataPoint[], bitcoinData: BitcoinDataPoint[], fileName: string) {
+  const mergedData = indicatorData.map(indicator => {
+    const bitcoin = bitcoinData.find(b => b.date === indicator.date);
+    return {
+      Date: indicator.date,
+      Value: indicator.value,
+      Price: bitcoin ? bitcoin.price : 'N/A' // In case there's no matching Bitcoin price
+    };
+  });
+
+  const worksheet = XLSX.utils.json_to_sheet(mergedData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+
+  XLSX.writeFile(workbook, `${fileName}.xlsx`);
 }
 
 interface DataPoint {
@@ -89,6 +109,14 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
     );
   }, [initialBitcoinData, startDate, endDate]);
 
+  const handleDownloadSelect = (format: string) => {
+    if (format === 'CSV') {
+      downloadCSV(filteredIndicatorData, filteredBitcoinData, indicator.human_name);
+    } else if (format === 'Excel') {
+      downloadExcel(filteredIndicatorData, filteredBitcoinData, indicator.human_name);
+    }
+  };
+
   return (
     <div>
       <div className='flex flex-col sm:flex-row items-center justify-around mb-4'>
@@ -106,14 +134,7 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
           />
         </div>
         <div className='flex items-center mt-7 ms-2'>
-          <button 
-            className='flex items-center gap-2 bg-blue hover:bg-[#0046cc] text-[#fff] py-[0.45rem] px-4 text-sm rounded-md transition-colors duration-300' 
-            onClick={() => downloadCSV(filteredIndicatorData, filteredBitcoinData, indicator.human_name)}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="size-4">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-            </svg>
-            <span>CSV</span>
-          </button>
+          <DownloadDropdown onDownloadSelect={handleDownloadSelect} />
           <TransformationDropdown transformation={transformation} setTransformation={setTransformation} />
         </div>
       </div>
