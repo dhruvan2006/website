@@ -6,6 +6,7 @@ import DatePicker from '../../../components/DatePicker';
 import { Indicator } from '../page';
 import Histogram from './Histogram';
 import NormalProbabilityPlot from './NormalProbabilityPlot';
+import TransformationDropdown from './TransformationDropdown';
 
 // Download to csv
 function downloadCSV(indicatorData: DataPoint[], bitcoinData: BitcoinDataPoint[], fileName: string) {
@@ -47,14 +48,40 @@ interface InteractiveChartProps {
 }
 
 export default function InteractiveChart({ initialIndicatorData, initialBitcoinData, indicator }: InteractiveChartProps) {
-  const [startDate, setStartDate] = useState<string>(new Date(2014, 1, 1).toISOString().split('T')[0]);
+  const [startDate, setStartDate] = useState<string>(new Date(Date.UTC(2014, 0, 1)).toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState<string>(new Date().toISOString().split('T')[0]);
 
+  const [transformation, setTransformation] = useState<string>('x');
+
+  const applyTransformation = (x: number): number => {
+    switch (transformation) {
+      case 'x²':
+        return Math.pow(x, 2);
+      case 'x':
+        return x;
+      case '√x':
+        return Math.sqrt(x);
+      case 'ln(x)':
+        return Math.log(x);
+      case '-1/√x':
+        return -1 / Math.sqrt(x);
+      case '-1/x':
+        return -1 / x;
+      case '-1/x²':
+        return -1 / Math.pow(x, 2);
+      default:
+        return x;
+    }
+  };
+
   const filteredIndicatorData = useMemo(() => {
-    return initialIndicatorData.filter(
-      (dataPoint) => dataPoint.date >= startDate && dataPoint.date <= endDate
-    );
-  }, [initialIndicatorData, startDate, endDate]);
+    return initialIndicatorData
+      .filter((dataPoint) => dataPoint.date >= startDate && dataPoint.date <= endDate)
+      .map(dataPoint => ({
+        ...dataPoint,
+        value: applyTransformation(dataPoint.value)
+      }));
+  }, [initialIndicatorData, startDate, endDate, transformation]);
 
   const filteredBitcoinData = useMemo(() => {
     return initialBitcoinData.filter(
@@ -78,11 +105,17 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
             onChange={setEndDate} 
           />
         </div>
-        <button className='mt-6 ms-2' onClick={() => downloadCSV(filteredIndicatorData, filteredBitcoinData, indicator.human_name)}>
-          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="black" className="size-6 hover:stroke-[#474747]">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
-          </svg>
-        </button>
+        <div className='flex items-center mt-7 ms-2'>
+          <button 
+            className='flex items-center gap-2 bg-blue hover:bg-[#0046cc] text-[#fff] py-[0.45rem] px-4 text-sm rounded-md transition-colors duration-300' 
+            onClick={() => downloadCSV(filteredIndicatorData, filteredBitcoinData, indicator.human_name)}>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="size-4">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+            </svg>
+            <span>CSV</span>
+          </button>
+          <TransformationDropdown transformation={transformation} setTransformation={setTransformation} />
+        </div>
       </div>
 
       <div className='mb-4'>
