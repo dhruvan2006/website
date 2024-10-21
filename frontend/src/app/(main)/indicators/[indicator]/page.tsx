@@ -64,7 +64,7 @@ export default async function IndicatorPage({ params }: { params: { indicator: s
 
   return (
     <div className='bg-[#fff] text-[#191919] font-sans min-h-screen'>
-      <main className='container mx-auto px-4 sm:px-8 lg:px-16 py-2'>
+      <main className='mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4'>
         <div className='mb-6'>
           <InteractiveChart indicator={indicator} initialIndicatorData={indicatorValues} initialBitcoinData={bitcoinPriceData} />
         </div>

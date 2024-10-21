@@ -97,7 +97,7 @@ export default function LiquidityClient({
 
       {/* Liquidity Overview */}
       <main>
-        <div className='container mx-auto px-4 sm:px-8 lg:px-16 py-4'>
+        <div className='mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4'>
           <div className='flex flex-col lg:flex-row justify-between items-center'>
             <h1 className='text-3xl font-bold mb-8'>FED Liquidity</h1>
             
