@@ -8,6 +8,28 @@ import DatePicker from '../../components/DatePicker';
 import { CombinedSeriesData, SeriesData } from './page';
 import { useRouter } from 'next/navigation';
 
+// Function to download as CSV
+const downloadCSV = (data: SeriesData[]) => {
+  if (!data || data.length === 0) return;
+
+  const headers = ['date', 'value'];
+  const rows = data.map(row => `${row.date},${row.value}`);
+  const csvContent = [headers.join(','), ...rows].join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement('a');
+  link.href = url;
+  link.setAttribute('download', 'fed_liquidity.csv');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+
+  URL.revokeObjectURL(url);
+};
+
+
 // Calculate ROC for LIQUIDITY
 function calculateROC(data: CombinedSeriesData['LIQUIDITY'] | undefined) {
   if (!data || data.length < 4) {
@@ -102,11 +124,21 @@ export default function LiquidityClient({
           </div>
 
           <div className='mb-6'>
-            <div className='flex justify-between items-center mb-2'>
+            <div className='flex flex-col md:flex-row gap-4 justify-between items-center mb-2'>
               <h2 className='text-xl font-semibold'>Liquidity Overview</h2>
-              <div className='flex gap-4'>
-                <p>ROC 1D: <span className={getColorClass(roc1D)}>{roc1D !== null ? `${roc1D.toFixed(2)}%` : 'N/A'}</span></p>
-                <p>ROC 3D: <span className={getColorClass(roc3D)}>{roc3D !== null ? `${roc3D.toFixed(2)}%` : 'N/A'}</span></p>
+              <div className='flex gap-4 items-center'>
+                <div className='flex gap-4'>
+                  <p>ROC 1D: <span className={getColorClass(roc1D)}>{roc1D !== null ? `${roc1D.toFixed(2)}%` : 'N/A'}</span></p>
+                  <p>ROC 3D: <span className={getColorClass(roc3D)}>{roc3D !== null ? `${roc3D.toFixed(2)}%` : 'N/A'}</span></p>
+                </div>
+                <button 
+                  className='flex items-center gap-2 bg-blue hover:bg-[#0046cc] text-[#fff] py-1.5 px-4 text-sm rounded-md transition-colors duration-300' 
+                  onClick={() => downloadCSV(combinedSeriesData['LIQUIDITY'])}>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="size-4">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                  </svg>
+                  <span>CSV</span>
+                </button>
               </div>
             </div>
             <DataPlot ticker="LIQUIDITY" color="#191919" data={combinedSeriesData['LIQUIDITY'] || []} />
