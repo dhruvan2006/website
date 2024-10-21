@@ -32,6 +32,9 @@ export const metadata: Metadata = {
     description: "Real-time Bitcoin analytics, live market indicators, and liquidity data API for crypto investors. Access powerful tools and insights for cryptocurrency investors, traders, and developers.",
     images: ["/og/home.png"],
   },
+  verification: {
+    google: "LJsjvPuX00Z_d2q4oTjRBvZL91-s-idhiAcEPOPktAQ",
+  },
 };
 
 export default function RootLayout({

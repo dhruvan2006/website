@@ -1,4 +1,3 @@
-import nasdaqdatalink
 import ocfinance as of
 import pandas as pd
 import numpy as np
@@ -17,8 +16,6 @@ from indicators.models import BitcoinPrice, Category, DataSource, DataSourceValu
 
 load_dotenv()
 
-nasdaqdatalink.ApiConfig.api_key = os.getenv('NASDAQ_DATA_LINK_API_KEY')
-
 class Command(BaseCommand):
     help = 'Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance'
 
@@ -31,6 +28,8 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully fetched ChainExposed indicators'))
         fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
         self.stdout.write(self.style.SUCCESS('Successfully fetched BiTBO indicators'))
+        fetch_of('BMPro', bmpro_indicators)
+        self.stdout.write(self.style.SUCCESS('Successfully fetched BMPro indicators'))
 
         fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
@@ -38,25 +37,6 @@ class Command(BaseCommand):
         fetch_indicators()
         self.stdout.write(self.style.SUCCESS('Successfully calculated indicators'))
 
-# def fetch_prices():
-#     """Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance"""
-#     # Fetch data from NasdaqDataLink (2010-08-16 to 2014-09-16)
-#     nasdaq_data = nasdaqdatalink.get('BCHAIN/MKPRU', start_date='2010-08-16', end_date='2014-09-16')
-
-#     for date, price in nasdaq_data.iterrows():
-#         BitcoinPrice.objects.update_or_create(
-#             date=date.date(),
-#             defaults={'price': price['Value']}
-#         )
-
-#     # Fetch data from Yahoo Finance (2014-09-17 to present)
-#     yf_data = yf.download("BTC-USD", start="2014-09-17")
-
-#     for date, row in yf_data.iterrows():
-#         BitcoinPrice.objects.update_or_create(
-#             date=date.date(),
-#             defaults={'price': row['Close']}
-#         )
 def fetch_prices():
     """Fetch Bitcoin prices from Glassnode"""
     chrome_options = Options()
@@ -220,6 +200,49 @@ bitbo_indicators = [
         "col": "Sharpe ratio",
         "description": """The Sharpe Ratio indicator from BiTBO
 [1] https://charts.bitbo.io/sharpe-ratio/"""
+    }
+]
+
+bmpro_indicators = [
+    {
+        "url": "https://www.bitcoinmagazinepro.com/charts/puell-multiple/",
+        "url_name": "Puell_Multiple_BMPro",
+        "human_name": "Puell Multiple",
+        "col": "Puell Multiple",
+        "description": """Puell Multiple indicator from Bitcoin Magazine PRO
+[1] https://www.bitcoinmagazinepro.com/charts/puell-multiple/"""
+    },
+    {
+        "url": "https://www.bitcoinmagazinepro.com/charts/mvrv-zscore/",
+        "url_name": "MVRV_ZScore_BMPro",
+        "human_name": "MVRV Z-Score",
+        "col": "Z-Score",
+        "description": """The MVRV Z-Score indicator from Bitcoin Magazine PRO
+[1] https://www.bitcoinmagazinepro.com/charts/mvrv-zscore/"""
+    },
+    {
+        "url": "https://www.bitcoinmagazinepro.com/charts/rhodl-ratio/",
+        "url_name": "RHODL_Ratio_BMPro",
+        "human_name": "RHODL Ratio",
+        "col": "RHODL Ratio",
+        "description": """The RHODL Ratio indicator from Bitcoin Magazine PRO
+[1] https://www.bitcoinmagazinepro.com/charts/rhodl-ratio/"""
+    },
+    {
+        "url": "https://www.bitcoinmagazinepro.com/charts/relative-unrealized-profit--loss/",
+        "url_name": "NUPL_BMPro",
+        "human_name": "Net Unrealized Profit/Loss (NUPL)",
+        "col": "Net Unrealised Profit / Loss (NUPL)",
+        "description": """The Net Unrealised Profit / Loss (NUPL) indicator from Bitcoin Magazine PRO
+[1] https://www.bitcoinmagazinepro.com/charts/relative-unrealized-profit--loss/"""
+    },
+    {
+        "url": "https://www.bitcoinmagazinepro.com/charts/value-days-destroyed-multiple/",
+        "url_name": "VDD_Mult_BMPro",
+        "human_name": "Value Days Destroyed (VDD) Multiple",
+        "col": "VDD Multiple",
+        "description": """The Value Days Destroyed (VDD) Multiple indicator from Bitcoin Magazine PRO
+[1] https://www.bitcoinmagazinepro.com/charts/value-days-destroyed-multiple/"""
     }
 ]
 
