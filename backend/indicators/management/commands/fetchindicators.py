@@ -20,7 +20,7 @@ class Command(BaseCommand):
     help = 'Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance'
 
     def handle(self, *args, **options):
-        fetch_of('Cryptoquant', cryptoquant_indicators)
+        fetch_of('Cryptoquant', cryptoquant_indicators, email=os.getenv("CRYPTOQUANT_EMAIL"), password=os.getenv("CRYPTOQUANT_PASSWORD"), proxy=os.getenv("SBR_WEBDRIVER"))
         self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         fetch_of('CheckOnChain', checkonchain_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched CheckOnChain indicators'))
