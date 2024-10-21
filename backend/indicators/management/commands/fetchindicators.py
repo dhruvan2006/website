@@ -20,6 +20,8 @@ class Command(BaseCommand):
     help = 'Fetch Bitcoin prices and from NasdaqDataLink and Yahoo Finance'
 
     def handle(self, *args, **options):
+        fetch_of('Cryptoquant', cryptoquant_indicators)
+        self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         fetch_of('CheckOnChain', checkonchain_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched CheckOnChain indicators'))
         fetch_of('Woocharts', woocharts_indicators)
@@ -28,8 +30,8 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully fetched ChainExposed indicators'))
         fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
         self.stdout.write(self.style.SUCCESS('Successfully fetched BiTBO indicators'))
-        fetch_of('BMPro', bmpro_indicators)
-        self.stdout.write(self.style.SUCCESS('Successfully fetched BMPro indicators'))
+        # fetch_of('BMPro', bmpro_indicators)
+        # self.stdout.write(self.style.SUCCESS('Successfully fetched BMPro indicators'))
 
         fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
