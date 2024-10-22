@@ -10,11 +10,11 @@ from .models import BitcoinPrice, IndicatorValue, Indicator, Category, DataSourc
 from .serializers import BitcoinPriceSerializer, IndicatorValueSerializer, IndicatorSerializer, CategorySerializer, DataSourceSerializer, DataSourceValueSerializer
 
 class BitcoinPriceViewSet(viewsets.ModelViewSet):
-    queryset = BitcoinPrice.objects.all()
+    queryset = BitcoinPrice.objects.all().order_by('date')
     serializer_class = BitcoinPriceSerializer
 
 class IndicatorValueViewSet(viewsets.ModelViewSet):
-    queryset = IndicatorValue.objects.all()
+    queryset = IndicatorValue.objects.all().order_by('date')
     serializer_class = IndicatorValueSerializer
 
 class IndicatorViewSet(viewsets.ModelViewSet):
