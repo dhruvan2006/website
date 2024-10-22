@@ -58,9 +58,9 @@ export default function IndicatorItem({ baseUrl, indicator }: IndicatorItemProps
     <div ref={ref} className="p-4 border">
       {data ? (
         <div>
-          <h3>Indicator {data.indicator}</h3>
+          {/* <h3>Indicator {data.indicator}</h3> */}
           <pre>{JSON.stringify(data, null, 2)}</pre>
-          <p>Transformation: {data.transformation}</p>
+          {/* <p>Transformation: {data.transformation}</p> */}
         </div>
       ) : (
         <p>Loading...</p>
