@@ -49,6 +49,24 @@ def categories_with_indicators(request):
     return Response(data)
 
 @api_view(['GET'])
+def get_indicator_by_id(request, id):
+    try:
+        indicator = Indicator.objects.get(id=id)
+        values = IndicatorValue.objects.filter(indicator=indicator).order_by('date')
+
+        indicator_serializer = IndicatorSerializer(indicator)
+        values_serializer = IndicatorValueSerializer(values, many=True)
+
+        response_data = {
+            "indicator": indicator_serializer.data,
+            "values": values_serializer.data
+        }
+
+        return Response(response_data)
+    except Indicator.DoesNotExist:
+        return Response({"error": "Not found."}, status=404)
+
+@api_view(['GET'])
 def get_indicator_values(request, indicator_name):
     indicator = Indicator.objects.get(url_name=indicator_name)
     values = IndicatorValue.objects.filter(indicator=indicator).order_by('date')
