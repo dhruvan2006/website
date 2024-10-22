@@ -4,6 +4,7 @@ import { customFetch } from "@/api";
 import ValuationPlot from "./ValuationPlot";
 import IndicatorItem from "./IndicatorItem";
 import DatePickers from "./DatePickers";
+import NormalDistributionPlot from "./NormalDistributionPlot";
 
 async function fetchData(): Promise<ValuationData | null> {
   const url = `${process.env.API_BASE_URL}/api/valuation/`;
@@ -74,6 +75,10 @@ export default async function ValuationPage({
   const valuation = data?.valuation.filter(point => new Date(point.date) >= new Date(startDate) && new Date(point.date) <= new Date(endDate));
   const indicators = data?.indicators;
 
+  const latestValuation = valuation ? valuation[valuation.length - 1].value : 0;
+  const mean = valuation ? valuation.reduce((acc, point) => acc + point.value, 0) / valuation.length : 0;
+  const stddev = valuation ? Math.sqrt(valuation.reduce((acc, point) => acc + (point.value - mean) ** 2, 0) / valuation.length) : 0;
+
   return (
     <div className='font-sans min-h-screen'>
       <main className='min-h-screen flex flex-col font-sans bg-[#fff] text-[#191919]'>
@@ -83,7 +88,9 @@ export default async function ValuationPage({
           </div>
 
           <div className="mb-4">
-            {valuation && <ValuationPlot valuationData={valuation} bitcoinData={price} />}
+            {valuation && (
+                <ValuationPlot valuationData={valuation} bitcoinData={price} />
+            )}
           </div>
 
           <div className="flex justify-center">
@@ -99,6 +106,8 @@ export default async function ValuationPage({
             ))}
           </div>
         </div>
+
+        <NormalDistributionPlot mean={mean} stddev={stddev} latestScore={latestValuation} />
       </main>
     </div>
   );
