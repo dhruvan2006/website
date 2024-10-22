@@ -49,6 +49,7 @@ def categories_with_indicators(request):
     return Response(data)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def get_indicator_by_id(request, id):
     try:
         indicator = Indicator.objects.get(id=id)
