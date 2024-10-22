@@ -29,7 +29,7 @@ export default function ValuationPlot({ valuationData, bitcoinData }: ValuationP
     name: 'Valuation',
     x: sortedValuation.map((d) => d.date),
     y: sortedValuation.map((d) => d.value),
-    line: { color: '#00aaff' },
+    line: { color: '#000000' },
     yaxis: 'y2', // Plots on the second y-axis
   };
 
@@ -39,7 +39,8 @@ export default function ValuationPlot({ valuationData, bitcoinData }: ValuationP
     name: 'Bitcoin Price',
     x: sortedBitcoin.map((d) => d.date),
     y: sortedBitcoin.map((d) => d.price),
-    line: { color: '#ff0000' },
+    // line: { color: '#ff0000' },
+    line: { color: '#ff9900' },
   };
 
   const layout: Partial<Plotly.Layout> = {
@@ -47,7 +48,7 @@ export default function ValuationPlot({ valuationData, bitcoinData }: ValuationP
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
     font: { color: '#191919', family: 'Apercu, sans-serif', size: 14 },
-    margin: { l: 50, r: 50, t: 30, b: 50 },
+    margin: { l: 50, r: 50, t: 0, b: 50 },
     xaxis: {
       title: 'Date',
       showgrid: false,

@@ -32,7 +32,19 @@ const nextConfig = {
             {
                 protocol: 'https',
                 hostname: 'scontent-ams4-1.xx.fbcdn.net',
-            }
+            },
+            {
+                protocol: 'https',
+                hostname: 'pbs.twimg.com'
+            },
+            {
+                protocol: 'https',
+                hostname: 'woocharts.com'
+            },
+            {
+                protocol: 'https',
+                hostname: 'assets.bitbo.io'
+            },
         ],
     },
 };
