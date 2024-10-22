@@ -101,7 +101,7 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
         ...dataPoint,
         value: applyTransformation(dataPoint.value)
       }));
-  }, [initialIndicatorData, startDate, endDate, transformation]);
+  }, [initialIndicatorData, startDate, endDate, applyTransformation]);
 
   const filteredBitcoinData = useMemo(() => {
     return initialBitcoinData.filter(

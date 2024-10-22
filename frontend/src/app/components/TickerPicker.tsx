@@ -38,7 +38,7 @@ export default function TickerPicker({ apiBase, label, value, onChange }: Ticker
       setSuggestions([]);
       setIsDropdownOpen(false);
     }
-  }, [value, apiBase]);
+  }, [value, apiBase, previousValue]);
 
   const handleSuggestionClick = (ticker: string) => {
     onChange(ticker);

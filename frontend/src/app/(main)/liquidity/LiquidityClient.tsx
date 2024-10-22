@@ -81,7 +81,7 @@ export default function LiquidityClient({
     const { roc1D, roc3D } = calculateROC(combinedSeriesData['LIQUIDITY']);
     setRoc1D(roc1D);
     setRoc3D(roc3D);
-  }, [combinedSeriesData['LIQUIDITY']]);
+  }, [combinedSeriesData]);
 
   const getColorClass = (value: number | null) => {
     if (value === null) return 'text-white';
