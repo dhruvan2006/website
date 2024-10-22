@@ -1,9 +1,7 @@
 from rest_framework import viewsets
-from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.decorators import permission_classes
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework_api_key.models import APIKey
 
 from .permissions import HasUserAPIKey, IsFromFrontendOrHasAPIKey
@@ -49,7 +47,8 @@ def categories_with_indicators(request):
     return Response(data)
 
 @api_view(['GET'])
-@permission_classes([IsAuthenticated])
+@authentication_classes([])
+@permission_classes([])
 def get_indicator_by_id(request, id):
     try:
         indicator = Indicator.objects.get(id=id)
