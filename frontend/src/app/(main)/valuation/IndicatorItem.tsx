@@ -59,6 +59,7 @@ export default function IndicatorItem({ baseUrl, indicator }: IndicatorItemProps
       {data ? (
         <div>
           <h3>Indicator {data.indicator}</h3>
+          <pre>{JSON.stringify(data, null, 2)}</pre>
           <p>Transformation: {data.transformation}</p>
         </div>
       ) : (
