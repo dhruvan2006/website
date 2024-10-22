@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'liquidity.apps.LiquidityConfig',
     'indicators.apps.IndicatorsConfig',
     'research.apps.ResearchConfig',
+    'valuation.apps.ValuationConfig',
     'rest_framework',
     'rest_framework_api_key',
     'rest_framework.authtoken',
