@@ -22,6 +22,8 @@ class ValuationIndicator(models.Model):
 
     indicator = models.OneToOneField(Indicator, on_delete=models.PROTECT)
     transformation = models.CharField(max_length=25, choices=TRANSFORMATION_CHOICES)
+    logo = models.CharField(max_length=255)
+    color = models.CharField(max_length=16)
 
     class Meta:
         constraints = [

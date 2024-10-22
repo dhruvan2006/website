@@ -9,4 +9,4 @@ class ValuationSerializer(serializers.ModelSerializer):
 class ValuationIndicatorSerializer(serializers.ModelSerializer):
     class Meta:
         model = ValuationIndicator
-        fields = ['indicator', 'transformation']
+        fields = ['indicator', 'transformation', 'logo', 'color']
