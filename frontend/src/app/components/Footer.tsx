@@ -23,6 +23,7 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li><Link href="/liquidity" className="hover:text-[#7f7f7f] transition duration-300">Liquidity</Link></li>
+              <li><Link href="/valuation" className="hover:text-[#7f7f7f] transition duration-300">Valuation</Link></li>
               <li><Link href="/optimal" className="hover:text-[#7f7f7f] transition duration-300">Optimal</Link></li>
               <li><Link href="/indicators" className="hover:text-[#7f7f7f] transition duration-300">Indicators</Link></li>
               <li><Link href="/datasources" className="hover:text-[#7f7f7f] transition duration-300">Data Sources</Link></li>

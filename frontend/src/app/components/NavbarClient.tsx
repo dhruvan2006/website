@@ -127,7 +127,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
   return (
     <header className='bg-[#fff] lg:bg-[#fff]/75 lg:backdrop-blur-md text-[#191919] flex flex-col font-sans fixed top-0 left-0 right-0 z-50 border-b border-zinc-300'>
-      <nav className='container mx-auto px-4 sm:px-8 lg:px-16'>
+      <nav className='px-4 sm:px-8 lg:px-16'>
         <div className='flex lg:justify-between items-center'>
           {/* Logo */}
           <div className='flex-1 lg:flex-grow-0'>
@@ -160,7 +160,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
           </div>
 
           {/* Nav Links */}
-          <ul className='hidden lg:flex items-center'>
+          <ul className='hidden lg:flex items-center gap-3 xl:gap-6'>
             <li>
               <Link href="/liquidity" className={`transition duration-300 ${pathname === '/liquidity' ? 'text-blue' : 'hover:text-[#7f7f7f] '}`}>
                 Liquidity
@@ -168,13 +168,19 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             </li>
 
             <li>
-              <Link href="/optimal" className={`pl-6 transition duration-300 ${pathname === '/optimal' ? 'text-blue' : 'hover:text-[#7f7f7f] '}`}>
+              <Link href="/valuation" className={`transition duration-300 ${pathname === '/valuation' ? 'text-blue' : 'hover:text-[#7f7f7f] '}`}>
+                Valuation
+              </Link>
+            </li>
+
+            <li>
+              <Link href="/optimal" className={`transition duration-300 ${pathname === '/optimal' ? 'text-blue' : 'hover:text-[#7f7f7f] '}`}>
                 Optimal
               </Link>
             </li>
 
             <li 
-              className='py-6 pl-6'
+              className='py-6'
               onMouseEnter={handleIndicatorMouseEnter} 
               onMouseLeave={handleIndicatorMouseLeave}
             >
@@ -193,7 +199,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             </li>
 
             <li 
-              className='py-6 pl-6'
+              className='py-6'
               onMouseEnter={handleDataSourceMouseEnter} 
               onMouseLeave={handleDataSourceMouseLeave}
             >
@@ -212,7 +218,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             </li>
 
             <li 
-              className='py-6 pl-6'
+              className='py-6'
               onMouseEnter={handleNotebookMouseEnter} 
               onMouseLeave={handleNotebookMouseLeave}
             >
@@ -231,7 +237,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             </li>
 
             <li>
-              <Link href="/docs" className={`transition duration-300 pl-6 ${pathname === '/docs' ? 'text-blue' : 'hover:text-[#7f7f7f] '}`}>
+              <Link href="/docs" className={`transition duration-300 ${pathname === '/docs' ? 'text-blue' : 'hover:text-[#7f7f7f] '}`}>
                 API Docs
               </Link>
             </li>
@@ -403,6 +409,11 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             <li className='py-2 border-b border-b-white'>
               <Link href='/liquidity' onClick={() => setIsMenuOpen(false)} className='p-2 block hover:bg-blue-500 text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
                 Liquidity
+              </Link>
+            </li>
+            <li className='py-2 border-b border-b-white'>
+              <Link href='/valuation' onClick={() => setIsMenuOpen(false)} className='p-2 block hover:bg-blue-500 text-[#3b3b3b] hover:text-[#191919] hover:bg-white rounded-md transition-all duration-300 ease-in-out'>
+                Valuation
               </Link>
             </li>
             <li className='py-2 border-b border-b-white'>

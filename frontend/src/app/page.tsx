@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -42,7 +41,7 @@ export default function Home() {
                 </Link>
               </div>
               <div className="md:w-1/2 w-full h-auto overflow-hidden border border-zinc-300 rounded-l-3xl">
-                <Image src="/og/liquidity.png" alt="Liquidity" className="w-full h-auto object-cover" />
+                <img src="/og/liquidity.png" alt="Liquidity" className="w-full h-auto object-cover" />
               </div>
             </div>
 
@@ -58,7 +57,7 @@ export default function Home() {
                 </Link>
               </div>
               <div className="md:w-1/2 w-full h-auto overflow-hidden border border-zinc-300 rounded-r-3xl">
-                <Image src="/og/optimal.png" alt="Optimal Leverage" className="w-full h-auto object-cover" />
+                <img src="/og/optimal.png" alt="Optimal Leverage" className="w-full h-auto object-cover" />
               </div>
             </div>
 
@@ -74,7 +73,7 @@ export default function Home() {
                 </Link>
               </div>
               <div className="md:w-1/2 w-full h-auto overflow-hidden border border-zinc-300 rounded-l-3xl">
-                <Image src="/og/indicator.png" alt="Indicators" className="w-full h-auto object-cover" />
+                <img src="/og/indicator.png" alt="Indicators" className="w-full h-auto object-cover" />
               </div>
             </div>
 
@@ -90,7 +89,7 @@ export default function Home() {
                 </Link>
               </div>
               <div className="md:w-1/2 w-full h-auto overflow-hidden border border-zinc-300 rounded-r-3xl">
-                <Image src="/og/docs.png" alt="API Docs" className="w-full h-auto object-cover" />
+                <img src="/og/docs.png" alt="API Docs" className="w-full h-auto object-cover" />
               </div>
             </div>
           </div>
