@@ -5,6 +5,36 @@ import ValuationPlot from "./ValuationPlot";
 import IndicatorItem from "./IndicatorItem";
 import DatePickers from "./DatePickers";
 import NormalDistributionPlot from "./NormalDistributionPlot";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Bitcoin Valuation | Dhruvan",
+  description: "An aggregate of live Bitcoin indicators designed to pinpoint market cycle tops and bottoms.",
+  keywords: "Bitcoin valuation, cycle tops, cycle bottoms, market indicators, Bitcoin analysis, cryptocurrency, crypto valuation tools",
+  authors: [{ name: "Dhruvan Gnanadhandayuthapani" }],
+  openGraph: {
+    title: "Bitcoin Valuation | Dhruvan",
+    description: "An aggregate of live Bitcoin indicators designed to pinpoint market cycle tops and bottoms.",
+    url: "https://www.gnanadhandayuthapani.com/valuation",
+    siteName: "Dhruvan",
+    images: [
+      {
+        url: "/og/valuation.png",
+        width: 1200,
+        height: 630,
+        alt: "Bitcoin Valuation",
+      },
+    ],
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bitcoin Valuation | Dhruvan",
+    description: "An aggregate of live Bitcoin indicators designed to pinpoint market cycle tops and bottoms.",
+    images: ["/og/valuation.png"],
+  },
+};
+
 
 async function fetchData(): Promise<ValuationData | null> {
   const url = `${process.env.API_BASE_URL}/api/valuation/`;
