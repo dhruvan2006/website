@@ -109,12 +109,25 @@ export default async function ValuationPage({
   const mean = valuation ? valuation.reduce((acc, point) => acc + point.value, 0) / valuation.length : 0;
   const stddev = valuation ? Math.sqrt(valuation.reduce((acc, point) => acc + (point.value - mean) ** 2, 0) / valuation.length) : 0;
 
+  // Get gradient color between red and green
+  const getColor = (value: number) => {
+    const red = Math.min(255, Math.max(0, Math.round(((value + 2) / 4) * 255)));
+    const green = 255 - red;
+  
+    return `rgb(${red}, ${green}, 0)`;
+  };
+
   return (
     <div className='font-sans min-h-screen'>
       <main className='min-h-screen flex flex-col font-sans bg-[#fff] text-[#191919]'>
         <div className='px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4'>
-          <div className='flex flex-col lg:flex-row justify-center items-center mb-4'>
-            <h1 className='text-3xl font-bold'>Bitcoin Valuation</h1>
+          <div className='flex flex-col lg:flex-row justify-around items-center mb-4'>
+            <h1 className='text-4xl font-bold'>Bitcoin Valuation</h1>
+
+            <div className='flex gap-2 items-center'>
+              <h2 className="text-2xl">Latest score:</h2>
+              <p className="text-4xl font-extrabold border border-zinc-300 p-1 bg-zinc-50 rounded-sm shadow-sm" style={{ color: getColor(latestValuation) }}>{latestValuation.toFixed(2)}</p>
+            </div>
           </div>
 
           <div className="mb-4">

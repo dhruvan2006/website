@@ -37,12 +37,14 @@ class Command(BaseCommand):
                 date_z_scores[date].append(z)
         
         for date, z_scores in date_z_scores.items():
-            average_z = np.mean(z_scores)
-            Valuation.objects.update_or_create(
-                date=date,
-                defaults={'value': average_z},
-            )
-            # self.stdout.write(self.style.SUCCESS(f"Stored average valuation for {date}: {average_z}"))
+            if len(z_scores) == len(valuation_indicators):
+                average_z = np.mean(z_scores)
+                Valuation.objects.update_or_create(
+                    date=date,
+                    defaults={'value': average_z},
+                )
+            else:
+                self.stdout.write(self.style.WARNING(f"Missing data from all indicators on {date}. Number of valuation indicators = {len(valuation_indicators)}; Number of z_scores recorded = {len(z_scores)}"))
 
         self.stdout.write(self.style.SUCCESS("Average valuation calculation completed."))
     
