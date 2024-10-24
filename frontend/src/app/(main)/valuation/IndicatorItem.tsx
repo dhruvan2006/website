@@ -51,6 +51,8 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
   const ref = useRef<HTMLDivElement | null>(null);
   const handle = useFullScreenHandle();
 
+  const lastUpdate = data && data.values.length !== 0 ? data.values[data.values.length - 1].date : 'Loading...'; 
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -128,7 +130,7 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
   return (
     <div ref={ref} className="border border-zinc-300 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
       {data ? (
-        <FullScreen handle={handle} className='divide-y h-[70vh] max-h-[600px]'>
+        <FullScreen handle={handle} className='relative divide-y h-[70vh] max-h-[600px]'>
           <div className='p-4 flex items-center justify-between bg-[#fff]'>
             <Image src={indicator.logo} alt="Logo" height={24} width={24} style={{ height: '24px', width: 'auto' }} />
             <h3 className='font-bold underline underline-offset-4'>
@@ -137,19 +139,26 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
               </Link>
             </h3>
 
-            {handle.active ? 
-              <button onClick={handle.exit} className="transform bg-transparent border-none cursor-pointer transition duration-300 hover:scale-90 hover:text-red">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.25} stroke="currentColor" className="size-7">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
+            <div className='flex items-center gap-2'>
+              {handle.active ? 
+                <button onClick={handle.exit} className="transform bg-transparent border-none cursor-pointer transition duration-300 hover:scale-90 hover:text-red">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.25} stroke="currentColor" className="size-7">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 9V4.5M9 9H4.5M9 9 3.75 3.75M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 9h4.5M15 9V4.5M15 9l5.25-5.25M15 15h4.5M15 15v4.5m0-4.5 5.25 5.25" />
+                  </svg>
+                </button>
+              : 
+                <button onClick={handle.enter} className="transform bg-transparent border-none cursor-pointer transition duration-300 hover:scale-110 hover:text-red">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.25} stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+                  </svg>
+                </button>
+              }
+              {/* <button className="transform bg-transparent border-none cursor-pointer transition duration-300 hover:scale-110 hover:text-red">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+                  <path fillRule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clipRule="evenodd" />
                 </svg>
-              </button>
-            : 
-              <button onClick={handle.enter} className="transform bg-transparent border-none cursor-pointer transition duration-300 hover:scale-110 hover:text-red">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.25} stroke="currentColor" className="size-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
-                </svg>
-              </button>
-            }
+              </button> */}
+            </div>
           </div>
 
           <div className='w-full h-full overflow-hidden'>
@@ -167,7 +176,11 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
               style={{ width: '100%', height: '100%' }}
             />
           </div>
+
           {/* <p>Transformation: {data.transformation}</p> */}
+          <div className='absolute bottom-0 right-0 bg-zinc-100 border-t border-s border-zinc-300 p-1 rounded-tl-md'>
+            <p className='text-xs'><span className='text-zinc-700'>Last update:</span>{' '}<span>{lastUpdate}</span></p>
+          </div>
         </FullScreen>
       ) : (
         <div className='divide-y divide-zinc-300'>
