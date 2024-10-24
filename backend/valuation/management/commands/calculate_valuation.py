@@ -1,4 +1,5 @@
 from collections import defaultdict
+import math
 import numpy as np
 from scipy.stats import zscore
 from django.core.management.base import BaseCommand
@@ -24,7 +25,7 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING(f"No values found for {indicator.human_name}."))
                 continue
 
-            transformed_values = self.apply_transformation(indicator_values, valuation_indicator.transformation)
+            transformed_values = self.adjusted_and_apply_transformation(indicator_values, valuation_indicator.transformation)
             dates = [iv.date for iv in indicator_values]
 
             if len(transformed_values) == 0:
@@ -35,7 +36,7 @@ class Command(BaseCommand):
 
             for date, z in zip(dates, z_scores):
                 date_z_scores[date].append(z)
-        
+
         for date, z_scores in date_z_scores.items():
             if len(z_scores) == len(valuation_indicators):
                 average_z = np.mean(z_scores)
@@ -47,28 +48,29 @@ class Command(BaseCommand):
                 self.stdout.write(self.style.WARNING(f"Missing data from all indicators on {date}. Number of valuation indicators = {len(valuation_indicators)}; Number of z_scores recorded = {len(z_scores)}"))
 
         self.stdout.write(self.style.SUCCESS("Average valuation calculation completed."))
-    
-    def apply_transformation(self, indicator_values, transformation):
+
+    def adjusted_and_apply_transformation(self, indicator_values, transformation):
         """Applies the specified transformation to the values."""
-        transformed_values = []
         values = np.array([iv.value for iv in indicator_values])
+        min_value = min(values)
+        adjusted_values = [x + (1 - min_value) for x in values] if min_value < 0 else values
+        return [self.apply_transformation(x, transformation) for x in adjusted_values]
 
-        for iv in indicator_values:
-            original_value = iv.value
-
-            if transformation == 'square':
-                transformed_values.append(original_value ** 2)
-            elif transformation == 'identity':
-                transformed_values.append(original_value)
-            elif transformation == 'sqrt':
-                transformed_values.append(np.sqrt(original_value) if original_value >= 0 else np.nan)
-            elif transformation == 'log':
-                transformed_values.append(np.log(original_value + 1) if original_value + 1 > 0 else np.nan)
-            elif transformation == 'neg_sqrt_reciprocal':
-                transformed_values.append(-1 / np.sqrt(original_value) if original_value > 0 else np.nan)
-            elif transformation == 'neg_reciprocal':
-                transformed_values.append(-1 / original_value if original_value != 0 else np.nan)
-            elif transformation == 'neg_square_reciprocal':
-                transformed_values.append(-1 / (original_value ** 2) if original_value != 0 else np.nan)
-
-        return transformed_values
+    def apply_transformation(self, x, transformation):
+        match transformation:
+            case 'x^2':
+                return math.pow(x, 2)
+            case 'x':
+                return x
+            case '√x':
+                return math.sqrt(x)
+            case 'ln(x)':
+                return math.log(x)
+            case '-1/√x':
+                return -1 / math.sqrt(x)
+            case '-1/x':
+                return -1 / x
+            case '-1/x^2':
+                return -1 / math.pow(x, 2)
+            case _:
+                return x

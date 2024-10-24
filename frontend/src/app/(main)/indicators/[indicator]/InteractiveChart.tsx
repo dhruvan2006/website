@@ -21,7 +21,7 @@ function downloadCSV(indicatorData: DataPoint[], bitcoinData: BitcoinDataPoint[]
     };
   });
 
-  const csvContent = "data:text/csv;charset=utf-8," 
+  const csvContent = "data:text/csv;charset=utf-8,"
     + ["Date,Value,Price", ...mergedData.map(d => `${d.date},${d.value},${d.price}`)].join("\n");
 
   const encodedUri = encodeURI(csvContent);
@@ -73,8 +73,8 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
 
   const [transformation, setTransformation] = useState<string>('x');
 
-  const applyTransformation = (x: number): number => {
-    switch (transformation) {
+  const applyTransformation = (x: number, transformation: string): number => {
+        switch (transformation) {
       case 'x²':
         return Math.pow(x, 2);
       case 'x':
@@ -95,13 +95,22 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
   };
 
   const filteredIndicatorData = useMemo(() => {
-    return initialIndicatorData
-      .filter((dataPoint) => dataPoint.date >= startDate && dataPoint.date <= endDate)
-      .map(dataPoint => ({
-        ...dataPoint,
-        value: applyTransformation(dataPoint.value)
-      }));
-  }, [initialIndicatorData, startDate, endDate, applyTransformation]);
+    const adjustAndApplyTransformation = (arr: number[], transformation: string): number[] => {
+      const minValue = Math.min(...arr);
+
+      const adjustedArr = minValue < 0 && transformation !== 'x' ? arr.map(x => x + (1 - minValue)) : arr;
+
+      return adjustedArr.map(x => applyTransformation(x, transformation));
+    }
+
+    const filteredData = initialIndicatorData.filter((dataPoint) => dataPoint.date >= startDate && dataPoint.date <= endDate);
+    const valuesArray = filteredData.map(dataPoint => dataPoint.value);
+    const transformedValues = adjustAndApplyTransformation(valuesArray, transformation);
+    return filteredData.map((dataPoint, index) => ({
+      ...dataPoint,
+      value: transformedValues[index]
+    }));
+  }, [initialIndicatorData, startDate, endDate, transformation]);
 
   const filteredBitcoinData = useMemo(() => {
     return initialBitcoinData.filter(
@@ -122,15 +131,15 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
       <div className='flex flex-col sm:flex-row items-center justify-around mb-4'>
         <h1 className='mt-5 flex-4 text-3xl font-bold mb-4 sm:mb-0 text-center tracking-wide'>{indicator.human_name}</h1>
         <div className='flex-5 flex flex-col sm:flex-row gap-4'>
-          <DatePicker 
-            label="Start Date" 
-            value={startDate} 
-            onChange={setStartDate} 
+          <DatePicker
+            label="Start Date"
+            value={startDate}
+            onChange={setStartDate}
           />
-          <DatePicker 
-            label="End Date" 
-            value={endDate} 
-            onChange={setEndDate} 
+          <DatePicker
+            label="End Date"
+            value={endDate}
+            onChange={setEndDate}
           />
         </div>
         <div className='flex items-center mt-7 ms-2'>

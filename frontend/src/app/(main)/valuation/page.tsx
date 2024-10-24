@@ -37,7 +37,7 @@ export const metadata: Metadata = {
 
 
 async function fetchData(): Promise<ValuationData | null> {
-  const url = `${process.env.API_BASE_URL}/api/valuation/`;
+  const url = `${process.env.API_BASE_URL}/api/valuation`;
 
   try {
     const response = await customFetch(url);
@@ -105,15 +105,16 @@ export default async function ValuationPage({
   const valuation = data?.valuation.filter(point => new Date(point.date) >= new Date(startDate) && new Date(point.date) <= new Date(endDate));
   const indicators = data?.indicators;
 
-  const latestValuation = valuation ? valuation[valuation.length - 1].value : 0;
-  const mean = valuation ? valuation.reduce((acc, point) => acc + point.value, 0) / valuation.length : 0;
-  const stddev = valuation ? Math.sqrt(valuation.reduce((acc, point) => acc + (point.value - mean) ** 2, 0) / valuation.length) : 0;
+  const latestDate = valuation && valuation.length !== 0 ? valuation[valuation.length - 1].date : 'Loading...';
+  const latestValuation = valuation && valuation.length !== 0 ? valuation[valuation.length - 1].value : 0;
+  const mean = valuation&& valuation.length !== 0 ? valuation.reduce((acc, point) => acc + point.value, 0) / valuation.length : 0;
+  const stddev = valuation&& valuation.length !== 0 ? Math.sqrt(valuation.reduce((acc, point) => acc + (point.value - mean) ** 2, 0) / valuation.length) : 0;
 
   // Get gradient color between red and green
   const getColor = (value: number) => {
     const red = Math.min(255, Math.max(0, Math.round(((value + 2) / 4) * 255)));
     const green = 255 - red;
-  
+
     return `rgb(${red}, ${green}, 0)`;
   };
 
@@ -121,12 +122,13 @@ export default async function ValuationPage({
     <div className='font-sans min-h-screen'>
       <main className='min-h-screen flex flex-col font-sans bg-[#fff] text-[#191919]'>
         <div className='px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4'>
-          <div className='flex flex-col lg:flex-row justify-around items-center mb-4'>
+          <div className='flex flex-col lg:flex-row gap-4 justify-around items-center mb-4'>
             <h1 className='text-4xl font-bold'>Bitcoin Valuation</h1>
 
             <div className='flex gap-2 items-center'>
               <h2 className="text-2xl">Latest score:</h2>
-              <p className="text-4xl font-extrabold border border-zinc-300 p-1 bg-zinc-50 rounded-sm shadow-sm" style={{ color: getColor(latestValuation) }}>{latestValuation.toFixed(2)}</p>
+              <p className="text-4xl font-extrabold border border-zinc-300 p-1 rounded-sm shadow-sm" style={{ color: getColor(latestValuation) }}>{latestValuation.toFixed(2)}</p>
+              <p className="text-xl font-semibold mt-1">({latestDate})</p>
             </div>
           </div>
 
@@ -141,6 +143,15 @@ export default async function ValuationPage({
           </div>
         </div>
 
+        <section className="x-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4 border-t border-zinc-300 bg-zinc-100">
+          <h2 className="font-bold text-2xl tracking-tight text-center mb-4">What is Bitcoin Valuation?</h2>
+          <p className="">
+            The <strong>Bitcoin Valuation</strong> is an average of various technical and onchain indicators on bitcoin that have been z-scored. 
+            Each indicator has been transformed to bring it as close as possible to the normal model.
+            The signal of the indicators has been <a className="underline decoration-dashed underline-offset-2" href="/notebooks">boosted</a> to prevent alpha decay.
+          </p>
+        </section>
+
         <div className="bg-zinc-50 text-[#191919] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4 border-t border-zinc-300">
           <h2 className="font-bold text-2xl tracking-tight text-center mb-4">Components</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -150,7 +161,9 @@ export default async function ValuationPage({
           </div>
         </div>
 
-        <NormalDistributionPlot mean={mean} stddev={stddev} latestScore={latestValuation} />
+        <div className="w-full">
+          <NormalDistributionPlot mean={mean} stddev={stddev} latestScore={latestValuation} />
+        </div>
       </main>
     </div>
   );
