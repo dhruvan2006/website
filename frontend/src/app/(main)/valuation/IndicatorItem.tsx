@@ -128,7 +128,7 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
   return (
     <div ref={ref} className="border border-zinc-300 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
       {data ? (
-        <FullScreen handle={handle} className='divide-y h-[70vh]'>
+        <FullScreen handle={handle} className='divide-y h-[70vh] max-h-[600px]'>
           <div className='p-4 flex items-center justify-between bg-[#fff]'>
             <Image src={indicator.logo} alt="Logo" height={24} width={24} style={{ height: '24px', width: 'auto' }} />
             <h3 className='font-bold underline underline-offset-4'>

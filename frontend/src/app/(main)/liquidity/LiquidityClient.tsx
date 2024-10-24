@@ -234,7 +234,7 @@ export default function LiquidityClient({
 
       {lastUpdated && (
         <div className="fixed bottom-0 right-0 bg-[#191919] text-[#fff] p-2 rounded-tl-md text-sm">
-          <b>Last Updated:</b> {formatDate(lastUpdated)}
+          <b>Last Fetch:</b> {formatDate(lastUpdated)}
         </div>
       )}
     </div>

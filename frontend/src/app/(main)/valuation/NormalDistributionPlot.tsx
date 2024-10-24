@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 
 function ChartSkeleton() {
   return (
-    <div className='w-full h-[75vh] animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
+    <div className='w-full h-[40vh] animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
       <span className='text-[#191919]'>Chart Loading...</span>
     </div>
   );
@@ -25,7 +25,7 @@ export default function NormalDistributionPlot({
   latestScore
 } : NormalDistributionPlot) {
   const generateDataPoints = () => {
-    const xValues = Array.from({ length: 100 }, (_, i) => i / 10 - 5); // X values from -5 to 5
+    const xValues = Array.from({ length: 100 }, (_, i) => i / 16.5 - 3); // X values from -3 to 3
     const yValues = xValues.map((x) => {
       const exponent = -((x - mean) ** 2) / (2 * stddev ** 2);
       return (1 / (stddev * Math.sqrt(2 * Math.PI))) * Math.exp(exponent);
@@ -33,10 +33,17 @@ export default function NormalDistributionPlot({
     return { xValues, yValues };
   };
 
+  const calculateProbabilityDensity = (x: number) => {
+    const exponent = -((x - mean) ** 2) / (2 * stddev ** 2);
+    return (1 / (stddev * Math.sqrt(2 * Math.PI))) * Math.exp(exponent);
+  };
+
   const { xValues, yValues } = generateDataPoints();
+  const latestScoreY = calculateProbabilityDensity(latestScore);
 
   return (
     <Plot
+      className='w-full h-[40vh]'
       data={[
         {
           x: xValues,
@@ -48,7 +55,7 @@ export default function NormalDistributionPlot({
         },
         {
           x: [latestScore],
-          y: [0],
+          y: [latestScoreY],
           type: 'scatter',
           mode: 'markers',
           name: 'Latest Score',
@@ -65,6 +72,7 @@ export default function NormalDistributionPlot({
         },
         showlegend: true,
       }}
+      useResizeHandler
     />
   );
 }
