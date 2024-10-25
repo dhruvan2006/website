@@ -24,7 +24,7 @@ class Command(BaseCommand):
         fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
 
-        fetch_of('Cryptoquant', cryptoquant_indicators, email=os.getenv("CRYPTOQUANT_EMAIL"), password=os.getenv("CRYPTOQUANT_PASSWORD"), proxy=os.getenv("SBR_WEBDRIVER"))
+        #fetch_of('Cryptoquant', cryptoquant_indicators, email=os.getenv("CRYPTOQUANT_EMAIL"), password=os.getenv("CRYPTOQUANT_PASSWORD"), proxy=os.getenv("SBR_WEBDRIVER"))
         self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         fetch_of('CheckOnChain', checkonchain_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched CheckOnChain indicators'))
@@ -32,7 +32,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully fetched ChainExposed indicators'))
         fetch_of('Woocharts', woocharts_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched Woocharts indicators'))
-        fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
+        #fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
         self.stdout.write(self.style.SUCCESS('Successfully fetched BiTBO indicators'))
 
         fetch_indicators()
@@ -43,50 +43,50 @@ class Command(BaseCommand):
 
 def fetch_prices():
     """Fetch Bitcoin prices from Glassnode"""
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    chrome_options.add_argument('--no-sandbox')
-    chrome_options.add_argument('--disable-dev-shm-usage')
-    chrome_options.add_argument('--disable-gpu')
-    chrome_options.add_argument('--window-size=1920,1080')
+    # chrome_options = Options()
+    # chrome_options.add_argument('--headless')
+    # chrome_options.add_argument('--no-sandbox')
+    # chrome_options.add_argument('--disable-dev-shm-usage')
+    # chrome_options.add_argument('--disable-gpu')
+    # chrome_options.add_argument('--window-size=1920,1080')
 
-    driver = webdriver.Chrome(options=chrome_options)
+    # driver = webdriver.Chrome(options=chrome_options)
 
-    try:
-        # Gets necessary permissions to access the Data API
-        driver.get("https://studio.glassnode.com/metrics?a=BTC&m=blockchain.BlockCount")
+    # try:
+    #     # Gets necessary permissions to access the Data API
+    #     driver.get("https://studio.glassnode.com/metrics?a=BTC&m=blockchain.BlockCount")
 
-        # Fetch BTC price data
-        driver.get("https://api.glassnode.com/v1/metrics/market/price_usd_close?a=BTC&i=24h&referrer=charts")
-        btc_element = driver.find_element(By.TAG_NAME, "pre")
-        btc_data = btc_element.text
+    #     # Fetch BTC price data
+    #     driver.get("https://api.glassnode.com/v1/metrics/market/price_usd_close?a=BTC&i=24h&referrer=charts")
+    #     btc_element = driver.find_element(By.TAG_NAME, "pre")
+    #     btc_data = btc_element.text
 
-        btc_json = json.loads(btc_data)
-        btc_df = pd.DataFrame(btc_json)
-        btc_df['t'] = pd.to_datetime(btc_df['t'], unit='s')
+    #     btc_json = json.loads(btc_data)
+    #     btc_df = pd.DataFrame(btc_json)
+    #     btc_df['t'] = pd.to_datetime(btc_df['t'], unit='s')
 
-        # Update or create BitcoinPrice objects
-        for _, row in btc_df.iterrows():
-            BitcoinPrice.objects.update_or_create(
-                date=row['t'].date(),
-                defaults={'price': row['v']}
-            )
+    #     # Update or create BitcoinPrice objects
+    #     for _, row in btc_df.iterrows():
+    #         BitcoinPrice.objects.update_or_create(
+    #             date=row['t'].date(),
+    #             defaults={'price': row['v']}
+    #         )
         
-        # Update missing rows with yfinance
-        last_db_date = BitcoinPrice.objects.order_by('date').last().date
-        today = datetime.today().date()
-        if last_db_date < today:
-            btc_yahoo = yf.download("BTC-USD", start=last_db_date)
-            btc_yahoo.reset_index(inplace=True)
+    # Update missing rows with yfinance
+    last_db_date = BitcoinPrice.objects.order_by('date').last().date
+    today = datetime.today().date()
+    if last_db_date < today:
+        btc_yahoo = yf.download("BTC-USD", start=last_db_date)
+        btc_yahoo.reset_index(inplace=True)
 
-            for _, row in btc_yahoo.iterrows():
-                BitcoinPrice.objects.update_or_create(
-                    date=row['Date'].date(),
-                    defaults={'price': row['Close']}
+        for _, row in btc_yahoo.iterrows():
+            BitcoinPrice.objects.update_or_create(
+                date=row['Date'].date(),
+                defaults={'price': row['Close']}
                 )
 
-    finally:
-        driver.quit()
+    # finally:
+    #     driver.quit()
 
 checkonchain_indicators = [
     {
