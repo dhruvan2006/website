@@ -9,192 +9,197 @@
 
 <url>
   <loc>https://www.gnanadhandayuthapani.com/</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/login</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/liquidity</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
+  <priority>0.80</priority>
+</url>
+<url>
+  <loc>https://www.gnanadhandayuthapani.com/valuation</loc>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/optimal</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/datasources</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/notebooks</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/docs</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/PLRR</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/VPLI</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/DECAYOSC</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/ADJUSTED_MAYER_MULTIPLE</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/THERMOCAP</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/ADJUSTED_MVRV</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/MVRV_Ratio</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/SOPR_7D_EMA</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/PoW_OSC</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/AVIV_Ratio</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/MAYER_MULT</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/PI_CYCLE</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/BTC_Macro_Osc</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/MVRV_Z</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/Mayer_Multiple</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/NUPL</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/RUP</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/VDD_Bitbo</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/PUELL_Bitbo</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/Power_Law_Osc_Bitbo</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/Sharpe_Ratio_Bitbo</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/Adjusted_MVRV</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/Sharpe_Ratio</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/indicators/VDD_Multiple</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/datasources/BLOCK_COUNT</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/datasources/MVRV</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/notebooks/thermocap-multiple</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/notebooks/bitcoin-decay-channel</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/notebooks/adjusted-mayer-multiple</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
   <loc>https://www.gnanadhandayuthapani.com/notebooks/adjusted-mvrv</loc>
-  <lastmod>2024-10-23T06:57:51+00:00</lastmod>
+  <lastmod>2024-10-25T21:46:05+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 
