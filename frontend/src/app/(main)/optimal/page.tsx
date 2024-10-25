@@ -28,15 +28,6 @@ export const metadata: Metadata = {
   }
 }
 
-// Fallback component
-function OptimalFallback() {
-  return (
-    <div className='h-[88vh] flex items-center justify-center'>
-      <div className="animate-spin rounded-full h-32 w-32 border-8 border-black border-t-8 border-t-transparent"></div>
-    </div>
-  )
-}
-
 async function fetchOptimalData(ticker: string, start_date: string, end_date: string, fees: number, lower_lev: number, upper_lev: number) {
   const url = `${process.env.API_BASE_URL}/api/optimal/`;
   try {
@@ -88,9 +79,7 @@ export default async function OptimalPage({
   
   return (
     <div className='bg-[#fff] text-[#191919] font-sans'>
-      <Suspense fallback={<OptimalFallback />}>
-        <OptimalClient apiBase={process.env.API_BASE_URL || ""} ticker={ticker} data={data} startDate={startDate} endDate={endDate} fees={fees} lowerLev={lowerLev} upperLev={upperLev} />
-      </Suspense>
+      <OptimalClient apiBase={process.env.API_BASE_URL || ""} ticker={ticker} data={data} startDate={startDate} endDate={endDate} fees={fees} lowerLev={lowerLev} upperLev={upperLev} />
     </div>
   );
 }

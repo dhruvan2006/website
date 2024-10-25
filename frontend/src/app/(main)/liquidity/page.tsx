@@ -83,15 +83,6 @@ async function fetchLastUpdated(): Promise<string | null> {
   }
 }
 
-// Fallback component
-function LiquidityFallback() {
-  return (
-    <div className='h-[88vh] flex items-center justify-center'>
-      <div className="animate-spin rounded-full h-32 w-32 border-8 border-black border-t-8 border-t-transparent"></div>
-    </div>
-  )
-}
-
 export default async function Liquidity({
   searchParams
 }: {
@@ -115,14 +106,12 @@ export default async function Liquidity({
   const lastUpdated = await fetchLastUpdated();
 
   return (
-    <Suspense fallback={<LiquidityFallback />}>
-      <LiquidityClient
-        combinedSeriesData={combinedSeriesData}
-        lastUpdated={lastUpdated}
-        startDate={startDate}
-        endDate={endDate}
-        tickers={tickers}
-      />
-    </Suspense>
+    <LiquidityClient
+      combinedSeriesData={combinedSeriesData}
+      lastUpdated={lastUpdated}
+      startDate={startDate}
+      endDate={endDate}
+      tickers={tickers}
+    />
   )
 }
