@@ -1,6 +1,7 @@
 import ocfinance as of
 import pandas as pd
 import numpy as np
+import yfinance as yf
 import os
 import json
 from dotenv import load_dotenv
@@ -70,6 +71,19 @@ def fetch_prices():
                 date=row['t'].date(),
                 defaults={'price': row['v']}
             )
+        
+        # Update missing rows with yfinance
+        last_db_date = BitcoinPrice.objects.order_by('date').last().date
+        today = datetime.today().date()
+        if last_db_date < today:
+            btc_yahoo = yf.download("BTC-USD", start=last_db_date)
+            btc_yahoo.reset_index(inplace=True)
+
+            for _, row in btc_yahoo.iterrows():
+                BitcoinPrice.objects.update_or_create(
+                    date=row['Date'].date(),
+                    defaults={'price': row['Close']}
+                )
 
     finally:
         driver.quit()
