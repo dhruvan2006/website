@@ -673,7 +673,7 @@ def calculate_adjusted_mayer_multiple():
     """
     Calculate the Adjusted Mayer Multiple, which is an oscillator of Mayer Multiple between two quantile regressions.
     """
-    mayer_indicator = Indicator.objects.get(url_name='Mayer_Multiple')
+    mayer_indicator = Indicator.objects.get(url_name='MAYER_MULT')
     mayer_values = IndicatorValue.objects.filter(indicator=mayer_indicator).order_by('date')
 
     # Convert data to df
