@@ -24,7 +24,7 @@ class Command(BaseCommand):
         fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
 
-        #fetch_of('Cryptoquant', cryptoquant_indicators, email=os.getenv("CRYPTOQUANT_EMAIL"), password=os.getenv("CRYPTOQUANT_PASSWORD"), proxy=os.getenv("SBR_WEBDRIVER"))
+        fetch_of('Cryptoquant', cryptoquant_indicators, email=os.getenv("CRYPTOQUANT_EMAIL"), password=os.getenv("CRYPTOQUANT_PASSWORD"), proxy=os.getenv("SBR_WEBDRIVER"))
         self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         fetch_of('CheckOnChain', checkonchain_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched CheckOnChain indicators'))
@@ -32,7 +32,7 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully fetched ChainExposed indicators'))
         fetch_of('Woocharts', woocharts_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched Woocharts indicators'))
-        #fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
+        fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
         self.stdout.write(self.style.SUCCESS('Successfully fetched BiTBO indicators'))
 
         fetch_indicators()
