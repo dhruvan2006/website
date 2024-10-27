@@ -21,11 +21,11 @@ class WebhookAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         cert = request.META.get('SSL_CLIENT_CERT')
-        # if not cert:
-        #     return Response({"error": "No client certificate provided"}, status=status.HTTP_403_FORBIDDEN)
+        if not cert:
+            return Response({"error": "No client certificate provided"}, status=status.HTTP_403_FORBIDDEN)
 
-        # if not self._validate_certificate(cert):
-        #     return Response({"error": "Unauthorized client certificate"}, status=status.HTTP_401_UNAUTHORIZED)
+        if not self._validate_certificate(cert):
+            return Response({"error": "Unauthorized client certificate"}, status=status.HTTP_401_UNAUTHORIZED)
 
         data = request.data
         validation_error = self._validate_data(data)
@@ -72,4 +72,20 @@ class WebhookAPIView(APIView):
         score = data.get("score")
 
         ticker, _ = Ticker.objects.get_or_create(ticker=ticker_symbol)
+        existing_score = TickerScore.objects.filter(
+            ticker=ticker,
+            date=date
+        ).first()
+
+        if existing_score:
+            if existing_score.score == score:
+                # If score is the same, return existing record
+                return existing_score
+            else:
+                # If score is different, update the existing record
+                existing_score.score = score
+                existing_score.save()
+                return existing_score
+
+        # If no existing score found, create a new one
         return TickerScore.objects.create(ticker=ticker, date=date, score=score)
