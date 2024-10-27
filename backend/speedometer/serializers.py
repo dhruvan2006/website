@@ -7,7 +7,7 @@ class TickerSerializer(serializers.ModelSerializer):
         fields = ['ticker']
 
 class TickerScoreSerializer(serializers.ModelSerializer):
-    ticker = TickerSerializer
+    ticker = TickerSerializer()
 
     class Meta:
         model = TickerScore
