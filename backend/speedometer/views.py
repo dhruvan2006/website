@@ -3,6 +3,7 @@ from OpenSSL import crypto
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import AllowAny
 
 from .models import Ticker, TickerScore
 from .serializers import TickerSerializer, TickerScoreSerializer
@@ -16,13 +17,15 @@ class TickerScoreViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = TickerScoreSerializer
 
 class WebhookAPIView(APIView):
+    permission_classes = [AllowAny]
+
     def post(self, request, *args, **kwargs):
         cert = request.META.get('SSL_CLIENT_CERT')
-        # if not cert:
-        #     return Response({"error": "No client certificate provided"}, status=status.HTTP_403_FORBIDDEN)
+        if not cert:
+            return Response({"error": "No client certificate provided"}, status=status.HTTP_403_FORBIDDEN)
 
-        # if not self._validate_certificate(cert):
-        #     return Response({"error": "Unauthorized client certificate"}, status=status.HTTP_401_UNAUTHORIZED)
+        if not self._validate_certificate(cert):
+            return Response({"error": "Unauthorized client certificate"}, status=status.HTTP_401_UNAUTHORIZED)
 
         data = request.data
         validation_error = self._validate_data(data)
