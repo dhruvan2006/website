@@ -1,21 +1,14 @@
 from rest_framework import serializers
 from .models import Ticker, TickerScore
 
-class ScoreSerializer(serializers.ModelSerializer):
+class TickerScoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = TickerScore
-        fields = ['date', 'score', 'last_updated']
+        fields = ['score']
 
 class TickerSerializer(serializers.ModelSerializer):
-    scores = ScoreSerializer(source='tickerscore_set', many=True, read_only=True)
-    
+    scores = serializers.ListField(child=serializers.IntegerField(), read_only=True)
+
     class Meta:
         model = Ticker
         fields = ['ticker', 'scores']
-
-class TickerScoreSerializer(serializers.ModelSerializer):
-    ticker = TickerSerializer()
-
-    class Meta:
-        model = TickerScore
-        fields = ['ticker', 'date', 'score', 'last_updated']

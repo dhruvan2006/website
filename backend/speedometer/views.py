@@ -13,8 +13,22 @@ class TickerViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = TickerSerializer
 
 class TickerScoreViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = TickerScore.objects.all()
-    serializer_class = TickerScoreSerializer
+    queryset = TickerScore.objects.all().order_by('date')
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        result = {}
+        
+        for score in queryset:
+            ticker_symbol = score.ticker.ticker
+            score_data = {'date': score.date, 'score': score.score}
+            
+            if ticker_symbol not in result:
+                result[ticker_symbol] = {'ticker': ticker_symbol, 'scores': []}
+            
+            result[ticker_symbol]['scores'].append(score_data)
+        
+        return Response(list(result.values()), status=status.HTTP_200_OK)
 
 class WebhookAPIView(APIView):
     permission_classes = [AllowAny]
