@@ -11,6 +11,6 @@ export async function customFetch(url: string, options: RequestInit = {}) {
     return fetch(url, {
         ...options,
         headers: defaultHeaders,
-        // cache: 'no-store',
+        cache: 'no-store',
     });
 }
