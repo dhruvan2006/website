@@ -3,8 +3,13 @@ from django.db import models
 from indicators.models import Indicator
 
 class Valuation(models.Model):
-    date = models.DateField()
+    date = models.DateField(db_index=True)
     value = models.FloatField()
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['date']),
+        ]
 
     def __str__(self):
         return f"Valuation on {self.date}: {self.value}"
