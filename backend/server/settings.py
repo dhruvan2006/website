@@ -97,6 +97,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    "debug_toolbar",
 
 ]
 
@@ -151,6 +152,7 @@ REST_FRAMEWORK = {
 API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -160,6 +162,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+# For Django debug toolbar
+INTERNAL_IPS = [
+    "46.21.170.215",
+    "127.0.0.1",
 ]
 
 ROOT_URLCONF = 'server.urls'
