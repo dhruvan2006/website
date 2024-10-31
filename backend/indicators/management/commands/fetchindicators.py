@@ -113,14 +113,14 @@ checkonchain_indicators = [
         "description": """The Proof of Work Oscillator from Difficulty per Issuance Model (Estimated Avg Cost of Production) from CheckOnChain
 [1] https://charts.checkonchain.com/btconchain/mining/mining_difficultyperissuance/mining_difficultyperissuance_light.html"""
     },
-    {
-        "url": "https://charts.checkonchain.com/btconchain/cointime/cointime_pricing_mvrv_aviv_1/cointime_pricing_mvrv_aviv_1_light.html",
-        "url_name": "AVIV_Ratio",
-        "human_name": "AVIV Ratio",
-        "col": "AVIV Ratio",
-        "description": """The AVIV Ratio from True Market Mean and AVIV Ratio from CheckOnChain
-[1] https://charts.checkonchain.com/btconchain/cointime/cointime_pricing_mvrv_aviv_1/cointime_pricing_mvrv_aviv_1_light.html"""
-    },
+#     {
+#         "url": "https://charts.checkonchain.com/btconchain/cointime/cointime_pricing_mvrv_aviv_1/cointime_pricing_mvrv_aviv_1_light.html",
+#         "url_name": "AVIV_Ratio",
+#         "human_name": "AVIV Ratio",
+#         "col": "AVIV Ratio",
+#         "description": """The AVIV Ratio from True Market Mean and AVIV Ratio from CheckOnChain
+# [1] https://charts.checkonchain.com/btconchain/cointime/cointime_pricing_mvrv_aviv_1/cointime_pricing_mvrv_aviv_1_light.html"""
+#     },
     {
         "url": "https://charts.checkonchain.com/btconchain/pricing/pricing_mayermultiple/pricing_mayermultiple_light.html",
         "url_name": "MAYER_MULT",
