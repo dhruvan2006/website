@@ -73,10 +73,12 @@ def fetch_prices():
     #         )
         
     # Update missing rows with yfinance
-    last_db_date = BitcoinPrice.objects.order_by('date').last().date
+    last_entry = BitcoinPrice.objects.order_by('date').last()
+    last_db_date = last_entry.date if last_entry else None
     today = datetime.today().date()
-    if last_db_date < today:
-        btc_yahoo = yf.download("BTC-USD", start=last_db_date)
+    if not last_db_date or last_db_date < today:
+        start_date = last_db_date if last_db_date else "1900-01-01"
+        btc_yahoo = yf.download("BTC-USD", start=start_date)
         btc_yahoo.reset_index(inplace=True)
 
         for _, row in btc_yahoo.iterrows():
