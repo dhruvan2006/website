@@ -109,6 +109,7 @@ pluggy==1.5.0
 prometheus_client==0.21.0
 prompt_toolkit==3.0.48
 psutil==6.1.0
+psycopg2-binary
 ptyprocess==0.7.0
 pure_eval==0.2.3
 py==1.11.0
