@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: gunicorn server.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=False
+      - REDIS_URL=redis://redis:6379/0
+      # - DJANGO_SETTINGS_MODULE=server.settings
+      # - DATABASE_URL=postgres://user:password@db:5432/your_db_name
+  
+  redis:
+    image: redis:alpine  # Use a lightweight Redis image
+    ports:
+      - "6379:6379"
+
+  # db:
+  #   image: postgres:13
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data/
+  #   environment:
+  #     POSTGRES_DB: your_db_name
+  #     POSTGRES_USER: user
+  #     POSTGRES_PASSWORD: password
+
+# volumes:
+#   postgres_data:
