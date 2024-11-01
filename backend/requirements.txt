@@ -29,6 +29,7 @@ django-allauth==65.0.2
 django-cors-headers==4.5.0
 django-debug-toolbar==4.4.6
 django-filter==24.3
+django-redis==5.4.0
 djangorestframework==3.15.2
 djangorestframework-api-key==2.3.0
 djangorestframework-simplejwt==5.3.1
@@ -134,6 +135,7 @@ python-xlib==0.33
 pytz==2024.2
 PyYAML==6.0.2
 pyzmq==26.2.0
+redis==5.2.0
 referencing==0.35.1
 requests==2.31.0
 requests-oauthlib==2.0.0
