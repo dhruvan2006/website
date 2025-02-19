@@ -19,7 +19,7 @@ class OptimalLeverageView(APIView):
             if not ticker or not start_date or not end_date:
                 return Response({"error": "Missing ticker, start_date, or end_date"}, status=status.HTTP_400_BAD_REQUEST)
             
-            df = yf.download(ticker, start=start_date, end=end_date)
+            df = yf.download(ticker, start=start_date, end=end_date, multi_level_index=False)
 
             if df.empty:
                 return Response({"error": "No data available for the provided ticker and date range."}, status=status.HTTP_400_BAD_REQUEST)
