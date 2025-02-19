@@ -32,8 +32,8 @@ class Command(BaseCommand):
         self.stdout.write(self.style.SUCCESS('Successfully fetched ChainExposed indicators'))
         fetch_of('Woocharts', woocharts_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched Woocharts indicators'))
-        fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
-        self.stdout.write(self.style.SUCCESS('Successfully fetched BiTBO indicators'))
+        # fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
+        # self.stdout.write(self.style.SUCCESS('Successfully fetched BiTBO indicators'))
 
         fetch_indicators()
         self.stdout.write(self.style.SUCCESS('Successfully calculated indicators'))
@@ -78,7 +78,7 @@ def fetch_prices():
     today = datetime.today().date()
     if not last_db_date or last_db_date < today:
         start_date = last_db_date if last_db_date else "1900-01-01"
-        btc_yahoo = yf.download("BTC-USD", start=start_date)
+        btc_yahoo = yf.download("BTC-USD", start=start_date, multi_level_index=False)
         btc_yahoo.reset_index(inplace=True)
 
         for _, row in btc_yahoo.iterrows():
@@ -107,22 +107,6 @@ checkonchain_indicators = [
         "description": """The Spent Output Ratio (SOPR) 7D EMA from CheckOnChain
 [1] https://charts.checkonchain.com/btconchain/realised/sopr/sopr_light.html"""
     },
-    {
-        "url": "https://charts.checkonchain.com/btconchain/mining/mining_difficultyperissuance/mining_difficultyperissuance_light.html",
-        "url_name": "PoW_OSC",
-        "human_name": "Proof of Work Oscillator",
-        "col": "PoW Oscillator",
-        "description": """The Proof of Work Oscillator from Difficulty per Issuance Model (Estimated Avg Cost of Production) from CheckOnChain
-[1] https://charts.checkonchain.com/btconchain/mining/mining_difficultyperissuance/mining_difficultyperissuance_light.html"""
-    },
-#     {
-#         "url": "https://charts.checkonchain.com/btconchain/cointime/cointime_pricing_mvrv_aviv_1/cointime_pricing_mvrv_aviv_1_light.html",
-#         "url_name": "AVIV_Ratio",
-#         "human_name": "AVIV Ratio",
-#         "col": "AVIV Ratio",
-#         "description": """The AVIV Ratio from True Market Mean and AVIV Ratio from CheckOnChain
-# [1] https://charts.checkonchain.com/btconchain/cointime/cointime_pricing_mvrv_aviv_1/cointime_pricing_mvrv_aviv_1_light.html"""
-#     },
     {
         "url": "https://charts.checkonchain.com/btconchain/pricing/pricing_mayermultiple/pricing_mayermultiple_light.html",
         "url_name": "MAYER_MULT",
@@ -272,6 +256,8 @@ def fetch_of(name, indicators, **kwargs):
         col = indicator['col']
 
         df = of.download(indicator['url'], **kwargs)
+
+        print(df)
 
         category, _ = Category.objects.get_or_create(name=name)
 
