@@ -23,6 +23,10 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
+                hostname: 'chainexposed.com',
+            },
+            {
+                protocol: 'https',
                 hostname: 'secure.gravatar.com',
             },
             {
