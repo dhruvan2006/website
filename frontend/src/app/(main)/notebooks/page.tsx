@@ -53,13 +53,13 @@ export default async function ResearchPage() {
   console.log(notebooks);
 
   return (
-    <div className='bg-[#fff] text-[#191919] font-sans'>
+    <div className='bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 font-sans'>
       <main className='container mx-auto px-4 sm:px-8 lg:px-16 py-8'>
         <h1 className='text-3xl font-bold mb-8'>Research Notebooks</h1>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
             {notebooks.map((notebook) => (
               <Link href={`/notebooks/${notebook.path}`} key={notebook.name}>
-                <div className='bg-gray-100 p-6 rounded-lg hover:shadow-md transition duration-300'>
+                <div className='bg-gray-100 dark:bg-[#1e2022] p-6 rounded-lg hover:shadow-md shadow-zinc-200 dark:shadow-zinc-800 transition duration-300'>
                   <h2 className='text-xl font-semibold mb-2'>{notebook.name}</h2>
                   {/* <p className='text-gray-600 mb-2'>{indicator.human_name}</p> */}
                   {/* <span className='text-sm text-blue-600'>{notebook.name}</span> */}

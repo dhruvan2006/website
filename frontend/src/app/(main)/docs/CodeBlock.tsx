@@ -41,8 +41,8 @@ print(response.json())`,
               key={lang}
               className={`px-3 py-1 mr-2 rounded-t-md ${
                 activeTab === lang
-                  ? 'bg-gray-200 text-gray-800'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'bg-gray-200 text-gray-800 dark:bg-gray-800 dark:text-gray-200'
+                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-700'
               }`}
               onClick={() => setActiveTab(lang)}
             >
@@ -50,7 +50,7 @@ print(response.json())`,
             </button>
           ))}
         </div>
-        <pre className="bg-gray-100 rounded-b-md overflow-x-auto relative">
+        <pre className="bg-gray-100 dark:bg-gray-900 rounded-b-md overflow-x-auto relative">
           <code>
             <SyntaxHighlighter language={activeTab === 'curl' ? 'bash' : activeTab} style={tomorrowNightBright} wrapLines wrapLongLines>
               {codeExamples[activeTab as keyof typeof codeExamples]}
@@ -61,11 +61,11 @@ print(response.json())`,
 
       <div className='mt-4 mb-8'>
         <div className="flex mb-2">
-          <button className='px-3 py-1 mr-2 rounded-t-md bg-gray-200 text-gray-800'>
+          <button className='px-3 py-1 mr-2 rounded-t-md bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200'>
             Response
           </button>
         </div>
-        <pre className="bg-gray-100 rounded-b-md overflow-x-auto">
+        <pre className="bg-gray-100 dark:bg-gray-900 rounded-b-md overflow-x-auto">
           <code>
             <SyntaxHighlighter language='json' style={tomorrowNightBright} wrapLines wrapLongLines>
             {`{"message": "API key is valid"}`}
