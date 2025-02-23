@@ -78,7 +78,7 @@ export default async function OptimalPage({
   const data = await fetchOptimalData(ticker, startDate, endDate, fees, lowerLev, upperLev);
   
   return (
-    <div className='bg-[#fff] text-[#191919] font-sans'>
+    <div className='bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 font-sans'>
       <OptimalClient apiBase={process.env.API_BASE_URL || ""} ticker={ticker} data={data} startDate={startDate} endDate={endDate} fees={fees} lowerLev={lowerLev} upperLev={upperLev} />
     </div>
   );

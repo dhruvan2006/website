@@ -59,7 +59,7 @@ export default function OptimalClient({ apiBase, ticker, data, startDate, endDat
   };
 
   return (
-    <div className='min-h-screen flex flex-col font-sans bg-[#fff] text-[#191919]'>
+    <div className='min-h-screen flex flex-col font-sans bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300'>
       <main>
         <div className='container mx-auto px-4 sm:px-8 lg:px-16 py-4'>
           <div className='flex flex-col justify-between items-center'>
@@ -103,7 +103,7 @@ export default function OptimalClient({ apiBase, ticker, data, startDate, endDat
                   />
                 </div>
                 <button
-                  className='m-0 mt-6 sm:mt-7 sm:ml-8 bg-[#191919] hover:bg-[#474747] text-white transition duration-300 py-2 px-6 rounded-md'
+                  className='m-0 mt-6 sm:mt-7 sm:ml-8 bg-gray-900 dark:bg-white hover:bg-gray-700 dark:hover:bg-gray-200 text-white dark:text-gray-900 transition duration-300 py-2 px-6 rounded-md'
                   onClick={handleButtonUpdate}
                 >
                   Update
@@ -112,16 +112,16 @@ export default function OptimalClient({ apiBase, ticker, data, startDate, endDat
             </div>
           </div>
 
-          <div className='mb-8 p-4 bg-zinc-100 rounded-sm border border-zinc-300'>
+          <div className='mb-8 p-4 bg-zinc-100 dark:bg-[#1e2022] bg-zinc- rounded-sm border border-zinc-300 dark:border-zinc-700'>
             <OptimalPlot ticker={ticker} data={data} />
           </div>
 
-          <div className='mb-8 p-4 bg-zinc-100 rounded-sm border border-zinc-300'>
+          <div className='mb-8 p-4 bg-zinc-100 dark:bg-[#1e2022] rounded-sm border border-zinc-300 dark:border-zinc-700'>
             <PricePlot ticker={ticker} data={data} />
           </div>
         </div>
 
-        <div className="w-full bg-zinc-100 py-8 border-y border-zinc-300">
+        <div className="w-full bg-zinc-100 dark:bg-[#1e2022] py-8 border-y border-zinc-300 dark:border-zinc-700">
           <div className="container mx-auto px-4 sm:px-8 lg:px-16 space-y-4">
             <h2 className="text-2xl font-bold mb-6 text-center">
               Calculation of Optimal Leverage Curves

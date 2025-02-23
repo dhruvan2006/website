@@ -62,20 +62,20 @@ export default function TickerPicker({ apiBase, label, value, onChange }: Ticker
 
   return (
     <div className='flex flex-col items-start relative'>
-      <span className='text-[#191919] mb-1'>{label}</span>
+      <span className='text-zinc-900 dark:text-zinc-300 mb-1'>{label}</span>
       <div ref={inputContainerRef}>
         <input 
           type="text" 
-          className='bg-[#fff] border border-[#191919] text-[#191919] px-4 py-2 rounded-md w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-[#0057ff] focus:border-transparent'
+          className='bg-white dark:bg-zinc-900 border border-zinc-900 dark:border-zinc-300 text-zinc-900 dark:text-zinc-300 px-4 py-2 rounded-md w-full sm:w-auto focus:outline-none focus:ring-2 focus:ring-[#0057ff] focus:border-transparent'
           value={value} 
           onChange={(e) => onChange(e.target.value)}
         />
         {isDropdownOpen && suggestions.length > 0 && (
-          <ul className='absolute top-[4.75rem] h-40 overflow-y-auto z-10 bg-white border border-[#191919] mt-1 rounded-md w-full'>
+          <ul className='absolute top-[4.75rem] h-40 overflow-y-auto z-10 bg-white dark:bg-zinc-900 border border-zinc-900 dark:border-zinc-300 mt-1 rounded-md w-full'>
             {suggestions.map((ticker) => (
               <li 
                 key={ticker} 
-                className='px-4 py-2 hover:bg-[#0057ff] hover:text-white cursor-pointer' 
+                className='px-4 py-2 hover:bg-[#0057ff] hover:text-white dark:hover:text-zinc-900 cursor-pointer'
                 onClick={() => handleSuggestionClick(ticker)}
               >
                 {ticker}

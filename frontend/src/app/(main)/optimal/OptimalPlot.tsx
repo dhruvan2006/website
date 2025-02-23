@@ -1,3 +1,5 @@
+import {useTheme} from "@/ThemeContext";
+
 'use-client';
 
 import { Data } from "./OptimalClient";
@@ -10,8 +12,8 @@ type OptimalPlotProps = {
 
 function OptimalPlotSkeleton() {
   return (
-    <div className='w-full h-full pb-3 pt-1 animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
-      <span className='text-[#191919]'>Chart Loading...</span>
+    <div className='w-full h-full pb-3 pt-1 animate-pulse bg-gray-100 dark:bg-zinc-800 flex items-center justify-center rounded-md'>
+      <span className='text-zinc-900 dark:text-zinc-300'>Chart Loading...</span>
     </div>
   );
 }
@@ -19,6 +21,9 @@ function OptimalPlotSkeleton() {
 const Plot = dynamic(() => import('react-plotly.js'), { ssr: false, loading: () => <OptimalPlotSkeleton /> });
 
 export default function OptimalPlot({ ticker, data}: OptimalPlotProps) {
+  const { theme } = useTheme();
+  const themeColor = theme === "dark" ? "#d8d5d0" : "#191919";
+
   const trace: Plotly.Data = {
     type: 'scatter',
     mode: 'lines',
@@ -44,15 +49,15 @@ export default function OptimalPlot({ ticker, data}: OptimalPlotProps) {
     autosize: true,
     title: {
       text: `<b>${ticker}</b>`,
-      font: { size: 20, color: '#191919',  }
+      font: { size: 20, color: themeColor,  }
     },
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
-    font: { color: '#191919', family: 'monospace', size: 14 },
+    font: { color: themeColor, family: 'monospace', size: 14 },
     margin: { t: 50, b: 70, l: 65, r: 50 },
     xaxis: {
       showgrid: false,
-      linecolor: '#191919',
+      linecolor: themeColor ,
       title: {
         text: 'Leverage Multiple',
         font: { size: 16 }
@@ -60,7 +65,7 @@ export default function OptimalPlot({ ticker, data}: OptimalPlotProps) {
     },
     yaxis: {
       showgrid: false,
-      linecolor: '#191919',
+      linecolor: themeColor,
       title: {
         text: "Return",
         font: { size: 16 }
