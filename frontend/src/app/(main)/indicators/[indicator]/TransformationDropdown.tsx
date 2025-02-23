@@ -44,7 +44,7 @@ export default function CustomDropdown({
     <div className="relative inline-block w-20 z-10 ms-2" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex justify-between items-center w-full px-2 py-1.5 bg-[#fff] border border-zinc-300 rounded-md shadow-sm focus:outline-none focus:ring-blue focus:border-blue"
+        className="flex justify-between items-center w-full px-2 py-1.5 bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
       >
         <span>{transformation}</span>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-4 mt-0.5">
@@ -53,12 +53,12 @@ export default function CustomDropdown({
       </button>
 
       {isOpen && (
-        <ul className="absolute w-full bg-[#fff] border border-zinc-300 rounded-md mt-1 shadow-lg overflow-hidden">
+        <ul className="absolute w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-md mt-1 shadow-lg overflow-hidden">
           {options.map((option) => (
             <li
               key={option}
               onClick={() => handleSelect(option)}
-              className={`px-4 py-2 hover:bg-blue hover:text-[#fff] cursor-pointer transition duration-100 ${bold.includes(option) ? 'font-bold' : ''} ${option === transformation ? 'bg-blue text-[#fff]' : ''}`}
+              className={`px-4 py-2 hover:bg-blue-500 hover:zinc-100 dark:text-zinc-300 cursor-pointer transition duration-100 ${bold.includes(option) ? 'font-bold' : ''} ${option === transformation ? 'bg-blue-500 text-white dark:text-white' : ''}`}
             >
               {option}
             </li>

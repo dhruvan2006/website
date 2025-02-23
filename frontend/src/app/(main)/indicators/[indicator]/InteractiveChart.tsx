@@ -9,6 +9,7 @@ import NormalProbabilityPlot from './NormalProbabilityPlot';
 import TransformationDropdown from './TransformationDropdown';
 import * as XLSX from 'xlsx';
 import DownloadDropdown from './DownloadDropdown';
+import {useTheme} from "@/ThemeContext";
 
 // Download to csv
 function downloadCSV(indicatorData: DataPoint[], bitcoinData: BitcoinDataPoint[], fileName: string) {
@@ -72,6 +73,9 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
   const [endDate, setEndDate] = useState<string>(new Date().toISOString().split('T')[0]);
 
   const [transformation, setTransformation] = useState<string>('x');
+
+  const { theme } = useTheme();
+  const themeColor = theme === "dark" ? "#d8d5d0" : "#191919";
 
   const applyTransformation = (x: number, transformation: string): number => {
         switch (transformation) {
@@ -149,12 +153,12 @@ export default function InteractiveChart({ initialIndicatorData, initialBitcoinD
       </div>
 
       <div className='mb-4'>
-        <Chart ticker={indicator.human_name} color="#000" data={filteredIndicatorData} bitcoinData={filteredBitcoinData} />
+        <Chart ticker={indicator.human_name} color={themeColor} data={filteredIndicatorData} bitcoinData={filteredBitcoinData} />
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-        <Histogram ticker={indicator.human_name} color="#000" data={filteredIndicatorData} />
-        <NormalProbabilityPlot ticker={indicator.human_name} color="#000" data={filteredIndicatorData} />
+        <Histogram ticker={indicator.human_name} color={themeColor} data={filteredIndicatorData} />
+        <NormalProbabilityPlot ticker={indicator.human_name} color={themeColor} data={filteredIndicatorData} />
       </div>
     </div>
   );

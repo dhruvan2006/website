@@ -60,7 +60,7 @@ export default async function IndicatorPage() {
   const data = await getCategoriesWithIndicators();
 
   return (
-    <div className='bg-[#fff] text-[#191919] font-sans'>
+    <div className='bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 font-sans'>
       <main className='container mx-auto px-4 sm:px-8 lg:px-16 py-8'>
         <h1 className='text-3xl font-bold mb-8'>Bitcoin Indicators</h1>
         {data.map(({ category, indicators }) => (
@@ -69,9 +69,9 @@ export default async function IndicatorPage() {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
               {indicators.map((indicator) => (
                 <Link href={`/indicators/${indicator.url_name}`} key={indicator.id}>
-                  <div className='bg-gray-100 p-6 rounded-lg hover:shadow-md transition duration-300'>
+                  <div className='bg-gray-100 dark:bg-zinc-800 p-6 rounded-lg hover:shadow-md transition duration-300'>
                     <h2 className='text-xl font-semibold mb-2'>{indicator.human_name}</h2>
-                    <p className='text-gray-600 mb-2'>{indicator.url_name}</p>
+                    <p className='text-gray-600 dark:text-gray-300 mb-2'>{indicator.url_name}</p>
                     <span className='text-sm text-blue-600'>{category.name}</span>
                   </div>
                 </Link>

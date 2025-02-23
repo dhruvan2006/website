@@ -42,7 +42,7 @@ export default function DownloadDropdown({
     <div className="relative inline-block z-10" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex me-4 justify-between items-center w-full px-2 py-2 bg-blue text-white rounded-md hover:bg-[#0046cc] transition duration-300"
+        className="flex me-4 justify-between items-center w-full px-2 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
       >
         <span className="text-sm">Download</span>
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-4">
@@ -51,12 +51,12 @@ export default function DownloadDropdown({
       </button>
 
       {isOpen && (
-        <ul className="absolute w-full bg-[#fff] border border-gray-300 rounded-md mt-1 shadow-lg z-10 overflow-hidden">
+        <ul className="absolute w-full bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded-md mt-1 shadow-lg z-10 overflow-hidden">
           {options.map((option) => (
             <li
               key={option}
               onClick={() => handleSelect(option)}
-              className="px-4 py-2 cursor-pointer transition duration-100 hover:bg-white"
+              className="px-4 py-2 cursor-pointer transition duration-100 hover:bg-zinc-100 dark:hover:bg-black"
             >
               {option}
             </li>

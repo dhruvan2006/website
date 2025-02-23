@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic'
 
 function ChartSkeleton() {
   return (
-    <div className='w-full h-[75vh] animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
-      <span className='text-[#191919]'>Chart Loading...</span>
+    <div className='w-full h-[75vh] animate-pulse bg-gray-100 dark:bg-zinc-800 flex items-center justify-center rounded-md'>
+      <span className='text-zinc-900 dark:text-zinc-300'>Chart Loading...</span>
     </div>
   );
 }
@@ -51,7 +51,7 @@ export default function Chart({ ticker, color, data, bitcoinData }: { ticker: st
     autosize: true,
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
-    font: { color: '#191919', family: 'Apercu, sans-serif', size: 14 },
+    font: { color: color, family: 'Apercu, sans-serif', size: 14 },
     margin: { l: 50, r: 50, t: 30, b: 50 },
     xaxis: {
       title: 'Date',

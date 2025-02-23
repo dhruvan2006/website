@@ -30,7 +30,7 @@ const IndicatorDescription: React.FC<IndicatorDescriptionProps> = ({ indicator }
   };
 
   return (
-    <div className='bg-gray-100 p-4 rounded-md mb-6'>
+    <div className='bg-gray-100 dark:bg-[#1e2022] p-4 rounded-md mb-6'>
       <h2 className='text-xl font-bold mb-2'>{indicator.human_name}</h2>
       <p className='mb-4 whitespace-pre-line'>{parseDescription(indicator.description)}</p>
     </div>
