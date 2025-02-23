@@ -69,7 +69,7 @@ export default async function IndicatorPage() {
             <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
               {indicators.map((indicator) => (
                 <Link href={`/indicators/${indicator.url_name}`} key={indicator.id}>
-                  <div className='bg-gray-100 dark:bg-zinc-800 p-6 rounded-lg hover:shadow-md transition duration-300'>
+                  <div className='bg-gray-100 dark:bg-zinc-800 p-6 rounded-lg hover:shadow-md shadow-zinc-100 dark:shadow-zinc-800 transition duration-300'>
                     <h2 className='text-xl font-semibold mb-2'>{indicator.human_name}</h2>
                     <p className='text-gray-600 dark:text-gray-300 mb-2'>{indicator.url_name}</p>
                     <span className='text-sm text-blue-600'>{category.name}</span>

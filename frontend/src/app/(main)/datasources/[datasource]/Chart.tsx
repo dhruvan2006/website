@@ -3,11 +3,12 @@
 import React, { useMemo, useState } from 'react';
 import dynamic from 'next/dynamic'
 import DatePicker from '../../../components/DatePicker';
+import {useTheme} from "@/ThemeContext";
 
 function ChartSkeleton() {
   return (
-    <div className='w-full h-[75vh] animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
-      <span className='text-[#191919]'>Chart Loading...</span>
+    <div className='w-full h-[75vh] animate-pulse bg-gray-100 dark:bg-zinc-800 flex items-center justify-center rounded-md'>
+      <span className='text-zinc-900 dark:text-zinc-300'>Chart Loading...</span>
     </div>
   );
 }
@@ -28,6 +29,9 @@ interface DataSourceValue {
 
 
 export default function Chart({ datasource, datasourceValues }: { datasource: DataSource, datasourceValues: DataSourceValue[] }) {
+  const { theme } = useTheme();
+  const themeColor = theme === "dark" ? "#d8d5d0" : "#191919";
+
   const [startDate, setStartDate] = useState<string>(new Date(2009, 1, 3).toISOString().split('T')[0]);
   const [endDate, setEndDate] = useState<string>(new Date().toISOString().split('T')[0]);
 
@@ -43,7 +47,7 @@ export default function Chart({ datasource, datasourceValues }: { datasource: Da
     name: datasource.name,
     x: filteredData.map(d => d.date),
     y: filteredData.map(d => d.value),
-    line: {color: '#191919'},
+    line: {color: themeColor},
     yaxis: 'y2',
   };
 
@@ -51,7 +55,7 @@ export default function Chart({ datasource, datasourceValues }: { datasource: Da
     autosize: true,
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
-    font: { color: '#191919', family: 'Apercu, sans-serif', size: 14 },
+    font: { color: themeColor, family: 'Apercu, sans-serif', size: 14 },
     margin: { l: 50, r: 50, t: 30, b: 50 },
     xaxis: {
       title: 'Date',

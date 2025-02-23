@@ -53,7 +53,7 @@ export default async function DataSourcePage({ params }: { params: { datasource:
   const datasourceValues = await getDataSourceValues(params.datasource);
 
   return (
-    <div className='bg-[#fff] text-[#191919] font-sans min-h-screen'>
+    <div className='bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 font-sans min-h-screen'>
       <main className='container mx-auto px-4 sm:px-8 lg:px-16 py-2'>
         <div className='mb-6'>
           <Chart datasource={datasource} datasourceValues={datasourceValues} />
