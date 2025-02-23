@@ -1,10 +1,11 @@
 'use client';
 
 import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
+import {ThemeProvider} from "@/ThemeContext";
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <ThemeProvider>
       {children}
       <ProgressBar
         height="2px"
@@ -12,6 +13,6 @@ export function Providers({ children }: { children: React.ReactNode }) {
         options={{ showSpinner: false }}
         shallowRouting
       />
-    </>
+    </ThemeProvider>
   );
 }
