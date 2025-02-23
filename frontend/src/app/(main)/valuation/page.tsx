@@ -112,14 +112,14 @@ export default async function ValuationPage({
 
   return (
     <div className='font-sans min-h-screen'>
-      <main className='min-h-screen flex flex-col font-sans bg-[#fff] text-[#191919]'>
+      <main className='min-h-screen flex flex-col font-sans bg-white text-zinc-900 dark:bg-[#181a1b] dark:text-zinc-300'>
         <div className='px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4'>
           <div className='flex flex-col lg:flex-row gap-4 justify-around items-center mb-4'>
             <h1 className='text-4xl font-bold'>Bitcoin Valuation</h1>
 
             <div className='flex gap-2 items-center'>
               <h2 className="text-2xl">Latest score:</h2>
-              <p className="text-4xl font-extrabold border border-zinc-300 p-1 rounded-sm shadow-sm" style={{ color: getColor(latestValuation) }}>{latestValuation.toFixed(2)}</p>
+              <p className="text-4xl font-extrabold border border-zinc-300 dark:border-zinc-700 p-1 rounded-sm shadow-sm" style={{ color: getColor(latestValuation) }}>{latestValuation.toFixed(2)}</p>
               <p className="text-xl font-semibold mt-1">({latestDate})</p>
             </div>
           </div>
@@ -135,7 +135,7 @@ export default async function ValuationPage({
           </div>
         </div>
 
-        <section className="x-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4 border-t border-zinc-300 bg-zinc-100">
+        <section className="x-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4 border-t border-zinc-300 dark:border-zinc-700 bg-zinc-100 dark:bg-zinc-900">
           <h2 className="font-bold text-2xl tracking-tight text-center mb-4">What is Bitcoin Valuation?</h2>
           <p className="">
             The <strong>Bitcoin Valuation</strong> is an average of various technical and onchain indicators on bitcoin that have been z-scored. 
@@ -144,7 +144,7 @@ export default async function ValuationPage({
           </p>
         </section>
 
-        <div className="bg-zinc-50 text-[#191919] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4 border-t border-zinc-300">
+        <div className="bg-zinc-50 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-300 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-4 border-t border-zinc-300 dark:border-zinc-700">
           <h2 className="font-bold text-2xl tracking-tight text-center mb-4">Components</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {indicators && indicators.map((indicator) => (

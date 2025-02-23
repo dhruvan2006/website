@@ -6,10 +6,11 @@ import Image from 'next/image';
 import { IndicatorPoint, PricePoint } from './page';
 import Link from 'next/link';
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
+import {useTheme} from "@/ThemeContext";
 
 function ChartSkeleton() {
   return (
-    <div className='w-full h-full animate-pulse bg-[#f0f0f0] flex items-center justify-center'>
+    <div className='w-full h-full animate-pulse bg-gray-100 dark:bg-zinc-800 flex items-center justify-center'>
       {/* <div className='bg-zinc-200 h-6 w-48 rounded-md'></div> */}
     </div>
   );
@@ -50,6 +51,9 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
   const [data, setData] = useState<Data | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
   const handle = useFullScreenHandle();
+
+  const { theme } = useTheme();
+  const themeColor = theme === "dark" ? "#d8d5d0" : "#191919";
 
   const lastUpdate = data && data.values.length !== 0 ? data.values[data.values.length - 1].date : 'Loading...'; 
 
@@ -128,10 +132,10 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
   };
 
   return (
-    <div ref={ref} className="border border-zinc-300 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
+    <div ref={ref} className="border border-zinc-300 dark:border-zinc-700 rounded-sm shadow-sm hover:shadow-md transition-shadow duration-200 overflow-hidden">
       {data ? (
-        <FullScreen handle={handle} className='relative divide-y h-[70vh] max-h-[600px]'>
-          <div className='p-4 flex items-center justify-between bg-[#fff]'>
+        <FullScreen handle={handle} className='relative divide-y divide-zinc-300 dark:divide-zinc-700 h-[70vh] max-h-[600px]'>
+          <div className='p-4 flex items-center justify-between bg-white dark:bg-zinc-900'>
             <Image src={indicator.logo} alt="Logo" height={24} width={24} style={{ height: '24px', width: 'auto' }} />
             <h3 className='font-bold underline underline-offset-4'>
               <Link href={`/indicators/${data.indicator.url_name}`} target='_blank'>
@@ -161,15 +165,18 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
             </div>
           </div>
 
-          <div className='w-full h-full overflow-hidden'>
+          <div className='w-full h-full overflow-hidden bg-white dark:bg-zinc-900'>
             <Plot
               data={generatePlotData()}
               layout={{
-                xaxis: { title: 'Date', showgrid: false },
-                yaxis: { title: 'BTC Price', showgrid: false, side: 'left', type: 'log', zeroline: false },
-                yaxis2: { title: 'Value', overlaying: 'y', side: 'right', showgrid: false, zeroline: false },
+                xaxis: { title: 'Date', showgrid: false, color: themeColor },
+                yaxis: { title: 'BTC Price', showgrid: false, side: 'left', type: 'log', zeroline: false, color: themeColor },
+                yaxis2: { title: 'Value', overlaying: 'y', side: 'right', showgrid: false, zeroline: false, color: themeColor },
                 margin: { l: 60, r: 60, b: 125, t: 25 },
                 showlegend: false,
+                legend: { bgcolor: "rgba(0, 0, 0, 0)" },
+                paper_bgcolor: "rgba(0,0,0,0)",
+                plot_bgcolor: "rgba(0,0,0,0)",
               }}
               config={{displayModeBar: false}}
               useResizeHandler
@@ -178,16 +185,16 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
           </div>
 
           {/* <p>Transformation: {data.transformation}</p> */}
-          <div className='absolute bottom-0 right-0 bg-zinc-100 border-t border-s border-zinc-300 p-1 rounded-tl-md'>
-            <p className='text-xs'><span className='text-zinc-700'>Last update:</span>{' '}<span>{lastUpdate}</span></p>
+          <div className='absolute bottom-0 right-0 bg-zinc-100 dark:bg-zinc-900 border-t border-s border-zinc-300 dark:border-zinc-700 p-1 rounded-tl-md'>
+            <p className='text-xs'><span className='text-zinc-700f dark:text-zinc-300'>Last update:</span>{' '}<span>{lastUpdate}</span></p>
           </div>
         </FullScreen>
       ) : (
-        <div className='divide-y divide-zinc-300'>
-          <div className='p-4 flex items-center justify-between bg-[#fff]'>
-            <div className='size-6 animate-pulse bg-[#f0f0f0] rounded-full' />
-            <div className='w-48 h-6 animate-pulse bg-[#f0f0f0] rounded-md' />
-            <div className='size-6 animate-pulse bg-[#f0f0f0] rounded-md' />
+        <div className='divide-y divide-zinc-300 dark:divide-zinc-700'>
+          <div className='p-4 flex items-center justify-between bg-white dark:bg-zinc-900'>
+            <div className='size-6 animate-pulse bg-gray-100 dark:bg-zinc-700 rounded-full' />
+            <div className='w-48 h-6 animate-pulse bg-gray-100 dark:bg-zinc-700 rounded-md' />
+            <div className='size-6 animate-pulse bg-gray-100 dark:bg-zinc-700 rounded-md' />
           </div>
 
           <div className='w-full h-[60vh] overflow-hidden'>

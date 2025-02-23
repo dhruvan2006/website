@@ -3,11 +3,12 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
 import { ValuationPoint } from './page';
+import {useTheme} from "@/ThemeContext";
 
 function ChartSkeleton() {
   return (
-    <div className='w-full h-[75vh] animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
-      <span className='text-[#191919]'>Chart Loading...</span>
+    <div className='w-full h-[75vh] animate-pulse bg-gray-100 dark:bg-zinc-800 flex items-center justify-center rounded-md'>
+      <span className='text-zinc-900 dark:text-zinc-100'>Chart Loading...</span>
     </div>
   );
 }
@@ -20,6 +21,9 @@ interface ValuationPlotProps {
 }
 
 export default function ValuationPlot({ valuationData, bitcoinData }: ValuationPlotProps) {
+  const { theme } = useTheme();
+  const themeColor = theme === "dark" ? "#d8d5d0" : "#191919";
+
   const sortedValuation = valuationData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
   const sortedBitcoin = bitcoinData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 
@@ -29,7 +33,7 @@ export default function ValuationPlot({ valuationData, bitcoinData }: ValuationP
     name: 'Valuation',
     x: sortedValuation.map((d) => d.date),
     y: sortedValuation.map((d) => d.value),
-    line: { color: '#000000' },
+    line: { color: themeColor },
     yaxis: 'y2', // Plots on the second y-axis
   };
 
@@ -39,7 +43,6 @@ export default function ValuationPlot({ valuationData, bitcoinData }: ValuationP
     name: 'Bitcoin Price',
     x: sortedBitcoin.map((d) => d.date),
     y: sortedBitcoin.map((d) => d.price),
-    // line: { color: '#ff0000' },
     line: { color: '#ff9900' },
   };
 
@@ -47,7 +50,7 @@ export default function ValuationPlot({ valuationData, bitcoinData }: ValuationP
     autosize: true,
     paper_bgcolor: 'rgba(0,0,0,0)',
     plot_bgcolor: 'rgba(0,0,0,0)',
-    font: { color: '#191919', family: 'Apercu, sans-serif', size: 14 },
+    font: { color: themeColor, family: 'Apercu, sans-serif', size: 14 },
     margin: { l: 50, r: 50, t: 0, b: 50 },
     xaxis: {
       title: 'Date',

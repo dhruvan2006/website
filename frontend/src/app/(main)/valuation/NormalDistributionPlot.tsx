@@ -2,11 +2,12 @@
 
 import React from 'react';
 import dynamic from 'next/dynamic';
+import {useTheme} from "@/ThemeContext";
 
 function ChartSkeleton() {
   return (
-    <div className='w-full h-[40vh] animate-pulse bg-[#f0f0f0] flex items-center justify-center rounded-md'>
-      <span className='text-[#191919]'>Chart Loading...</span>
+    <div className='w-full h-96 animate-pulse bg-gray-100 dark:bg-zinc-800 flex items-center justify-center rounded-md'>
+      <span className='text-zinc-900 dark:text-zinc-300'>Chart Loading...</span>
     </div>
   );
 }
@@ -24,6 +25,9 @@ export default function NormalDistributionPlot({
   stddev,
   latestScore
 } : NormalDistributionPlot) {
+  const { theme } = useTheme();
+  const themeColor = theme === 'dark' ? '#d8d5d0' : '#191919';
+
   const generateDataPoints = () => {
     const xValues = Array.from({ length: 100 }, (_, i) => i / 16.5 - 3); // X values from -3 to 3
     const yValues = xValues.map((x) => {
@@ -43,7 +47,7 @@ export default function NormalDistributionPlot({
 
   return (
     <Plot
-      className='w-full h-[40vh]'
+      className='w-full h-96'
       data={[
         {
           x: xValues,
@@ -51,7 +55,7 @@ export default function NormalDistributionPlot({
           type: 'scatter',
           mode: 'lines',
           name: 'Normal Distribution',
-          line: { color: 'rgba(75, 192, 192, 1)' },
+          line: { color: themeColor },
         },
         {
           x: [latestScore],
@@ -63,14 +67,30 @@ export default function NormalDistributionPlot({
         },
       ]}
       layout={{
-        title: 'Normal Distribution with Latest Score',
+        title: {
+          text: 'Normal Distribution with Latest Score',
+          font: { color: themeColor },
+        },
         xaxis: {
-          title: 'Value',
+          title: {
+            text: 'Value',
+            font: { color: themeColor },
+          },
+          tickfont: { color: themeColor },
         },
         yaxis: {
-          title: 'Probability Density',
+          title: {
+            text: 'Probability Density',
+            font: { color: themeColor },
+          },
+          tickfont: { color: themeColor },
         },
         showlegend: true,
+        legend: {
+          font: { color: themeColor },
+        },
+        paper_bgcolor: 'transparent',
+        plot_bgcolor: 'transparent',
       }}
       useResizeHandler
     />
