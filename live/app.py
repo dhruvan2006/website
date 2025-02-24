@@ -31,9 +31,16 @@ async def yahoo_message_handler(message):
         await asyncio.gather(*(client.send(data) for client in clients))
 
 async def start_yahoo_websocket():
-    ws = yf.AsyncWebSocket()
-    await ws.subscribe(SYMBOLS)
-    await ws.listen(yahoo_message_handler)
+    while True:
+        try:
+            ws = yf.AsyncWebSocket()
+            await ws.subscribe(SYMBOLS)
+            await ws.listen(yahoo_message_handler)
+        except websockets.exceptions.ConnectionClosedError as e:
+            print(f"WebSocket connection closed: {e}. Retrying...")
+        except Exception as e:
+            print(f"Unexpected error: {e}. Retrying...")
+        await asyncio.sleep(5)
 
 async def handle_client(websocket):
     for symbol in SYMBOLS:
