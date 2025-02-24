@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import { Providers } from './Providers';
 import "./globals.css";
 import "./fonts.css";
+import LiveTicker from "@/components/LiveTicker";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -48,6 +49,7 @@ export default function RootLayout({
         <Providers>
           {children}
         </Providers>
+        <LiveTicker />
       </body>
     </html>
   );

@@ -5,7 +5,7 @@ import yfinance as yf
 
 clients = set()
 
-SYMBOLS = ["BTC-USD", "ETH-USD", "SOL-USD"]
+SYMBOLS = ["MSTR", "BTC-USD", "ETH-USD", "SOL-USD"]
 
 async def get_symbol_data(symbol):
     ticker = yf.Ticker(symbol)
