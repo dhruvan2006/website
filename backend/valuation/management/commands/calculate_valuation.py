@@ -38,7 +38,7 @@ class Command(BaseCommand):
                 date_z_scores[date].append(z)
 
         for date, z_scores in date_z_scores.items():
-            if len(z_scores) == len(valuation_indicators):
+            if len(z_scores) > 0:
                 average_z = np.mean(z_scores)
                 Valuation.objects.update_or_create(
                     date=date,
