@@ -10,7 +10,6 @@ export async function customFetch(url: string, options: RequestInit = {}) {
     return fetch(url, {
         ...options,
         headers: defaultHeaders,
-        // cache: 'force-cache',
-        next: { revalidate: 60 * 60 }  // 1 hour
+        cache: 'no-store',
     });
 }

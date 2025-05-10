@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from 'react';
 import Link from 'next/link';
 import { customFetch } from '@/api';
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Bitcoin Research | Dhruvan',
     description: 'Explore the research process for finding indicators.',
-    url: 'https://www.gnanadhandayuthapani.com/notebooks',
+    url: 'https://crypto.dhruvan.dev/notebooks',
     images: [
       {
         url: '/og/research.png',
@@ -40,7 +42,7 @@ type Notebooks = {
 }
 
 async function getNotebooks(): Promise<Notebooks> {
-  const res = await customFetch(`${process.env.API_BASE_URL}/api/research/notebooks`, { cache: 'no-store' });
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/research/notebooks`);
   if (!res.ok) {
     throw new Error('Failed to fetch research notebooks');
   }

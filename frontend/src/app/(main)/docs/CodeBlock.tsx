@@ -11,18 +11,18 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ apiKey }) => {
   const [activeTab, setActiveTab] = useState('curl');
 
   const codeExamples = {
-    curl: `curl -X GET "https://api.gnanadhandayuthapani.com/" \\
+    curl: `curl -X GET "https://crypto.dhruvan.dev/api/" \\
      -H "X-Api-Key: ${apiKey}"`,
     python: `import requests
 
-url = "https://api.gnanadhandayuthapani.com/"
+url = "https://crypto.dhruvan.dev/api/"
 headers = {
     "X-Api-Key": "${apiKey}"
 }
 
 response = requests.get(url, headers=headers)
 print(response.json())`,
-    javascript: `fetch('https://api.gnanadhandayuthapani.com/ {
+    javascript: `fetch('https://crypto.dhruvan.dev/api/ {
   headers: {
     'X-Api-Key': '${apiKey}'
   }

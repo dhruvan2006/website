@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /api/
 
-Sitemap: https://www.gnanadhandayuthapani.com/sitemap.xml
+Sitemap: https://crypto.dhruvan.dev/sitemap.xml

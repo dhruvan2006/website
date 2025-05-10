@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from 'react';
 import Chart from './Chart';
 import { customFetch } from '@/api';
@@ -11,7 +13,7 @@ export async function generateMetadata({ params }: { params: { datasource: strin
     openGraph: {
       title: `${datasourceData.name} Data | Dhruvan`,
       description: `Access ${datasourceData.name}.`,
-      url: `https://gnanadhandayuthapani.com/datasources/${params.datasource}`,
+      url: `https://crypto.dhruvan.dev/datasources/${params.datasource}`,
       images: [
         {
           url: '/og/datasource.png',

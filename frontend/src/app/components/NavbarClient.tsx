@@ -30,7 +30,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
   useEffect(() => {
     const checkApiKey = async () => {
-      const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/check_api_key`, {
+      const response = await fetch(`https://crypto.dhruvan.dev/api/api/indicators/check_api_key`, {
         headers: { Authorization: `Bearer ${session.accessToken}` },
       });
       if (response.ok) {
@@ -44,7 +44,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
   }, [session]);
 
   const fetchKey = async () => {
-    const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/generate_api_key`, {
+    const response = await fetch(`https://crypto.dhruvan.dev/api/api/indicators/generate_api_key`, {
       headers: { Authorization: `Bearer ${session.accessToken}` },
     })
     if (!response.ok) throw new Error("Fetch api key failed");
@@ -55,7 +55,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
   const [showGenToast, setShowGenToast] = useState<boolean>(false);
   const generateApiKey = async () => {
-    const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/generate_api_key`, {
+    const response = await fetch(`https://crypto.dhruvan.dev/api/api/indicators/generate_api_key`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${session.accessToken}` },
     });
@@ -71,7 +71,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
   const [showRegenToast, setShowRegenToast] = useState<boolean>(false);
   const regenerateApiKey = async () => {
-    const response = await fetch(`https://api.gnanadhandayuthapani.com/api/indicators/regenerate_api_key`, {
+    const response = await fetch(`https://crypto.dhruvan.dev/api/api/indicators/regenerate_api_key`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${session.accessToken}` },
     });

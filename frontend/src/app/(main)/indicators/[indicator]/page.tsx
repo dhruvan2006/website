@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from 'react';
 import InteractiveChart from './InteractiveChart';
 import ApiHelp from './ApiHelp';
@@ -12,7 +14,7 @@ export async function generateMetadata({ params }: { params: { indicator: string
     openGraph: {
       title: `${indicatorData.human_name} Indicator | Dhruvan`,
       description: `Explore the ${indicatorData.human_name} indicator on Dhruvan.`,
-      url: `https://gnanadhandayuthapani.com/indicators/${params.indicator}`,
+      url: `https://crypto.dhruvan.dev/indicators/${params.indicator}`,
       images: [
         {
           url: '/og/indicator.png',

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
 import LiquidityClient from './LiquidityClient';
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "FED Liquidity | Dhruvan",
     description: "Explore live FED liquidity data. Learn how liquidity works and visualize its effect on Bitcoin price.",
-    url: "https://gnanadhandayuthapani.com/liquidity",
+    url: "https://crypto.dhruvan.dev/liquidity",
     images: [
       {
         url: "/og/liquidity.png",

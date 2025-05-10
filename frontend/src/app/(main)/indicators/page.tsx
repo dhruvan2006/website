@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from 'react';
 import Link from 'next/link';
 import { customFetch } from '@/api';
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Bitcoin Indicators | Dhruvan',
     description: 'Explore a wide suite of uniquely researched bitcoin indicators.',
-    url: 'https://gnanadhandayuthapani.com/indicators',
+    url: 'https://crypto.dhruvan.dev/indicators',
     images: [
       {
         url: '/og/indicators.png',
@@ -49,7 +51,7 @@ interface CategoryWithIndicators {
 }
 
 async function getCategoriesWithIndicators(): Promise<CategoryWithIndicators[]> {
-  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/categories_with_indicators`, { cache: 'no-store' });
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/categories_with_indicators`);
   if (!res.ok) {
     throw new Error('Failed to fetch categories and indicators');
   }

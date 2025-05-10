@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import { customFetch } from "@/api";
 import { Metadata } from "next";
 import SpeedometerPlot from "./SpeedometerPlot";
@@ -11,7 +13,7 @@ import SpeedometerPlot from "./SpeedometerPlot";
 //   openGraph: {
 //     title: "Bitcoin Valuation | Dhruvan",
 //     description: "An aggregate of live Bitcoin indicators designed to pinpoint market cycle tops and bottoms.",
-//     url: "https://www.gnanadhandayuthapani.com/valuation",
+//     url: "https://crypto.dhruvan.dev/valuation",
 //     siteName: "Dhruvan",
 //     images: [
 //       {

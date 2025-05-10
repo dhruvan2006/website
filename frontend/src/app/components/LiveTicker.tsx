@@ -76,7 +76,7 @@ export default function LiveTicker() {
 
   // Websocket
   useEffect(() => {
-    const ws = new WebSocket('wss://api.gnanadhandayuthapani.com/ws/');
+    const ws = new WebSocket('wss://crypto.dhruvan.dev/ws/');
 
     ws.onmessage = (event) => {
       const data = JSON.parse(event.data);

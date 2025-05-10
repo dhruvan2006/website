@@ -40,7 +40,7 @@ export default function DocsClient() {
           <h2 className="text-2xl font-semibold mb-4">Introduction</h2>
           <p>Welcome to the API documentation for Dhruvan. This API allows you to access all the data available on this website programmatically.</p>
           <br />
-          <p><b>Base URL:</b>{' '}<code className="bg-gray-100 dark:bg-[#1e2022] text-red-500 px-1 rounded">https://api.gnanadhandayuthapani.com/</code></p>
+          <p><b>Base URL:</b>{' '}<code className="bg-gray-100 dark:bg-[#1e2022] text-red-500 px-1 rounded">https://crypto.dhruvan.dev/api/</code></p>
         </section>
 
         <section id="authentication" className="mb-8">

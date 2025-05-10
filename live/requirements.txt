@@ -1,1 +1,1 @@
-yfinance @ git+https://github.com/dhruvan2006/yfinance.git@51af634dd19f8031bd40c800ea359e17b46ffa64
+yfinance==0.2.59

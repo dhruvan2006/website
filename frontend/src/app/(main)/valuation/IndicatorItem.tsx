@@ -82,7 +82,7 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
     if (isVisible && !data) {
       const fetchIndicatorData = async () => {
         try {
-          const res = await fetch(`${baseUrl}/api/indicators/indicator/id/${indicator.indicator}`);
+          const res = await fetch(`https://crypto.dhruvan.dev/api/api/indicators/indicator/id/${indicator.indicator}`);
           if (res.ok) {
             const result = await res.json();
             setData(result);

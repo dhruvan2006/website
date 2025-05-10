@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Login | Dhruvan",
     description: "Log in to your account to access your API key.",
-    url: "https://www.gnanadhandayuthapani.com/login",
+    url: "https://crypto.dhruvan.dev/login",
     images: [
       {
         url: '/og/login.png',

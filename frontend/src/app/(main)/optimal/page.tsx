@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React, { Suspense } from 'react';
 import { customFetch } from '@/api';
 import { Metadata } from 'next';
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Optimal Leverage Calculator | Dhruvan',
     description: 'Calculate optimal leverage for leveraged ETFs with our interactive tool.',
-    url: 'https://gnanadhandayuthapani.com/optimal',
+    url: 'https://crypto.dhruvan.dev/optimal',
     images: [
       {
         url: '/og/optimal.png',

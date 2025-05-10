@@ -24,7 +24,7 @@ class Command(BaseCommand):
         fetch_prices()
         self.stdout.write(self.style.SUCCESS('Successfully fetched Bitcoin prices'))
 
-        fetch_of('Cryptoquant', cryptoquant_indicators, email=os.getenv("CRYPTOQUANT_EMAIL"), password=os.getenv("CRYPTOQUANT_PASSWORD"), proxy=os.getenv("SBR_WEBDRIVER"))
+        # fetch_of('Cryptoquant', cryptoquant_indicators, email=os.getenv("CRYPTOQUANT_EMAIL"), password=os.getenv("CRYPTOQUANT_PASSWORD"), proxy=os.getenv("SBR_WEBDRIVER"))
         self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         fetch_of('CheckOnChain', checkonchain_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched CheckOnChain indicators'))
@@ -696,8 +696,8 @@ def calculate_adjusted_mayer_multiple():
             'human_name': 'Adjusted Mayer Multiple',
             'description': """The Adjusted Mayer Multiple is an oscillator of the raw Mayer Multiple between two quantile linear regressions.
 [1] https://chainexposed.com/MayerMultiple.html
-[2] https://www.gnanadhandayuthapani.com/notebooks/adjusted-mayer-multiple
-[3] https://www.gnanadhandayuthapani.com/indicators/Mayer_Multiple""",
+[2] https://crypto.dhruvan.dev/notebooks/adjusted-mayer-multiple
+[3] https://crypto.dhruvan.dev/indicators/Mayer_Multiple""",
             'category': category
         }
     )

@@ -6,7 +6,7 @@ interface ApiHelpProps {
 }
 
 const ApiHelp: React.FC<ApiHelpProps> = ({ indicator }) => {
-  const baseUrl = 'https://api.gnanadhandayuthapani.com/api/indicators';
+  const baseUrl = 'https://crypto.dhruvan.dev/api/api/indicators';
 
   return (
     <div className='bg-gray-100 dark:bg-[#1e2022] p-4 rounded-md mb-6'>

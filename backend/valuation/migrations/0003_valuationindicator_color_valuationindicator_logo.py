@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='valuationindicator',
             name='logo',
-            field=models.CharField(default='https://www.gnanadhandayuthapani.com/logo.svg', max_length=255),
+            field=models.CharField(default='https://crypto.dhruvan.dev/logo.svg', max_length=255),
             preserve_default=False,
         ),
     ]

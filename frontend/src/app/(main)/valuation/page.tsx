@@ -1,4 +1,4 @@
-// import DatePicker from "@/components/DatePicker";
+export const dynamic = "force-dynamic";
 
 import { customFetch } from "@/api";
 import ValuationPlot from "./ValuationPlot";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Bitcoin Valuation | Dhruvan",
     description: "An aggregate of live Bitcoin indicators designed to pinpoint market cycle tops and bottoms.",
-    url: "https://www.gnanadhandayuthapani.com/valuation",
+    url: "https://www.crypto.dhruvan.dev/valuation",
     siteName: "Dhruvan",
     images: [
       {

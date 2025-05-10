@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from 'react';
 import Link from 'next/link';
 import { customFetch } from '@/api';
@@ -9,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Bitcoin Data Sources | Dhruvan',
     description: 'Explore a wide suite of data sources provided for Bitcoin On-Chain data.',
-    url: 'https://gnanadhandayuthapani.com/datasources',
+    url: 'https://crypto.dhruvan.dev/datasources',
     images: [
       {
         url: '/og/datasources.png',
@@ -37,7 +39,7 @@ interface DataSource {
 }
 
 async function getDataSources(): Promise<DataSource[]> {
-  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/datasource`, { cache: 'no-store' });
+  const res = await customFetch(`${process.env.API_BASE_URL}/api/indicators/datasource`);
   if (!res.ok) {
     throw new Error('Failed to fetch categories and indicators');
   }

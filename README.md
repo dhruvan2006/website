@@ -4,7 +4,7 @@ This repository hosts the source code for the Dhruvan cryptocurrency research we
 
 ## Live Website
 
-The live version of the website is hosted at: [https://gnanadhandayuthapani.com](https://gnanadhandayuthapani.com)
+The live version of the website is hosted at: [https://crypto.dhruvan.dev](https://crypto.dhruvan.dev)
 
 ## Features
 

@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from "react";
 import { customFetch } from "@/api";
 import NotebookClient from "./NotebookClient";
@@ -19,7 +21,7 @@ export async function generateMetadata({ params }: { params: { name: string } })
     openGraph: {
       title: `${title} Notebook | Dhruvan`,
       description: `Explore the ${title} notebook for in-depth Bitcoin research on Dhruvan.`,
-      url: `https://www.gnanadhandayuthapani.com/notebooks/${name}`,
+      url: `https://crypto.dhruvan.dev/notebooks/${name}`,
       images: [
         {
           url: '/og/notebook.png',

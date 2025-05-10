@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import React from 'react';
 import { Metadata } from 'next';
 import DocsClient from './DocsClient';
@@ -8,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "API Documentation | Dhruvan",
     description: "Explore the API documentation for Dhruvan to learn how to access our data.",
-    url: "https://www.gnanadhandayuthapani.com/docs",
+    url: "https://crypto.dhruvan.dev/docs",
     images: [
       {
         url: '/og/docs.png',
