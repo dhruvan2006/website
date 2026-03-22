@@ -1,4 +1,4 @@
-import ocfinance as of
+import chaindl
 import pandas as pd
 import numpy as np
 import yfinance as yf
@@ -255,7 +255,7 @@ def fetch_of(name, indicators, **kwargs):
 
         col = indicator['col']
 
-        df = of.download(indicator['url'], **kwargs)
+        df = chaindl.download(indicator['url'], **kwargs)
 
         print(df)
 
