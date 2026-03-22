@@ -20,7 +20,7 @@ load_dotenv()
 # Development or Production
 ENVIRONMENT = os.getenv('DJANGO_ENV', 'production')
 
-DEBUG = os.getenv('DEBUG', False)
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
