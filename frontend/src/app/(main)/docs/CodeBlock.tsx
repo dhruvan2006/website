@@ -10,26 +10,11 @@ interface CodeBlockProps {
 const CodeBlock: React.FC<CodeBlockProps> = ({ apiKey }) => {
   const [activeTab, setActiveTab] = useState('curl');
 
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const codeExamples = {
-    curl: `curl -X GET "https://crypto.dhruvan.dev/api/" \\
-     -H "X-Api-Key: ${apiKey}"`,
-    python: `import requests
-
-url = "https://crypto.dhruvan.dev/api/"
-headers = {
-    "X-Api-Key": "${apiKey}"
-}
-
-response = requests.get(url, headers=headers)
-print(response.json())`,
-    javascript: `fetch('https://crypto.dhruvan.dev/api/ {
-  headers: {
-    'X-Api-Key': '${apiKey}'
-  }
-})
-  .then(response => response.json())
-  .then(data => console.log(data))
-  .catch(error => console.error('Error:', error));`,
+    curl: `curl -X GET \"${baseUrl}/api/\" \\\n     -H \"X-Api-Key: ${apiKey}\"`,
+    python: `import requests\n\nurl = \"${baseUrl}/api/\"\nheaders = {\n    \"X-Api-Key\": \"${apiKey}\"\n}\n\nresponse = requests.get(url, headers=headers)\nprint(response.json())`,
+    javascript: `fetch('${baseUrl}/api/', {\n  headers: {\n    'X-Api-Key': '${apiKey}'\n  }\n})\n  .then(response => response.json())\n  .then(data => console.log(data))\n  .catch(error => console.error('Error:', error));`,
   };
 
   return (

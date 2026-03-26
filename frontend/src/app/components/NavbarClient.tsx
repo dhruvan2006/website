@@ -30,7 +30,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
   useEffect(() => {
     const checkApiKey = async () => {
-      const response = await fetch(`https://crypto.dhruvan.dev/api/api/indicators/check_api_key`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/indicators/check_api_key`, {
         headers: { Authorization: `Bearer ${session.accessToken}` },
       });
       if (response.ok) {
@@ -44,7 +44,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
   }, [session]);
 
   const fetchKey = async () => {
-    const response = await fetch(`https://crypto.dhruvan.dev/api/api/indicators/generate_api_key`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/indicators/generate_api_key`, {
       headers: { Authorization: `Bearer ${session.accessToken}` },
     })
     if (!response.ok) throw new Error("Fetch api key failed");
@@ -55,7 +55,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
   const [showGenToast, setShowGenToast] = useState<boolean>(false);
   const generateApiKey = async () => {
-    const response = await fetch(`https://crypto.dhruvan.dev/api/api/indicators/generate_api_key`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/indicators/generate_api_key`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${session.accessToken}` },
     });
@@ -71,7 +71,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
 
   const [showRegenToast, setShowRegenToast] = useState<boolean>(false);
   const regenerateApiKey = async () => {
-    const response = await fetch(`https://crypto.dhruvan.dev/api/api/indicators/regenerate_api_key`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/indicators/regenerate_api_key`, {
       method: 'POST',
       headers: { Authorization: `Bearer ${session.accessToken}` },
     });
@@ -324,11 +324,11 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
             onMouseLeave={handleIndicatorMouseLeave}
           >
             <div className='container grid grid-cols-1 md:grid-cols-3 gap-0 p-4'>
-              {indicators !== "" && indicators?.map((item, itemIndex) => (
+              {(Array.isArray(indicators) ? indicators : []).map((item, itemIndex) => (
                 <div key={item.category.id} className={`p-4 ${(itemIndex % 3 == 0 || itemIndex % 3 == 1) && itemIndex !== indicators.length - 1 ? 'border-r border-zinc-300 dark:border-zinc-700' : ''}`}>
                   <h2 className='text-sm text-[#7f7f7f] dark:text-gray-400 mb-3'>{item.category.name}</h2>
                   <ul className='mt-2 space-y-2'>
-                    {item.indicators?.map((indicator, idx) => (
+                    {(Array.isArray(item.indicators) ? item.indicators : []).map((indicator, idx) => (
                       <li key={idx}>
                         <Link href={`/indicators/${indicator.url_name}`} className={`transition duration-300 ${pathname.startsWith(`/indicators/${indicator.url_name}`) ? 'text-blue' : 'hover:text-[#7f7f7f] dark:hover:text-gray-400'}`}>
                           {indicator.human_name}
@@ -351,7 +351,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                 <div className='flex-1 px-4'>
                   <h2 className='text-sm text-[#7f7f7f] dark:text-gray-400 mb-3'>Data Sources</h2>
                   <ul className='mt-2 space-y-2'>
-                  {dataSources.map((dataSource, idx) => (
+                  {(Array.isArray(dataSources) ? dataSources : []).map((dataSource, idx) => (
                       <li key={idx}>
                       <Link href={`/datasources/${dataSource.url}`} className={`transition duration-300 ${pathname.startsWith(`/datasources/${dataSource.url}`) ? 'text-blue-500' : 'hover:text-[#7f7f7f] dark:hover:text-gray-400'}`}>
                           {dataSource.name}
@@ -373,7 +373,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                 <div className='flex-1 px-4'>
                   <h2 className='text-sm text-[#7f7f7f] dark:text-gray-400 mb-3'>Research Notebooks</h2>
                   <ul className='mt-2 space-y-2'>
-                  {notebooks?.notebooks?.map((notebook, idx) => (
+                  {(Array.isArray(notebooks?.notebooks) ? notebooks.notebooks : []).map((notebook, idx) => (
                       <li key={idx}>
                         <Link href={`/notebooks/${notebook.path}`} className={`transition duration-300 ${pathname.startsWith(`/notebooks/${notebook.path}`) ? 'text-blue-500' : 'hover:text-[#7f7f7f] dark:hover:text-gray-400'}`}>
                           {notebook.name}
