@@ -66,7 +66,7 @@ ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
     '.run.app',  # allows all Google Cloud Run subdomains
-    'crypto.dhruvan.dev'
+    '.dhruvan.dev',
 ]
 
 # CSRF Trusted Origins
