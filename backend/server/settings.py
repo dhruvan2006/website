@@ -111,7 +111,6 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.github',
     'allauth.socialaccount.providers.gitlab',
-    'allauth.socialaccount.providers.facebook',
     'dj_rest_auth',
     'dj_rest_auth.registration',
 ]
@@ -119,7 +118,41 @@ INSTALLED_APPS = [
 if DEBUG:
     INSTALLED_APPS.append("debug_toolbar")
 
-SOCIALACCOUNT_PROVIDERS = {}
+SOCIALACCOUNT_PROVIDERS = {
+'google': {
+        'APPS': [
+            {
+                'client_id': os.getenv('AUTH_GOOGLE_ID'),
+                'secret': os.getenv('AUTH_GOOGLE_SECRET'),
+                'settings': {
+                    'scope': ['profile', 'email'],
+                    'auth_params': {'access_type': 'online'},
+                }
+            },
+        ],
+    },
+    'github': {
+        'APPS': [
+            {
+                'client_id': os.getenv('AUTH_GITHUB_ID'),
+                'secret': os.getenv('AUTH_GITHUB_SECRET'),
+                'settings': {
+                    'scope': ['user:email', 'read:user'],
+                }
+            },
+        ],
+    },
+    'gitlab': {
+        'APPS': [{
+            'client_id': os.getenv('AUTH_GITLAB_ID'),
+            'secret': os.getenv('AUTH_GITLAB_SECRET'),
+            'settings': {
+                'gitlab_url': 'https://gitlab.com',
+            }
+        }],
+        'SCOPE': ['openid', 'profile', 'email', 'read_user'],
+    }
+}
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # default
@@ -134,6 +167,11 @@ REST_AUTH = {
 }
 
 SITE_ID = 1
+SOCIALACCOUNT_EMAIL_VERIFY = False
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION = True
+SOCIALACCOUNT_EMAIL_AUTHENTICATION_AUTO_CONNECT = True
+SOCIALACCOUNT_QUERY_EMAIL = True
 
 # AUTH_USER_MODEL = "authentication.User"
 

@@ -27,22 +27,24 @@ class UserDetailsSerializer(serializers.ModelSerializer):
 class UserDetailsView(DefaultUserDetailsView):
     serializer_class = UserDetailsSerializer
 
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:3000')
+
 class GoogleLogin(SocialLoginView):
     adapter_class = GoogleOAuth2Adapter
-    callback_url = f"{os.getenv('API_BASE_URL')}/accounts/google/login/callback/"
+    callback_url = f"{FRONTEND_URL}/api/auth/callback/google"
     client_class = OAuth2Client
 
 class FacebookLogin(SocialLoginView):
     adapter_class = FacebookOAuth2Adapter
-    callback_url = f"{os.getenv('API_BASE_URL')}/accounts/facebook/login/callback/"
+    callback_url = f"{FRONTEND_URL}/api/auth/callback/facebook"
     client_class = OAuth2Client
 
 class GitHubLogin(SocialLoginView):
     adapter_class = GitHubOAuth2Adapter
-    callback_url = f"{os.getenv('API_BASE_URL')}/accounts/github/login/callback/"
+    callback_url = f"{FRONTEND_URL}/api/auth/callback/github"
     client_class = OAuth2Client
 
 class GitLabLogin(SocialLoginView):
     adapter_class = GitLabOAuth2Adapter
-    callback_url = f"{os.getenv('API_BASE_URL')}/accounts/gitlab/login/callback/"
+    callback_url = f"{FRONTEND_URL}/api/auth/callback/gitlab"
     client_class = OAuth2Client

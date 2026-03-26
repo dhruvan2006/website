@@ -116,7 +116,16 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   providers: [
     Google, 
     GitHub,
-    GitLab,
+    GitLab({
+      clientId: process.env.AUTH_GITLAB_ID,
+      clientSecret: process.env.AUTH_GITLAB_SECRET,
+      issuer: "https://gitlab.com",
+      authorization: {
+        params: {
+          scope: "read_user openid profile email",
+        },
+      },
+    }),
     Facebook,
     // Credentials({
     //   // You can specify which fields should be submitted, by adding keys to the `credentials` object.
