@@ -3,7 +3,7 @@ from django.db import models
 from indicators.models import Indicator
 
 class Valuation(models.Model):
-    date = models.DateField(db_index=True)
+    date = models.DateField(db_index=True, unique=True)
     value = models.FloatField()
 
     class Meta:

@@ -169,9 +169,9 @@ export default function IndicatorItem({ baseUrl, indicator, bitcoinData, startDa
             <Plot
               data={generatePlotData()}
               layout={{
-                xaxis: { title: 'Date', showgrid: false, color: themeColor },
-                yaxis: { title: 'BTC Price', showgrid: false, side: 'left', type: 'log', zeroline: false, color: themeColor },
-                yaxis2: { title: 'Value', overlaying: 'y', side: 'right', showgrid: false, zeroline: false, color: themeColor },
+                xaxis: { title: { text: 'Date' }, showgrid: false, color: themeColor },
+                yaxis: { title: { text: 'BTC Price' }, showgrid: false, side: 'left', type: 'log', zeroline: false, color: themeColor },
+                yaxis2: { title: { text: 'Value' }, overlaying: 'y', side: 'right', showgrid: false, zeroline: false, color: themeColor },
                 margin: { l: 60, r: 60, b: 125, t: 25 },
                 showlegend: false,
                 legend: { bgcolor: "rgba(0, 0, 0, 0)" },

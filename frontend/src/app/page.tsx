@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export const dynamic = "force-dynamic";
 
 import Link from 'next/link';
@@ -43,7 +45,13 @@ export default function Home() {
                 </Link>
               </div>
               <div className="md:w-1/2 w-full h-auto overflow-hidden border border-zinc-300 rounded-l-3xl">
-                <img src="/og/liquidity.png" alt="Liquidity" className="w-full h-auto object-cover" />
+                <Image
+                  src="/og/liquidity.png"
+                  alt="Liquidity"
+                  width={1200}
+                  height={630}
+                  className="w-full h-auto object-cover"
+                />
               </div>
             </div>
 
@@ -59,7 +67,13 @@ export default function Home() {
                 </Link>
               </div>
               <div className="md:w-1/2 w-full h-auto overflow-hidden border border-zinc-300 rounded-r-3xl">
-                <img src="/og/optimal.png" alt="Optimal Leverage" className="w-full h-auto object-cover" />
+                <Image
+                  src="/og/optimal.png"
+                  alt="Optimal Leverage"
+                  width={1200}
+                  height={630}
+                  className="w-full h-auto object-cover"
+                />
               </div>
             </div>
 
@@ -75,7 +89,13 @@ export default function Home() {
                 </Link>
               </div>
               <div className="md:w-1/2 w-full h-auto overflow-hidden border border-zinc-300 rounded-l-3xl">
-                <img src="/og/indicator.png" alt="Indicators" className="w-full h-auto object-cover" />
+                <Image
+                  src="/og/indicator.png"
+                  alt="Indicators"
+                  width={1200}
+                  height={630}
+                  className="w-full h-auto object-cover"
+                />
               </div>
             </div>
 
@@ -91,7 +111,13 @@ export default function Home() {
                 </Link>
               </div>
               <div className="md:w-1/2 w-full h-auto overflow-hidden border border-zinc-300 rounded-r-3xl">
-                <img src="/og/docs.png" alt="API Docs" className="w-full h-auto object-cover" />
+                <Image
+                  src="/og/docs.png"
+                  alt="API Docs"
+                  width={1200}
+                  height={630}
+                  className="w-full h-auto object-cover"
+                />
               </div>
             </div>
           </div>

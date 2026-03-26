@@ -14,6 +14,7 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
+import dj_database_url
 
 load_dotenv()
 
@@ -24,6 +25,8 @@ DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 # LOGGING
 # if ENVIRONMENT == 'production':
@@ -59,10 +62,24 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    '.run.app',  # allows all Google Cloud Run subdomains
+    'crypto.dhruvan.dev'
+]
+
+# CSRF Trusted Origins
+CSRF_TRUSTED_ORIGINS = [
+    "https://crypto.dhruvan.dev",
+    "https://*.run.app"
+]
 
 # Allow all origins for CORS
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "https://crypto.dhruvan.dev",
+]
 
 # To protect API from unauthorized access
 FRONTEND_KEY = os.getenv('FRONTEND_KEY') 
@@ -97,9 +114,10 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.facebook',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    "debug_toolbar",
-
 ]
+
+if DEBUG:
+    INSTALLED_APPS.append("debug_toolbar")
 
 SOCIALACCOUNT_PROVIDERS = {}
 
@@ -132,7 +150,7 @@ SIMPLE_JWT = {
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
     "UPDATE_LAST_LOGIN": True,
-    "SIGNING_KEY": "complexsigningkey",  # generate a key and replace me
+    "SIGNING_KEY": os.getenv('SECRET_KEY'),
     "ALGORITHM": "HS512",
 }
 
@@ -152,23 +170,23 @@ REST_FRAMEWORK = {
 API_KEY_CUSTOM_HEADER = "HTTP_X_API_KEY"
 
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
+if DEBUG:
+    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
+
 # For Django debug toolbar
-INTERNAL_IPS = [
-    "46.21.170.215",
-    "127.0.0.1",
-]
+INTERNAL_IPS = ["127.0.0.1"]
 
 ROOT_URLCONF = 'server.urls'
 
@@ -193,26 +211,24 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# Uses DATABASE_URL from environment, falls back to local SQLite
+DATABASE_URL = os.getenv('DATABASE_URL')
 
-# if ENVIRONMENT == 'production':
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.postgresql',
-#             'NAME': os.getenv('DB_NAME'),
-#             'USER': os.getenv('DB_USER'),
-#             'PASSWORD': os.getenv('DB_PASSWORD'),
-#             'HOST': os.getenv('DB_HOST'),
-#             'PORT': os.getenv('DB_PORT', 5432)
-#         }
-#     }
-# else:
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=DATABASE_URL,
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
     }
-}
-
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -251,7 +267,18 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+# Enabled WhiteNoise compression and caching for better performance
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+if not DEBUG:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 31536000 # 1 year
+    SECURE_HSTS_PRELOAD = True
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True

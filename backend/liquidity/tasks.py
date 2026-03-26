@@ -16,6 +16,8 @@ def fetch_fred_data():
 
     tickers = {"WALCL": 1, "RRPONTSYD": 1000, "H41RESPPALDKNWW": 1, "WLCFLPCL": 1}
 
+    all_objs = []
+
     for ticker, multiplier in tickers.items():
         params = {
             "series_id": ticker,
@@ -33,12 +35,19 @@ def fetch_fred_data():
             date = datetime.strptime(observation["date"], "%Y-%m-%d").date()
             value = float(observation["value"])
 
-            Series.objects.update_or_create(
+            all_objs.append(Series(
                 ticker=ticker,
                 date=date,
-                defaults={"value": int(value * multiplier)}
-            )
+                value=int(value * multiplier)
+            ))
 
+    Series.objects.bulk_create(
+        all_objs,
+        batch_size=500,
+        update_conflicts=True,
+        unique_fields=['ticker', 'date'],
+        update_fields=['value']
+    )
     print("FRED data updated successfully")
 
 def fetch_tga_data():
@@ -65,48 +74,61 @@ def fetch_tga_data():
         
         params['page[number]'] += 1
 
-    for item in all_data:
-        date = datetime.strptime(item['record_date'], "%Y-%m-%d").date()
-        value = float(item['open_today_bal'])
+    objs = [
+        Series(
+            ticker="TGA",
+            date=datetime.strptime(item['record_date'], "%Y-%m-%d").date(),
+            value=int(float(item['open_today_bal']))
+        ) for item in all_data
+    ]
 
-        Series.objects.update_or_create(
-            ticker=ticker,
-            date=date,
-            defaults={"value": int(value)}
-        )
-
+    Series.objects.bulk_create(
+        objs,
+        batch_size=500,
+        update_conflicts=True,
+        unique_fields=['ticker', 'date'],
+        update_fields=['value']
+    )
     print("TGA data updated successfully")
 
 def fetch_liquidity_data():
     """Calculate WALCL-TGA-RRPONTSYD+H41RESPPALDKNWW+WLCFLPCL"""
     print("Calculating liquidity data")
+    component_tickers = ['WALCL', 'H41RESPPALDKNWW', 'WLCFLPCL', 'TGA', 'RRPONTSYD']
 
-    queryset = Series.objects.all()
+    qs = Series.objects.filter(ticker__in=component_tickers).order_by('date')
 
-    # Get all unique dates in the queryset
-    all_dates = queryset.values_list('date', flat=True).distinct().order_by('date')
+    data_by_date = {}
+    for item in qs:
+        if item.date not in data_by_date:
+            data_by_date[item.date] = {}
+        data_by_date[item.date][item.ticker] = item.value
 
-    # Initialize dictionaries to store the latest values for each ticker
-    latest_values = {ticker: None for ticker in ['WALCL', 'H41RESPPALDKNWW', 'WLCFLPCL', 'TGA', 'RRPONTSYD']}
+    latest_values = {t: 0 for t in component_tickers}
+    results = []
 
-    result = []
-    for date in all_dates:
-        date_values = queryset.filter(date=date)
-        
-        # Update latest values and calculate sum
-        sum_value = 0
-        for ticker, multiplier in [('WALCL', 1), ('H41RESPPALDKNWW', 1), ('WLCFLPCL', 1), ('TGA', -1), ('RRPONTSYD', -1)]:
-            value = date_values.filter(ticker=ticker).first()
-            if value:
-                latest_values[ticker] = value.value
-            if latest_values[ticker] is not None:
-                sum_value += latest_values[ticker] * multiplier
-        
-        result.append(Series(ticker='LIQUIDITY', date=date, value=sum_value))
+    for date in sorted(data_by_date.keys()):
+        day_data = data_by_date[date]
+
+        # Update latest values if new data exists for this specific day
+        for ticker in component_tickers:
+            if ticker in day_data:
+                latest_values[ticker] = day_data[ticker]
+
+        # Calculate final metric
+        liq_value = (
+                latest_values['WALCL'] +
+                latest_values['H41RESPPALDKNWW'] +
+                latest_values['WLCFLPCL'] -
+                latest_values['TGA'] -
+                latest_values['RRPONTSYD']
+        )
+
+        results.append(Series(ticker='LIQUIDITY', date=date, value=liq_value))
 
     # Save to database
     with transaction.atomic():
         Series.objects.filter(ticker='LIQUIDITY').delete()
-        Series.objects.bulk_create(result)
+        Series.objects.bulk_create(results, batch_size=500)
 
-    print("Liquidity data calculated and saved successfully")
+    print(f"Liquidity data calculated for {len(results)} dates.")

@@ -53,18 +53,18 @@ export default function ValuationPlot({ valuationData, bitcoinData }: ValuationP
     font: { color: themeColor, family: 'Apercu, sans-serif', size: 14 },
     margin: { l: 50, r: 50, t: 0, b: 50 },
     xaxis: {
-      title: 'Date',
+      title: { text: 'Date' },
       showgrid: false,
       gridcolor: 'rgba(0,0,0,0.1)',
     },
     yaxis: {
-      title: 'Bitcoin Price (USD)',
+      title: { text: 'Bitcoin Price (USD)'},
       showgrid: false,
       gridcolor: 'rgba(0,0,0,0.1)',
       type: 'log', // Logarithmic scale for Bitcoin price
     },
     yaxis2: {
-      title: 'Valuation',
+      title: { text: 'Valuation' },
       overlaying: 'y',
       side: 'right',
       showgrid: false,

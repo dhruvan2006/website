@@ -38,6 +38,9 @@ class IndicatorValue(models.Model):
     date = models.DateField()
     value = models.FloatField()
 
+    class Meta:
+        unique_together = ('indicator', 'date')
+
     def __str__(self):
         return f"{self.indicator.human_name}: {self.value} on {self.date}"
 

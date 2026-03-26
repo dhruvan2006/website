@@ -24,6 +24,7 @@ debugpy==1.8.7
 decorator==5.1.1
 defusedxml==0.7.1
 dj-rest-auth==6.0.0
+dj-database-url
 Django==5.1.2
 django-allauth==65.0.2
 django-cors-headers==4.5.0
@@ -90,7 +91,7 @@ notebook==7.2.2
 notebook_shim==0.2.4
 numpy==2.1.2
 oauthlib==3.2.2
-chaindl==0.1.1
+chaindl @ git+https://github.com/dhruvan2006/chaindl.git@8f1482d
 outcome==1.3.0.post0
 overrides==7.7.0
 packaging==24.1
@@ -177,6 +178,7 @@ webcolors==24.8.0
 webencodings==0.5.1
 websocket-client==1.8.0
 wheel==0.44.0
+whitenoise
 widgetsnbextension==4.0.13
 wsproto==1.2.0
 yfinance==0.2.59

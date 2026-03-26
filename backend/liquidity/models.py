@@ -5,6 +5,9 @@ class Series(models.Model):
     date = models.DateField()
     value = models.IntegerField()
 
+    class Meta:
+        unique_together = ('ticker', 'date')
+
     def __str__(self) -> str:
         return f"{self.pk}: {self.ticker}<{self.date}, {self.value}>"
 
