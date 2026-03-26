@@ -59,9 +59,13 @@ jobs:
       run: gcloud auth configure-docker --quiet
 
     - name: Build and Push Frontend
+      env:
+        API_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
       run: |-
         # Build using the frontend folder as context
-        docker build -t gcr.io/$PROJECT_ID/frontend-service:${{ github.sha }} ./frontend
+        docker build \
+          --build-arg NEXT_PUBLIC_API_BASE_URL="$API_URL" \
+          -t gcr.io/$PROJECT_ID/frontend-service:${{ github.sha }} ./frontend
         docker push gcr.io/$PROJECT_ID/frontend-service:${{ github.sha }}
 
     - name: Deploy Frontend to Cloud Run
