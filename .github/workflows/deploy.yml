@@ -3,17 +3,15 @@ name: Deploy to Cloud Run
 on:
   push:
     branches:
-      - main
+      - master
 
 env:
   PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
   REGION: us-central1
-  SERVICE_NAME: backend-service
 
 jobs:
-  deploy:
+  deploy-backend:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -29,16 +27,47 @@ jobs:
     - name: Authorize Docker
       run: gcloud auth configure-docker --quiet
 
-    - name: Build and Push Container
+    - name: Build and Push Backend
       run: |-
-        docker build -t gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} .
-        docker push gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}
+        # Build using the backend folder as context
+        docker build -t gcr.io/$PROJECT_ID/backend-service:${{ github.sha }} ./backend
+        docker push gcr.io/$PROJECT_ID/backend-service:${{ github.sha }}
 
-    - name: Deploy to Cloud Run
+    - name: Deploy Backend to Cloud Run
       run: |-
-        gcloud run deploy $SERVICE_NAME \
-          --image gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }} \
+        gcloud run deploy backend-service \
+          --image gcr.io/$PROJECT_ID/backend-service:${{ github.sha }} \
           --region $REGION \
           --platform managed \
           --allow-unauthenticated
 
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Google Auth
+      uses: 'google-github-actions/auth@v2'
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    - name: Set up Cloud SDK
+      uses: 'google-github-actions/setup-gcloud@v2'
+
+    - name: Authorize Docker
+      run: gcloud auth configure-docker --quiet
+
+    - name: Build and Push Frontend
+      run: |-
+        # Build using the frontend folder as context
+        docker build -t gcr.io/$PROJECT_ID/frontend-service:${{ github.sha }} ./frontend
+        docker push gcr.io/$PROJECT_ID/frontend-service:${{ github.sha }}
+
+    - name: Deploy Frontend to Cloud Run
+      run: |-
+        gcloud run deploy frontend-service \
+          --image gcr.io/$PROJECT_ID/frontend-service:${{ github.sha }} \
+          --region $REGION \
+          --platform managed \
+          --allow-unauthenticated
