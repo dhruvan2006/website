@@ -24,6 +24,7 @@
     "react-katex": "^3.0.1",
     "react-plotly.js": "^2.6.0",
     "react-syntax-highlighter": "^15.5.0",
+    "sharp": "^0.34.5",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

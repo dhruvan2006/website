@@ -1,20 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    async rewrites() {
-        return [
-            {
-                source: '/api/:path*',
-                destination: 'http://localhost:8000/api/:path*',
-                has: [
-                    {
-                        type: 'header',
-                        key: 'x-rewrite-me',
-                        value: '(?!auth).*'
-                    }
-                ]
-            },
-        ]
-    },
     images: {
         remotePatterns: [
             {
@@ -31,7 +16,8 @@ const nextConfig = {
             },
             {
                 protocol: 'https',
-                hostname: 'lh3.googleusercontent.com',
+                hostname: '*.googleusercontent.com',
+                pathname: '**',
             },
             {
                 protocol: 'https',
