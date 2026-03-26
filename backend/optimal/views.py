@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny
 import yfinance as yf
 import numpy as np
 import requests
+import math
 
 class OptimalLeverageView(APIView):
     def post(self, request):
@@ -20,39 +21,42 @@ class OptimalLeverageView(APIView):
                 return Response({"error": "Missing ticker, start_date, or end_date"}, status=status.HTTP_400_BAD_REQUEST)
             
             df = yf.download(ticker, start=start_date, end=end_date, multi_level_index=False)
+            df.dropna(inplace=True)
 
             if df.empty:
                 return Response({"error": "No data available for the provided ticker and date range."}, status=status.HTTP_400_BAD_REQUEST)
             
             close_prices = df['Close'].values
-            dates = df.index.values
+            dates = df.index.strftime('%Y-%m-%d').tolist()
             deltas = np.diff(close_prices) / close_prices[:-1]
 
             mu = np.mean(deltas)
             std = np.std(deltas, ddof=1)
+
+            if np.isnan(mu) or np.isnan(std):
+                return Response({"error": "Insufficient data to calculate leverage stats."},
+                                status=status.HTTP_400_BAD_REQUEST)
 
             k = np.linspace(lower_lev, upper_lev, 100)
             R = k * mu - 0.5 * (k ** 2) * (std ** 2) / (1 + k * std)
             R_fees = R - fees / 36500
 
             max_index = np.argmax(R)
-            k_max = k[max_index]
-            R_max = R[max_index]
-            
+
             return Response({
-                "ticker":  ticker,
+                "ticker": ticker,
                 "start_date": start_date,
                 "end_date": end_date,
                 "fees": fees,
                 "lower_lev": lower_lev,
                 "upper_lev": upper_lev,
-                "k_max": k_max,
-                "R_max": R_max,
-                "R": R,
-                "R_fees": R_fees.tolist(),
-                "k": k,
+                "k_max": float(k[max_index]),
+                "R_max": float(R[max_index]),
+                "R": np.nan_to_num(R, nan=0.0).tolist(),
+                "R_fees": np.nan_to_num(R_fees, nan=0.0).tolist(),
+                "k": k.tolist(),
                 "dates": dates,
-                "close": close_prices
+                "close": close_prices.tolist()
             })
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

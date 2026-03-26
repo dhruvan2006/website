@@ -58,12 +58,12 @@ export default function Chart({ datasource, datasourceValues }: { datasource: Da
     font: { color: themeColor, family: 'Apercu, sans-serif', size: 14 },
     margin: { l: 50, r: 50, t: 30, b: 50 },
     xaxis: {
-      title: 'Date',
+      title: { text: 'Date' },
       showgrid: false,
       gridcolor: 'rgba(0,0,0,0.1)'
     },
     yaxis: {
-      title: datasource.name,
+      title: { text: datasource.name },
       showgrid: false,
       gridcolor: 'rgba(0,0,0,0.1)',
       type: 'log'

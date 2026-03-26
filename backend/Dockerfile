@@ -1,16 +1,20 @@
-FROM python:3.13
+FROM python:3.11-slim
 
 WORKDIR /app
 
-COPY requirements.txt .
+# TODO:  Remove this
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-RUN python manage.py migrate
+ENV PORT=8080
+ENV PYTHONUNBUFFERED=1
+
 RUN python manage.py collectstatic --noinput
 
-EXPOSE 8000
-
-CMD ["gunicorn", "server.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "--bind", ":8080", "--workers", "1", "--threads", "8", "--timeout", "0", "server.wsgi:application"]

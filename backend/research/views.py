@@ -19,7 +19,10 @@ HTML_OUTPUT_DIR = os.path.join(BASE_DIR, 'media', 'notebooks', 'html')
 @api_view(['GET'])
 @permission_classes([IsFromFrontendOrHasAPIKey])
 def notebook_list(request):
-    html_files = [os.path.splitext(f)[0] for f in os.listdir(HTML_OUTPUT_DIR) if f.endswith('.html')]
+    if os.path.exists(HTML_OUTPUT_DIR):
+        html_files = [os.path.splitext(f)[0] for f in os.listdir(HTML_OUTPUT_DIR) if f.endswith('.html')]
+    else:
+        html_files = []
     notebooks = [
         {
             'path': path,

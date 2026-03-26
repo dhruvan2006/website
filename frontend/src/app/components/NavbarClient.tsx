@@ -328,7 +328,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                 <div key={item.category.id} className={`p-4 ${(itemIndex % 3 == 0 || itemIndex % 3 == 1) && itemIndex !== indicators.length - 1 ? 'border-r border-zinc-300 dark:border-zinc-700' : ''}`}>
                   <h2 className='text-sm text-[#7f7f7f] dark:text-gray-400 mb-3'>{item.category.name}</h2>
                   <ul className='mt-2 space-y-2'>
-                    {item.indicators.map((indicator, idx) => (
+                    {item.indicators?.map((indicator, idx) => (
                       <li key={idx}>
                         <Link href={`/indicators/${indicator.url_name}`} className={`transition duration-300 ${pathname.startsWith(`/indicators/${indicator.url_name}`) ? 'text-blue' : 'hover:text-[#7f7f7f] dark:hover:text-gray-400'}`}>
                           {indicator.human_name}
@@ -373,7 +373,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                 <div className='flex-1 px-4'>
                   <h2 className='text-sm text-[#7f7f7f] dark:text-gray-400 mb-3'>Research Notebooks</h2>
                   <ul className='mt-2 space-y-2'>
-                  {notebooks.notebooks.map((notebook, idx) => (
+                  {notebooks?.notebooks?.map((notebook, idx) => (
                       <li key={idx}>
                         <Link href={`/notebooks/${notebook.path}`} className={`transition duration-300 ${pathname.startsWith(`/notebooks/${notebook.path}`) ? 'text-blue-500' : 'hover:text-[#7f7f7f] dark:hover:text-gray-400'}`}>
                           {notebook.name}
@@ -435,7 +435,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                 <div key={item.category.id} className={ `mt-2 ml-2 flex-1 px-4 first:pl-0 last:pr-0 ${isIndicatorsOpen ? 'block' : 'hidden'}` }>
                   <h2 className='text-sm text-gray-500 dark:text-gray-400 mb-3'>{item.category.name}</h2>
                   <ul className='ml-2 space-y-2'>
-                    {item.indicators.map((indicator, idx) => (
+                    {item.indicators?.map((indicator, idx) => (
                       <li key={idx} className={`w-full ${pathname.startsWith(`/indicators/${indicator.url_name}`) ? '' : 'hover:bg-gray-100 dark:hover:bg-zinc-800'} rounded-md py-1`}>
                         <Link href={`/indicators/${indicator.url_name}`} onClick={() => setIsMenuOpen(false)} className={`block w-full p-0.5 transition duration-300 ${pathname.startsWith(`/indicators/${indicator.url_name}`) ? 'text-blue-500 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100'}`}>
                           {indicator.human_name}
@@ -465,7 +465,7 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                   </svg>
                 </button>
               </div>
-              {dataSources.map((dataSource, idx) => (
+              {dataSources?.map((dataSource, idx) => (
                 <ul key={idx} className={ `mt-2 ml-2 flex-1 px-4 first:pl-0 last:pr-0 ${isDatasourcesOpen ? 'block' : 'hidden'}`}>
                   <li className={`w-full ${pathname.startsWith(`/datasources/${dataSource.url}`) ? '' : 'hover:bg-gray-100 dark:hover:bg-zinc-800'} rounded-md py-1`}>
                   <Link href={`/datasources/${dataSource.url}`} onClick={() => setIsMenuOpen(false)} className={`block w-full p-0.5 transition duration-300 ${pathname.startsWith(`/datasources/${dataSource.url}`) ? 'text-blue-500 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100'}`}>
@@ -494,12 +494,12 @@ export default function NavbarClient({ indicators, dataSources, notebooks, sessi
                   </svg>
                 </button>
               </div>
-              {notebooks.notebooks.map((notebook, idx) => (
+              {notebooks?.notebooks?.map((notebook, idx) => (
                 <ul key={idx} className={ `mt-2 ml-2 flex-1 px-4 first:pl-0 last:pr-0 ${isResearchOpen ? 'block' : 'hidden'}`}>
                   <li className={`w-full ${pathname.startsWith(`/notebooks/${notebook.path}`) ? '' : 'hover:bg-gray-100 dark:hover:bg-zinc-800'} rounded-md py-1`}>
-                  <Link href={`/notebooks/${notebook.path}`} onClick={() => setIsMenuOpen(false)} className={`block w-full p-0.5 transition duration-300 ${pathname.startsWith(`/notebooks/${notebook.path}`) ? 'text-blue-500 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100'}`}>
+                    <Link href={`/notebooks/${notebook.path}`} onClick={() => setIsMenuOpen(false)} className={`block w-full p-0.5 transition duration-300 ${pathname.startsWith(`/notebooks/${notebook.path}`) ? 'text-blue-500 dark:text-blue-400' : 'text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100'}`}>
                       {notebook.name}
-                  </Link>
+                    </Link>
                   </li>
                 </ul>
               ))}

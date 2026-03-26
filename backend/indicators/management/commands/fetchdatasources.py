@@ -52,13 +52,20 @@ def fetch_block_count():
             defaults={'name': 'Daily Block Count', 'description': 'Number of blocks mined daily on the Bitcoin blockchain'}
         )
 
-        # Update or create DataSourceValues
-        for _, row in df.iterrows():
-            DataSourceValue.objects.update_or_create(
+        objs = [
+            DataSourceValue(
                 data_source=block_count_source,
                 date=row['t'].date(),
-                defaults={'value': row['v']}
-            )
+                value=row['v']
+            ) for _, row in df.iterrows()
+        ]
+        DataSourceValue.objects.bulk_create(
+            objs,
+            batch_size=500,
+            update_conflicts=True,
+            unique_fields=['data_source', 'date'],
+            update_fields=['value']
+        )
     finally:
         driver.quit()
 
@@ -74,7 +81,7 @@ def fetch_mvrv():
     json_all = response_all.json()
     data_all = json_all['values']
 
-    # Combine 
+    # Combine
     four_years_ago = datetime.now() - timedelta(days=4*365)
     df_4y = pd.DataFrame(data_4y)
     df_all = pd.DataFrame(data_all)
@@ -91,15 +98,25 @@ def fetch_mvrv():
 
     # Combine dfs
     df = pd.concat([df_earlier, df_recent])
+    df = df.drop_duplicates(subset=['Date'], keep='last')
 
     mvrv_source, _ = DataSource.objects.get_or_create(
         url='MVRV',
         defaults={'name': 'MVRV', 'description': 'Ratio of Market Value to Realized Value'}
     )
 
-    for _, row in df.iterrows():
-        DataSourceValue.objects.update_or_create(
+    objs = [
+        DataSourceValue(
             data_source=mvrv_source,
             date=row['Date'],
-            defaults={'value': row['MVRV']}
-        )
+            value=row['MVRV']
+        ) for _, row in df.iterrows()
+    ]
+
+    DataSourceValue.objects.bulk_create(
+        objs,
+        batch_size=500,
+        update_conflicts=True,
+        unique_fields=['data_source', 'date'],
+        update_fields=['value']
+    )

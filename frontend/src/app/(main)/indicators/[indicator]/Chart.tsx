@@ -54,18 +54,18 @@ export default function Chart({ ticker, color, data, bitcoinData }: { ticker: st
     font: { color: color, family: 'Apercu, sans-serif', size: 14 },
     margin: { l: 50, r: 50, t: 30, b: 50 },
     xaxis: {
-      title: 'Date',
+      title: { text: 'Date' },
       showgrid: false,
       gridcolor: 'rgba(0,0,0,0.1)'
     },
     yaxis: {
-      title: 'Bitcoin Price (USD)',
+      title: { text: 'Bitcoin Price (USD)'},
       showgrid: false,
       gridcolor: 'rgba(0,0,0,0.1)',
       type: 'log'
     },
     yaxis2: {
-      title: ticker,
+      title: { text: ticker },
       overlaying: 'y',
       side: 'right',
       showgrid: false,

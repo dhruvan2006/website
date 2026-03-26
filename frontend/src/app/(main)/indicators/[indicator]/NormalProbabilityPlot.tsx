@@ -39,7 +39,7 @@ export default function NormalProbabilityPlot({ ticker, color, data }: NormalPro
   };
 
   const layout: Partial<Plotly.Layout> = {
-    title: 'Normal Probability Plot',
+    title: { text: 'Normal Probability Plot' },
     autosize: true,
     height: 300,
     paper_bgcolor: 'rgba(0,0,0,0)',
@@ -47,12 +47,12 @@ export default function NormalProbabilityPlot({ ticker, color, data }: NormalPro
     font: { color: color, family: 'Apercu, sans-serif', size: 14 },
     margin: { l: 50, r: 50, t: 50, b: 50 },
     xaxis: {
-      title: ticker,
+      title: { text: ticker },
       showgrid: false,
       gridcolor: 'rgba(0,0,0,0.1)'
     },
     yaxis: {
-      title: 'Theoretical Quantiles',
+      title: { text: 'Theoretical Quantiles' },
       showgrid: false,
       gridcolor: 'rgba(0,0,0,0.1)'
     },

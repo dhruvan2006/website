@@ -15,13 +15,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, re_path, include
 from debug_toolbar.toolbar import debug_toolbar_urls
-from . import views
+from .views import index, run_daily_tasks
 
 urlpatterns = [
-    path(r"^accounts", include("allauth.urls")),
-    path('', views.index),
+    re_path(r"^accounts", include("allauth.urls")),
+    path('', index),
     path('auth/', include('authentication.urls')),
     path('api/liquidity/', include('liquidity.urls')),
     path('api/indicators/', include('indicators.urls')),
@@ -29,5 +29,6 @@ urlpatterns = [
     path('api/optimal/', include('optimal.urls')),
     path('api/valuation/', include('valuation.urls')),
     path('api/speedometer/', include('speedometer.urls')),
+    path('api/internal/cron/', run_daily_tasks, name='cron_trigger'),
     path('admin/', admin.site.urls),
 ] + debug_toolbar_urls()
