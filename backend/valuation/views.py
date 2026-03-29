@@ -5,6 +5,7 @@ from .serializers import ValuationSerializer, ValuationIndicatorSerializer
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
+@method_decorator(cache_page(60 * 10), name='dispatch')  # Cache for 10 minutes
 class ValuationView(APIView):
     def get(self, request):
         valuations = Valuation.objects.all().order_by('date')

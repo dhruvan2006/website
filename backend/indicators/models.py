@@ -11,7 +11,7 @@ class UserAPIKey(AbstractAPIKey):
 
 # Bitcoin
 class BitcoinPrice(models.Model):
-    date = models.DateField()
+    date = models.DateField(unique=True)
     price = models.FloatField()
 
     def __str__(self):
@@ -24,18 +24,20 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+
 class Indicator(models.Model):
-    url_name = models.CharField(max_length=100, unique=True)
+    url_name = models.CharField(max_length=100, unique=True, db_index=True)
     human_name = models.CharField(max_length=100)
     description = models.TextField()
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, db_index=True)
 
     def __str__(self):
         return self.human_name
 
+
 class IndicatorValue(models.Model):
-    indicator = models.ForeignKey(Indicator, on_delete=models.CASCADE)
-    date = models.DateField()
+    indicator = models.ForeignKey(Indicator, on_delete=models.CASCADE, db_index=True)
+    date = models.DateField(db_index=True)
     value = models.FloatField()
 
     class Meta:
@@ -45,8 +47,9 @@ class IndicatorValue(models.Model):
         return f"{self.indicator.human_name}: {self.value} on {self.date}"
 
 # Data Sources
+
 class DataSource(models.Model):
-    url = models.CharField(max_length=100, unique=True)
+    url = models.CharField(max_length=100, unique=True, db_index=True)
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     last_updated = models.DateTimeField(auto_now=True)
@@ -54,9 +57,10 @@ class DataSource(models.Model):
     def __str__(self):
         return self.name
 
+
 class DataSourceValue(models.Model):
-    data_source = models.ForeignKey(DataSource, on_delete=models.CASCADE)
-    date = models.DateField()
+    data_source = models.ForeignKey(DataSource, on_delete=models.CASCADE, db_index=True)
+    date = models.DateField(db_index=True)
     value = models.FloatField()
 
     class Meta:

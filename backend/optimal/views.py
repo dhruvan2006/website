@@ -65,18 +65,24 @@ class TickerSuggestionView(APIView):
     permission_classes = [AllowAny]
     
     def get(self, request):
+        from django.core.cache import cache
         query = request.query_params.get('q', '')
 
         if not query:
             return Response({"error": "No query provided"}, status=status.HTTP_400_BAD_REQUEST)
-        
+
+        cache_key = f"ticker_suggestions_{query}"
+        cached_result = cache.get(cache_key)
+        if cached_result is not None:
+            return Response({"suggestions": cached_result})
+
         try:
             response = requests.get(f'https://query1.finance.yahoo.com/v1/finance/search?q={query}', headers={
                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:131.0) Gecko/20100101 Firefox/131.0'
             })
             data = response.json()
             tickers = [quote['symbol'] for quote in data.get('quotes', [])]
-
+            cache.set(cache_key, tickers, timeout=60*10)  # Cache for 10 minutes
             return Response({"suggestions": tickers})
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

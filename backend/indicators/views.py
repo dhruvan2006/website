@@ -1,8 +1,11 @@
+
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework_api_key.models import APIKey
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 from .permissions import HasUserAPIKey, IsFromFrontendOrHasAPIKey
 
@@ -35,6 +38,7 @@ def hello(request):
     return Response({"message": "Hello, world!"})
 
 @api_view(['GET'])
+@cache_page(60 * 10)
 def categories_with_indicators(request):
     categories = Category.objects.all()
     data = []
@@ -49,6 +53,7 @@ def categories_with_indicators(request):
 @api_view(['GET'])
 @authentication_classes([])
 @permission_classes([])
+@cache_page(60 * 10)
 def get_indicator_by_id(request, id):
     try:
         indicator = Indicator.objects.get(id=id)
@@ -66,23 +71,29 @@ def get_indicator_by_id(request, id):
     except Indicator.DoesNotExist:
         return Response({"error": "Not found."}, status=404)
 
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
+
 @api_view(['GET'])
+@cache_page(60 * 10)  # Cache for 10 minutes
 def get_indicator_values(request, indicator_name):
     indicator = Indicator.objects.get(url_name=indicator_name)
-    values = IndicatorValue.objects.filter(indicator=indicator).order_by('date')
+    values = IndicatorValue.objects.select_related('indicator').filter(indicator=indicator).order_by('date')
     serializer = IndicatorValueSerializer(values, many=True)
     return Response(serializer.data)
 
 @api_view(['GET'])
+@cache_page(60 * 10)
 def get_indicator_by_name(request, indicator_name):
     try:
-        indicator = Indicator.objects.get(url_name=indicator_name)
+        indicator = Indicator.objects.select_related('category').get(url_name=indicator_name)
         serializer = IndicatorSerializer(indicator)
         return Response(serializer.data)
     except Indicator.DoesNotExist:
         return Response({"error": "Not found."}, status=404)
 
 @api_view(['GET'])
+@cache_page(60 * 10)
 def get_datasource_by_name(request, datasource_name):
     try:
         datasource = DataSource.objects.get(url=datasource_name)
@@ -92,6 +103,7 @@ def get_datasource_by_name(request, datasource_name):
         return Response({"error": "Not found."}, status=404)
 
 @api_view(['GET'])
+@cache_page(60 * 10)
 def get_datasource_values(request, datasource_name):
     try:
         datasource = DataSource.objects.get(url=datasource_name)

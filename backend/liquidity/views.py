@@ -3,6 +3,8 @@ from django.shortcuts import get_object_or_404
 from django.db.models import F, Sum, Case, When, Value, IntegerField
 from rest_framework import viewsets, filters
 from rest_framework.decorators import action, api_view, permission_classes
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 from django.db.models.functions import Coalesce
 from django.core.cache import cache
 
@@ -11,11 +13,12 @@ from .serializers import SeriesSerializer
 
 from indicators.permissions import IsFromFrontendOrHasAPIKey
 
+@method_decorator(cache_page(60 * 10), name='list')  # Cache list endpoint for 10 minutes
 class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Series.objects.all()
     serializer_class = SeriesSerializer
     permission_classes = [IsFromFrontendOrHasAPIKey]
-    
+
     def get_queryset(self):
         queryset = super().get_queryset()
         ticker = self.request.query_params.get('ticker', None)
@@ -28,11 +31,12 @@ class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
             queryset = queryset.filter(date__gte=start_date)
         if end_date:
             queryset = queryset.filter(date__lte=end_date)
-        
+
         return queryset.order_by('date')
 
 @api_view(['GET'])
 @permission_classes([IsFromFrontendOrHasAPIKey])
+@cache_page(60 * 10)
 def last_updated(request):
     last_updated_obj = LastUpdated.objects.last()
     if last_updated_obj:

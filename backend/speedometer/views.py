@@ -1,9 +1,12 @@
 import ssl
 from OpenSSL import crypto
+
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 from .models import Ticker, TickerScore
 from .serializers import TickerSerializer, TickerScoreSerializer
@@ -12,22 +15,29 @@ class TickerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Ticker.objects.all()
     serializer_class = TickerSerializer
 
+    @method_decorator(cache_page(60 * 10))
+    def list(self, request, *args, **kwargs):
+        return super().list(request, *args, **kwargs)
+
+
 class TickerScoreViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = TickerScore.objects.all().order_by('date')
-    
+    serializer_class = TickerScoreSerializer
+
+    @method_decorator(cache_page(60 * 10))
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         result = {}
-        
+
         for score in queryset:
             ticker_symbol = score.ticker.ticker
             score_data = {'date': score.date, 'score': score.score}
-            
+
             if ticker_symbol not in result:
                 result[ticker_symbol] = {'ticker': ticker_symbol, 'scores': []}
-            
+
             result[ticker_symbol]['scores'].append(score_data)
-        
+
         return Response(list(result.values()), status=status.HTTP_200_OK)
 
 class WebhookAPIView(APIView):
