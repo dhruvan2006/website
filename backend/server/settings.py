@@ -115,9 +115,6 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
 ]
 
-if DEBUG:
-    INSTALLED_APPS.append("debug_toolbar")
-
 SOCIALACCOUNT_PROVIDERS = {
 'google': {
         'APPS': [
@@ -219,9 +216,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'allauth.account.middleware.AccountMiddleware',
 ]
-
-if DEBUG:
-    MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 # For Django debug toolbar
 INTERNAL_IPS = ["127.0.0.1"]

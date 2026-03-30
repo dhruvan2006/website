@@ -16,7 +16,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path, include
-from debug_toolbar.toolbar import debug_toolbar_urls
 from .views import index, run_daily_tasks
 
 urlpatterns = [
@@ -31,4 +30,4 @@ urlpatterns = [
     path('api/speedometer/', include('speedometer.urls')),
     path('api/internal/cron/', run_daily_tasks, name='cron_trigger'),
     path('admin/', admin.site.urls),
-] + debug_toolbar_urls()
+]

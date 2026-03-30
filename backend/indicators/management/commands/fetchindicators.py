@@ -2,16 +2,10 @@ import chaindl
 import pandas as pd
 import numpy as np
 import yfinance as yf
-import os
-import json
 from dotenv import load_dotenv
 from datetime import datetime
 from statsmodels.api import OLS, QuantReg, add_constant
 from django.core.management.base import BaseCommand
-
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.by import By
 
 from indicators.models import BitcoinPrice, Category, DataSource, DataSourceValue, Indicator, IndicatorValue
 
@@ -179,33 +173,6 @@ class Command(BaseCommand):
         }
     ]
 
-    cryptoquant_indicators = [
-        {
-            "url": "https://cryptoquant.com/analytics/query/6463b524885a7d37a1630f8b?v=6463f8c9fb92892124bd5864",
-            "url_name": "Adjusted_MVRV",
-            "human_name": "Adjusted MVRV (Cryptoquant)",
-            "col": "Adjusted_MVRV",
-            "description": """The Adjusted MVRV indicator from Cryptoquant
-    [1] https://cryptoquant.com/analytics/query/6463b524885a7d37a1630f8b?v=6494246f2ec8802caadae67f"""
-        },
-        {
-            "url": "https://cryptoquant.com/analytics/query/65fdf974a3be2268b3e0befd?v=65fdfa6203ae7e44ef15d1f8",
-            "url_name": "Sharpe_Ratio",
-            "human_name": "Sharpe Ratio",
-            "col": "sharpe_ratio_365",
-            "description": """The Sharpe Ratio indicator from Cryptoquant
-    [1] https://cryptoquant.com/analytics/query/65fdf974a3be2268b3e0befd?v=65fdfa6203ae7e44ef15d1f8"""
-        },
-        {
-            "url": "https://cryptoquant.com/analytics/query/64faf6ae78b98c08bc94a362?v=64faf723d69757218b557162",
-            "url_name": "VDD_Multiple",
-            "human_name": "Value Days Destroyed Multiple",
-            "col": "VDD_Multiple",
-            "description": """The Value Days Destroyed Multiple indicator from Cryptoquant
-    [1] https://cryptoquant.com/analytics/query/64faf6ae78b98c08bc94a362?v=64faf6ae78b98c08bc94a363"""
-        }
-    ]
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.price_df = None
@@ -220,16 +187,16 @@ class Command(BaseCommand):
             self.stderr.write(self.style.ERROR("No price data available. Aborting internal calculations."))
             return
 
-        # fetch_of('Cryptoquant', cryptoquant_indicators, email=os.getenv("CRYPTOQUANT_EMAIL"), password=os.getenv("CRYPTOQUANT_PASSWORD"), proxy=os.getenv("SBR_WEBDRIVER"))
-        self.stdout.write(self.style.SUCCESS('Successfully fetched Cryptoquant indicators'))
         self.fetch_of('CheckOnChain', self.checkonchain_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched CheckOnChain indicators'))
         self.fetch_of('ChainExposed', self.chainexposed_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched ChainExposed indicators'))
         self.fetch_of('Woocharts', self.woocharts_indicators)
         self.stdout.write(self.style.SUCCESS('Successfully fetched Woocharts indicators'))
-        # fetch_of('BiTBO', bitbo_indicators, sbr_webdriver=os.getenv("SBR_WEBDRIVER"))
-        # self.stdout.write(self.style.SUCCESS('Successfully fetched BiTBO indicators'))
+        self.fetch_of('BiTBO', self.bitbo_indicators, xvfb=True)
+        self.stdout.write(self.style.SUCCESS('Successfully fetched BiTBO indicators'))
+        self.fetch_of('BMPro', self.bmpro_indicators, xvfb=True)
+        self.stdout.write(self.style.SUCCESS('Successfully fetched BMPro indicators'))
 
         # Internal calculations
         self.calculate_plrr()
@@ -241,8 +208,6 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS('Successfully calculated indicators'))
 
-        # fetch_of('BMPro', bmpro_indicators)
-        # self.stdout.write(self.style.SUCCESS('Successfully fetched BMPro indicators'))
 
     def fetch_prices(self):
         """Fetch Bitcoin prices from Yahoo Finance"""

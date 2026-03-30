@@ -2,9 +2,8 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# TODO:  Remove this
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    git \
+    xvfb \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
