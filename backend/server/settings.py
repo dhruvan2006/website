@@ -92,7 +92,6 @@ INSTALLED_APPS = [
     'indicators.apps.IndicatorsConfig',
     'research.apps.ResearchConfig',
     'valuation.apps.ValuationConfig',
-    'speedometer.apps.SpeedometerConfig',
     'rest_framework',
     'rest_framework_api_key',
     'rest_framework.authtoken',

@@ -27,7 +27,6 @@ urlpatterns = [
     path('api/research/', include('research.urls')),
     path('api/optimal/', include('optimal.urls')),
     path('api/valuation/', include('valuation.urls')),
-    path('api/speedometer/', include('speedometer.urls')),
     path('api/internal/cron/', run_daily_tasks, name='cron_trigger'),
     path('admin/', admin.site.urls),
 ]
